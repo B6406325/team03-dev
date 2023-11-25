@@ -1,0 +1,81 @@
+.web-reg{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		height: 0%;
+	}
+	100% {
+		height: 70%;
+	}
+}
+
+.body-reg{
+    animation-name: fadeInOpacity;
+    animation-duration: 1s;
+    width: 50%;
+    height: 70%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.body-reg-text{
+    display: block;
+    text-align: center;
+    color: aliceblue;
+    font-size: 450%;
+    font-family: 'Mitr', sans-serif;
+}
+
+.reg-username{
+    width: 70%;
+    height: 8%;
+    margin: auto;
+    margin-top: 3%;
+    display: block;
+}
+
+.reg-email{
+    width: 70%;
+    height: 8%;
+    margin: auto;
+    margin-top: 5%;
+    display: block;
+}
+
+.reg-pass{
+    width: 70%;
+    height: 8%;
+    margin: auto;
+    margin-top: 5%;
+    display: block;
+}
+
+.reg-password{
+    width: 70%;
+    height: 8%;
+    margin: auto;
+    margin-top: 5%;
+    display: block;
+}
+
+.reg-button{
+    margin-top: 3%;
+    display: block;
+    text-align: center;
+}
+
+.reg-back-button{
+    position: absolute;
+    top: 3%;
+    left: 2%;
+}
