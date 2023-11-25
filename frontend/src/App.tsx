@@ -1,17 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import background from './asset/background.jpg'
 import './App.css';
+import { BrowserRouter as Router , Routes , Route} from 'react-router-dom';
+import FirstPage from './page/firstpage';
+import Login from './page/login/Login';
+import Register from './page/login/register/Register';
+
 
 function App() {
   return (
-    <div className="App">
-      <div className='web'>
-        <img src={background}>
-          
-        </img>
-      </div>
-    </div>
+    <>
+    <Router>
+      <Routes>
+        <Route path='/' element={<FirstPage/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
+      </Routes>
+    </Router>
+    </>
   );
 }
 

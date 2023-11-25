@@ -3,14 +3,30 @@
   height: 100%;
   display: flex;
   position: fixed;
-  background-color: black;
+  background-image: url("../src/asset/background.jpg");
 }
 
-.web{
-  width: 100%;
-  height: 100%;
+
+.button01{
+  position: absolute;
+  margin-top: 30px;
+  margin-left: 50px;
+}
+
+.logoweb{
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  background-color: aliceblue;
   align-items: center;
   justify-content: center;
   display: flex;
+  margin-left: 750px;
+}
+
+.button02{
+  position: absolute;
+  margin-top: 30px;
+  margin-left: 1680px;
 }
 
