@@ -32,4 +32,29 @@ func SetupDatabase() {
 		&Download{},
 	)
 	db = database
+	statususer := StatusUser{
+		StatusName: "user",
+	}
+	db.Model(&StatusUser{}).Create(&statususer)
+
+	statusadmin := StatusUser{
+		StatusName: "admin",
+	}
+	db.Model(&StatusUser{}).Create(&statusadmin)
+
+	admin01 := User{
+		UserName: "admin01",
+		Email:    "admin@gmail.com",
+		Password: "admin",
+		StatusUserID: &statusadmin.ID,
+	}
+	db.Model(&User{}).Create(&admin01)
+
+	admin02 := User{
+		UserName: "admin2",
+		Email:    "admin2@gmail.com",
+		Password: "admin2",
+		StatusUserID: &statusadmin.ID,
+	}
+	db.Model(&User{}).Create(&admin02)
 }

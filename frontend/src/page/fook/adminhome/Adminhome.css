@@ -1,0 +1,23 @@
+.admin-movie{
+    justify-content: center;
+    display: flex;
+    margin-top: 10vh;
+}
+
+.admin-payment{
+    justify-content: center;
+    display: flex;
+    margin-top: 10vh;
+}
+
+.admin-user{
+    justify-content: center;
+    display: flex;
+    margin-top: 30vh;
+}
+
+.admin-back{
+    justify-content: center;
+    display: flex;
+    margin-top: 25vh;
+}

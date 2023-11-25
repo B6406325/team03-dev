@@ -2,23 +2,22 @@ import './Register.css'
 import { ConfigProvider , Button , Input, Form , message} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-// import { MemberInterface } from '../../interface/Idata';
-// import { CreateMember } from '../../service/http';
+import { UserForRegInterface } from '../../../interface/login';
+import { CreateUser } from '../../../service/login';
 
 export default function Register(){
     const navigate = useNavigate();
-    // const [member, setMember] = useState<MemberInterface[]>([]);
-    // const onFinish = async (values: MemberInterface) => {
-    //     values.Status = "member";
-    //     values.Payment = "ยังไม่จ่าย";
-    //     let res = await CreateMember(values);
-    //     if (res.status){
-    //         message.success("สมัครเสร็จสิ้น โปรดล็อกอินอีกครั้ง");
-    //         setTimeout(function () {
-    //             navigate("/");
-    //         }, 2000);
-    //     }
-    // }
+    const [user, setUser] = useState<UserForRegInterface[]>([]);
+    const onFinish = async (values: UserForRegInterface) => {
+        values.StatusUserID = 1;
+        let res = await CreateUser(values);
+        if (res.status){
+            message.success("สมัครเสร็จสิ้น โปรดล็อกอินอีกครั้ง");
+            setTimeout(function () {
+                navigate("/login");
+            }, 2000);
+        }
+    }
     function onClickLogin(){
         navigate("/login");
     }
@@ -40,9 +39,9 @@ export default function Register(){
         <div className='web-reg'>
             <div className='body-reg'>
                 <div className='body-reg-text'>สร้างบัญชีผู้ใช้งาน</div>
-                <Form >
+                <Form onFinish={onFinish}>
                     <div className='reg-username'>
-                        <Form.Item name="Username" rules={[{required:true, message:"โปรดใส่ชื่อผู้ใช้งาน"}]}>
+                        <Form.Item name="UserName" rules={[{required:true, message:"โปรดใส่ชื่อผู้ใช้งาน"}]}>
                             <Input style={{width:670,height:53,fontSize:25,fontFamily:'Mitr'}} placeholder='ชื่อผู้ใช้งาน'></Input>
                         </Form.Item>
                     </div>
