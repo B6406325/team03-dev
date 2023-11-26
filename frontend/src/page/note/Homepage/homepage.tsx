@@ -132,13 +132,16 @@ export default function Homepage(){
                                 <img src='https://i.imgur.com/UvhHnWC.jpg' alt="Slide 1" style={contentStyle}></img>
                             </div>
                             <div >
-                                <img src='https://i.imgur.com/szjFQVM.jpg' alt="Slide 2" style={contentStyle} ></img>
+                                <img src='https://i.imgur.com/LKzePxU.jpg' alt="Slide 2" style={contentStyle} ></img>
                             </div>
                             <div>
                                 <img src='https://i.imgur.com/rtVUh2D.jpg' alt="Slide 3" style={contentStyle} ></img>
                             </div>
                             <div>
-                                <img src='https://i.imgur.com/N5rYH6N.jpg' alt="Slide 4" style={contentStyle} ></img>
+                                <img src='https://i.imgur.com/z127eo0.jpg' alt="Slide 4" style={contentStyle} ></img>
+                            </div>
+                            <div>
+                                <img src='https://i.imgur.com/N5rYH6N.jpg' alt="Slide 5" style={contentStyle} ></img>
                             </div>
                        
                     </Carousel>
