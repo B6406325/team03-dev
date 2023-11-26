@@ -7,14 +7,14 @@ const { Title, Text } = Typography;
 
 const MovieDetailPage = () => {
   return (
-    <>
+    <div >
       
       <Card style={{width:'20%',height:'30%'}}
             cover={
               <img
                 alt="Movie Poster"
                 src="https://i.imgur.com/VIQdyDD.jpg" // Adjust the width and height as needed
-                style={{ width: '100%', height: 'auto' }}
+                
               />
             }
           >
@@ -27,13 +27,13 @@ const MovieDetailPage = () => {
     
    
       
-            <Card style={{ width: 300 ,left:'32%',marginTop:'-20%'}}>
+            <Card style={{ width: 300 ,left:'32%',marginTop:'-10%'}}>
               <p>Card content</p>
               <p>Card content</p>
               <p>Card content</p>
             </Card>
 
-    </>
+    </div>
   );
 };
 

@@ -215,7 +215,7 @@ export default function Homepage(){
                     {activeMenuItem === 'topRated' && (
                         <div style={{position:'relative'}}>
                         <div style={{color:'white'}}><h1>เรทติ้งสูงสุด</h1></div>
-                        <div><MovieDtailpage/></div>{/*ตรงนี้สามารถนำหน้าอื่นมาใส่ได้เลย */}
+                        <div style={{position:'relative'}}><MovieDtailpage/></div>{/*ตรงนี้สามารถนำหน้าอื่นมาใส่ได้เลย */}
                         </div>
                     )}
     {/*=============================================CATEGORIES PAGE=============================================================*/}
