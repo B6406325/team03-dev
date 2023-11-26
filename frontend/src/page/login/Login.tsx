@@ -23,7 +23,7 @@ export default function Login(){
             if (res.status) {
                 message.success("ยินดีต้อนรับ");
                 setTimeout(function () {
-                //   navigate("/content");
+                navigate("/homepage");
               }, 2000);
             }
         }

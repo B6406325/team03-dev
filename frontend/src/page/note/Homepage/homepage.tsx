@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react';
 import {AppstoreOutlined, BookOutlined, HomeOutlined, SearchOutlined,StarOutlined,UserOutlined,} from '@ant-design/icons';
 import {  ConfigProvider, Layout, Menu,Carousel,Card  } from 'antd';
 import './homepage.css';
-import {} from '../../imgs/barbie.jpg'
 import MovieDtailpage from '../MovieDetailpage/movieDetailpage';
 
 const { Header, Content, Footer } = Layout;
