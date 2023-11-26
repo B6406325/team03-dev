@@ -1,0 +1,19 @@
+.menu-item{
+    display: flex;
+    flex-direction: row;
+    font-size: medium;
+
+}
+
+/* homepage.css */
+
+.menu-item-1:hover,
+.menu-item-2:hover,
+.menu-item-3:hover,
+.menu-item-4:hover,
+.menu-item-5:hover {
+  background-color: #90853d; /* Customize the hover background color */
+  color: #060606; /* Customize the hover text color */
+}
+
+
