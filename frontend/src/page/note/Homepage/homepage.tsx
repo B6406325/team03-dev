@@ -17,61 +17,54 @@ const contentStyle: React.CSSProperties = {
 };
 
 export default function Homepage(){
-      const navigate = useNavigate();
-      const [isMenuFixed, setIsMenuFixed] = useState(false);
-      const handleScroll = () => {
-        const scrollPosition = window.scrollY;
-        const scrollThreshold = 100; // Adjust this value based on your design
-    
-        // Set isMenuFixed to true if the user has scrolled beyond the threshold
-        setIsMenuFixed(scrollPosition > scrollThreshold);
-      };
-      useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-    
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-      }, []);
-    
-      const [activeMenuItem, setActiveMenuItem] = useState(() => {
-        // Retrieve the active menu item from localStorage or use a default value ('home' in this case)
-        return localStorage.getItem('activeMenuItem') || 'home';
-      });
-    
-      const handleMenuClick = (menuItem: { key: React.Key }) => {
-        const clickedMenuItem = menuItem.key.toString();
-      
-        // Check if the clicked item is the "Logout" item
-        if (clickedMenuItem === 'logout') {
-          // Reset the active menu item to 'home'
-          setActiveMenuItem('home');
-      
-          // Clear the stored active menu item from localStorage
-          localStorage.removeItem('activeMenuItem');
-      
-          // Perform logout logic (if needed)
-      
-          // Navigate to the login page
-          navigate('/login');
-        } else {
-          // Set the active menu item for other menu items
-          setActiveMenuItem(clickedMenuItem);
-      
-          // Save the active menu item in localStorage
-          localStorage.setItem('activeMenuItem', clickedMenuItem);
-        }
-      };
-    //   const handleLogout = () => {  
-    //     setActiveMenuItem('home');
-    //     localStorage.removeItem('activeMenuItem');  
-    //     setTimeout(function () {
-    //         navigate("/login");
-    //       }, );
+    const navigate = useNavigate();
+    const [isMenuFixed, setIsMenuFixed] = useState(false);
+    const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    const scrollThreshold = 100; // Adjust this value based on your design
 
-    //   };
-      const { SubMenu } = Menu;
-      const { Meta } = Card;
+    // Set isMenuFixed to true if the user has scrolled beyond the threshold
+    setIsMenuFixed(scrollPosition > scrollThreshold);
+    };
+    useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+    }, []);
+
+    const [activeMenuItem, setActiveMenuItem] = useState(() => {
+    // Retrieve the active menu item from localStorage or use a default value ('home' in this case)
+    return localStorage.getItem('activeMenuItem') || 'home';
+    });
+
+    const handleMenuClick = (menuItem: { key: React.Key }) => {
+    const clickedMenuItem = menuItem.key.toString();
+    
+    // Check if the clicked item is the "Logout" item
+    if (clickedMenuItem === 'logout') {
+        // Reset the active menu item to 'home'
+        setActiveMenuItem('home');
+    
+        // Clear the stored active menu item from localStorage
+        localStorage.removeItem('activeMenuItem');
+    
+        // Perform logout logic (if needed)
+    
+        // Navigate to the login page
+        navigate('/login');
+    } else {
+        // Set the active menu item for other menu items
+        setActiveMenuItem(clickedMenuItem);
+    
+        // Save the active menu item in localStorage
+        localStorage.setItem('activeMenuItem', clickedMenuItem);
+    }
+    };
+
+    const { SubMenu } = Menu;
+    const { Meta } = Card;
 
     
     return(
