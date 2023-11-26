@@ -3,6 +3,7 @@ import {AppstoreOutlined, BookOutlined, HomeOutlined, SearchOutlined,StarOutline
 import {  ConfigProvider, Layout, Menu,Carousel,Card  } from 'antd';
 import './homepage.css';
 import MovieDtailpage from '../MovieDetailpage/movieDetailpage';
+import { useNavigate } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 const contentStyle: React.CSSProperties = {
@@ -16,7 +17,7 @@ const contentStyle: React.CSSProperties = {
 };
 
 export default function Homepage(){
-  
+      const navigate = useNavigate();
       const [isMenuFixed, setIsMenuFixed] = useState(false);
       const handleScroll = () => {
         const scrollPosition = window.scrollY;
@@ -39,11 +40,36 @@ export default function Homepage(){
       });
     
       const handleMenuClick = (menuItem: { key: React.Key }) => {
-        setActiveMenuItem(menuItem.key.toString());
-    
-        // Save the active menu item in localStorage
-        localStorage.setItem('activeMenuItem', menuItem.key.toString());
+        const clickedMenuItem = menuItem.key.toString();
+      
+        // Check if the clicked item is the "Logout" item
+        if (clickedMenuItem === 'logout') {
+          // Reset the active menu item to 'home'
+          setActiveMenuItem('home');
+      
+          // Clear the stored active menu item from localStorage
+          localStorage.removeItem('activeMenuItem');
+      
+          // Perform logout logic (if needed)
+      
+          // Navigate to the login page
+          navigate('/login');
+        } else {
+          // Set the active menu item for other menu items
+          setActiveMenuItem(clickedMenuItem);
+      
+          // Save the active menu item in localStorage
+          localStorage.setItem('activeMenuItem', clickedMenuItem);
+        }
       };
+    //   const handleLogout = () => {  
+    //     setActiveMenuItem('home');
+    //     localStorage.removeItem('activeMenuItem');  
+    //     setTimeout(function () {
+    //         navigate("/login");
+    //       }, );
+
+    //   };
       const { SubMenu } = Menu;
       const { Meta } = Card;
 
