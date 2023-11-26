@@ -147,7 +147,7 @@ export default function Homepage(){
                     </Carousel>
 
                      {/* New section for movie posters */}
-                    <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
+                    <div style={{ marginTop: '20px', display: 'flex', justifyContent:'space-around',flexWrap:'wrap',}}>
                     {/* Movie Poster 1 */}
                         <Card
                             hoverable
@@ -170,7 +170,7 @@ export default function Homepage(){
                         <Card
                             hoverable
                             style={{ width: 200, marginBottom: '20px' }}
-                            cover={<img alt="Movie Poster 3" src="https://i.imgur.com/bWgVu4c.jpg" />}
+                            cover={<img alt="Movie Poster 3" src="https://i.imgur.com/p7WQfVm.jpg" />}
                         >
                             <Meta title="Movie Title 3" description="Release Date: 2023" />
                         </Card>
@@ -178,7 +178,7 @@ export default function Homepage(){
                           <Card
                             hoverable
                             style={{ width: 200, marginBottom: '20px' }}
-                            cover={<img alt="Movie Poster 4" src="https://i.imgur.com/L30TIsI.jpg" />}
+                            cover={<img alt="Movie Poster 4" src="https://i.imgur.com/9OSQ1Uy.jpg" />}
                         >
                             <Meta title="Movie Title 4" description="Release Date: 2023" />
                         </Card>
@@ -190,13 +190,21 @@ export default function Homepage(){
                         >
                             <Meta title="Movie Title 5" description="Release Date: 2023" />
                         </Card>
-                          {/* Movie Poster 5 */}
+                          {/* Movie Poster 6 */}
                           <Card
                             hoverable
                             style={{ width: 200, marginBottom: '20px' }}
-                            cover={<img alt="Movie Poster 5" src="https://i.imgur.com/cPgk3pr.jpg" />}
+                            cover={<img alt="Movie Poster 6" src="https://i.imgur.com/ysfffNc.jpg" />}
                         >
-                            <Meta title="Movie Title 5" description="Release Date: 2023" />
+                            <Meta title="Movie Title 6" description="Release Date: 2023" />
+                        </Card>
+                            {/* Movie Poster 6 */}
+                            <Card
+                            hoverable
+                            style={{ width: 200, marginBottom: '20px' }}
+                            cover={<img alt="Movie Poster 6" src="https://i.imgur.com/ysfffNc.jpg" />}
+                        >
+                            <Meta title="Movie Title 6" description="Release Date: 2023" />
                         </Card>
                     </div>
                     <div>
