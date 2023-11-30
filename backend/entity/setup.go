@@ -21,11 +21,13 @@ func SetupDatabase() {
 		&Gender{},
 		&Prefix{},
 		&Topic{},
-		&Target{},	
+		&Target{},
 		&Soundtrack{},
 		&Genre{},
 		&Categories{},
 		&HasSpoil{},
+		&Color{},
+		&CategoriesWatchlist{},
 		&Rating{},
 		&SubscribeStatus{},
 		&PaymentStatus{},
@@ -37,6 +39,9 @@ func SetupDatabase() {
 		&Movie{},
 		&Review{},
 		&History{},
+		&Download{},
+		&Watchlist{},	
+		&WatchlistMovie{},
 	)
 	db = database
 

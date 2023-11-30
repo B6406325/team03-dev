@@ -26,8 +26,10 @@ type Movie struct {
 	TargetID *uint
 	Target   Target `gorm:"references:id"`
 
-	Review  []Review  `gorm:"foreignKey:MovieID"`
-	History []History `gorm:"foreignKey:MovieID"`
+	Review         []Review         `gorm:"foreignKey:MovieID"`
+	History        []History        `gorm:"foreignKey:MovieID"`
+	Download       []Download       `gorm:"foreignKey:MovieID"`
+	WatchlistMovie []WatchlistMovie `gorm:"foreignKey:MovieID"`
 }
 
 type Target struct {

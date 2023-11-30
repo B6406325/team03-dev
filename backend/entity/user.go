@@ -24,10 +24,12 @@ type User struct {
 	SubscribeID *uint
 	Subscribe   Subscribe `gorm:"references:id"`
 
-	Report  []Report  `gorm:"foreignKey:UserID"`
-	Payment []Payment `gorm:"foreignKey:UserID"`
-	Review  []Review  `gorm:"foreignKey:UserID"`
-	History []History `gorm:"foreignKey:UserID"`
+	Report    []Report    `gorm:"foreignKey:UserID"`
+	Payment   []Payment   `gorm:"foreignKey:UserID"`
+	Review    []Review    `gorm:"foreignKey:UserID"`
+	History   []History   `gorm:"foreignKey:UserID"`
+	Download  []Download  `gorm:"foreignKey:UserID"`
+	Watchlist []Watchlist `gorm:"foreignKey:UserID"`
 }
 
 type Gender struct {
