@@ -4,18 +4,18 @@ import "gorm.io/gorm"
 
 type Report struct {
 	gorm.Model
-	Desricption string
+	Desription string
 
-	ReportTopicID *uint
-	ReportTopic   ReportTopic `gorm:"references:id"`
+	TopicID *uint
+	Topic   Topic `gorm:"references:id"`
 
 	UserID *uint
 	User   User `gorm:"references:id"`
 }
 
-type ReportTopic struct {
+type Topic struct {
 	gorm.Model
-	TopicName string
+	Topic string
 
-	Report []Report `gorm:"foreignKey:ReportTopicID"`
+	Report []Report `gorm:"foreignKey:TopicID"`
 }

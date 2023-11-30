@@ -1,5 +1,5 @@
 import './Register.css'
-import { ConfigProvider , Button , Input, Form , message} from 'antd';
+import { ConfigProvider , Button , Input, Form , message, Select} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { UserForRegInterface } from '../../../interface/login';
@@ -48,6 +48,16 @@ export default function Register(){
                     <div className='reg-email'>
                         <Form.Item name="Email" rules={[{required:true, message:"โปรดใส่อีเมล"}]}>
                             <Input style={{width:670,height:53,fontSize:25,fontFamily:'Mitr'}} placeholder='อีเมล'></Input>
+                        </Form.Item>
+                    </div>
+                    <div className='reg-gender'>
+                        <Form.Item name="Gender" rules={[{required:true, message:"โปรดใส่เพศของคุณ"}]}>
+                            <Select style={{width:670,height:53,fontSize:25,fontFamily:'Mitr'}} placeholder='เพศ'></Select>
+                        </Form.Item>
+                    </div>
+                    <div className='reg-address'>
+                        <Form.Item name="Address" rules={[{required:true, message:"โปรดใส่ที่อยู่ของคุณ"}]}>
+                            <Input style={{width:670,height:53,fontSize:25,fontFamily:'Mitr'}} placeholder='ที่อยู่'></Input>
                         </Form.Item>
                     </div>
                     <div className='reg-pass'>

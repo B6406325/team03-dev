@@ -9,7 +9,7 @@ import (
 type Payment struct {
 	gorm.Model
 	Amount   float32
-	Datetime time.Time
+	Datetime string
 	Bill     string
 
 	UserID *uint
@@ -18,22 +18,24 @@ type Payment struct {
 	PackageID *uint
 	Package   Package `gorm:"references:id"`
 
-	StatusSubID *uint
-	StatusSub   StatusSub `gorm:"references:id"`
+	PaymentStatusID *uint
+	PaymentStatus   PaymentStatus `gorm:"references:id"`
 }
 
 type Package struct {
 	gorm.Model
-	PackageName string
-	Price       float32
-	Duration    int
+	PackageName    string
+	Price          float32
+	Duration       time.Time
+	DownloadStatus bool
 
-	Payment []Payment `gorm:"foreignKey:PackageID"`
+	Payment   []Payment   `gorm:"foreignKey:PackageID"`
+	Subscribe []Subscribe `gorm:"foreignKey:PackageID"`
 }
 
-type StatusSub struct {
+type PaymentStatus struct {
 	gorm.Model
-	StatusName string
+	Status string
 
-	Payment []Payment `gorm:"foreignKey:StatusSubID"`
+	Payment []Payment `gorm:"foreignKey:PaymentStatusID"`
 }

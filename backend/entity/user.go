@@ -1,26 +1,45 @@
 package entity
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
-	UserName string `gorm:"unique"`
-	Email    string `gorm:"unique"`
-	Password string `gorm:"unique"`
+	Username  string
+	Email     string
+	Password  string
+	Firstname string
+	Lastname  string
+	Dob       time.Time
 
-	StatusUserID *uint
-	StatusUser   StatusUser `gorm:"references:id"`
+	GenderID *uint
+	Gender   Gender `gorm:"references:id"`
 
-	Payment     []Payment     `gorm:"foreignKey:UserID"`
-	Report      []Report      `gorm:"foreignKey:UserID"`
-	UserRating  []UserRating  `gorm:"foreignKey:UserID"`
-	UserHistory []UserHistory `gorm:"foreignKey:UserID"`
-	Download    []Download    `gorm:"foreignKey:UserID"`
-	WatchList   []WatchList   `gorm:"foreignKey:UserID"`
+	PrefixID *uint
+	Prefix   Prefix `gorm:"references:id"`
+
+	SubscribeID *uint
+	Subscribe   Subscribe `gorm:"references:id"`
+
+	Report  []Report  `gorm:"foreignKey:UserID"`
+	Payment []Payment `gorm:"foreignKey:UserID"`
+	Review  []Review  `gorm:"foreignKey:UserID"`
+	History []History `gorm:"foreignKey:UserID"`
 }
 
-type StatusUser struct {
+type Gender struct {
 	gorm.Model
-	StatusName string
-	User       []User `gorm:"foreignKey:StatusUserID"`
+	Gender string
+
+	User []User `gorm:"foreignKey:GenderID"`
+}
+
+type Prefix struct {
+	gorm.Model
+	Prefix string
+
+	User []User `gorm:"foreignKey:PrefixID"`
 }

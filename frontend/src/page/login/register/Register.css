@@ -60,6 +60,22 @@
     display: block;
 }
 
+.reg-gender{
+    width: 70%;
+    height: 8%;
+    margin: auto;
+    margin-top: 5%;
+    display: block;
+}
+
+.reg-address{
+    width: 70%;
+    height: 8%;
+    margin: auto;
+    margin-top: 5%;
+    display: block;
+}
+
 .reg-password{
     width: 70%;
     height: 8%;

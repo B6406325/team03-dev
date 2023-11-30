@@ -12,49 +12,32 @@ func DB() *gorm.DB {
 }
 
 func SetupDatabase() {
-	database, err := gorm.Open(sqlite.Open("team03.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("Database_team03.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
+
 	database.AutoMigrate(
-		&StatusUser{},
-		&ReportTopic{},
+		&Gender{},
+		&Prefix{},
+		&Topic{},
+		&Target{},	
+		&Soundtrack{},
+		&Genre{},
 		&Categories{},
-		&StatusSub{},
+		&HasSpoil{},
+		&Rating{},
+		&SubscribeStatus{},
+		&PaymentStatus{},
 		&Package{},
+		&Subscribe{},
 		&User{},
 		&Payment{},
-		&Movie{},
 		&Report{},
-		&UserRating{},
-		&UserHistory{},
-		&WatchList{},
-		&Download{},
+		&Movie{},
+		&Review{},
+		&History{},
 	)
 	db = database
-	statususer := StatusUser{
-		StatusName: "user",
-	}
-	db.Model(&StatusUser{}).Create(&statususer)
 
-	statusadmin := StatusUser{
-		StatusName: "admin",
-	}
-	db.Model(&StatusUser{}).Create(&statusadmin)
-
-	admin01 := User{
-		UserName: "admin01",
-		Email:    "admin@gmail.com",
-		Password: "admin",
-		StatusUserID: &statusadmin.ID,
-	}
-	db.Model(&User{}).Create(&admin01)
-
-	admin02 := User{
-		UserName: "admin2",
-		Email:    "admin2@gmail.com",
-		Password: "admin2",
-		StatusUserID: &statusadmin.ID,
-	}
-	db.Model(&User{}).Create(&admin02)
 }
