@@ -9,14 +9,14 @@ const movieData = [
     { title: 'Toy Story 3', duration: '100min', poster: 'https://i.imgur.com/5YUn5L4.jpg' },
     { title: 'The Hunger Games', duration: '142min', poster: 'https://i.imgur.com/MfZ3ZhJ.jpg' },
     { title: 'Opphenheimer', duration: '180min', poster: 'https://i.imgur.com/VIQdyDD.jpg' },
-    { title: 'Toy Story 3', duration: '100min', poster: 'https://i.imgur.com/5YUn5L4.jpg' },
-    { title: 'The Hunger Games', duration: '142min', poster: 'https://i.imgur.com/MfZ3ZhJ.jpg' },
+    { title: 'Five Nights At Freddy', duration: '109min', poster: 'https://i.imgur.com/HtX0pTe.jpg' },
+    { title: 'The terminal', duration: '128min', poster: 'https://i.imgur.com/9OSQ1Uy.jpg' },
     { title: 'Toy Story 4', duration: '100min', poster: 'https://i.imgur.com/p7WQfVm.jpg' },
     { title: 'Toy Story 3', duration: '100min', poster: 'https://i.imgur.com/5YUn5L4.jpg' },
     { title: 'The Hunger Games', duration: '142min', poster: 'https://i.imgur.com/MfZ3ZhJ.jpg' },
-    { title: 'Toy Story 4', duration: '100min', poster: 'https://i.imgur.com/p7WQfVm.jpg' },
-    { title: 'Toy Story 3', duration: '100min', poster: 'https://i.imgur.com/5YUn5L4.jpg' },
-    { title: 'The Hunger Games', duration: '142min', poster: 'https://i.imgur.com/MfZ3ZhJ.jpg' },
+    { title: 'Opphenheimer', duration: '180min', poster: 'https://i.imgur.com/VIQdyDD.jpg' },
+    { title: 'Five Nights At Freddy', duration: '109min', poster: 'https://i.imgur.com/HtX0pTe.jpg' },
+    { title: 'The terminal', duration: '128min', poster: 'https://i.imgur.com/9OSQ1Uy.jpg' },
     
   ];
 const { Meta } = Card;
