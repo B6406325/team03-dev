@@ -11,11 +11,12 @@ export default function  MovieDetailPage (){
   const poster = searchParams.get('poster');
   
   return (
-    <div>
-    <h2>{title} Details</h2>
-    <p>Duration: {duration}</p>
-    {poster && <img src={decodeURIComponent(poster)} alt="Movie Poster" style={{ width: '240px', height: '360px' }} />}    {/* แสดงข้อมูลเพิ่มเติมของหนังที่นี่ */}
-  </div>
+    <></>
+  //   <div>
+  //   <h2>{title} Details</h2>
+  //   <p>Duration: {duration}</p>
+  //   {poster && <img src={decodeURIComponent(poster)} alt="Movie Poster" style={{ width: '240px', height: '360px' }} />}    {/* แสดงข้อมูลเพิ่มเติมของหนังที่นี่ */}
+  // </div>
 
   );
 }
