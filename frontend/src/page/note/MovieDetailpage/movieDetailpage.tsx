@@ -1,40 +1,23 @@
 import React from 'react';
-import { Row, Col, Typography, Card, Descriptions } from 'antd';
-import { StarOutlined } from '@ant-design/icons';
-import { url } from 'inspector';
+import { useLocation } from 'react-router-dom';
 
-const { Title, Text } = Typography;
 
-const MovieDetailPage = () => {
+
+export default function  MovieDetailPage (){
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const title = searchParams.get('title');
+  const duration = searchParams.get('duration');
+  const poster = searchParams.get('poster');
+  
   return (
-    <div >
-      
-      <Card style={{width:'20%',height:'30%'}}
-            cover={
-              <img
-                alt="Movie Poster"
-                src="https://i.imgur.com/VIQdyDD.jpg" // Adjust the width and height as needed
-                
-              />
-            }
-          >
-            <Card.Meta
-              title={<Title level={4} style={{ color: 'black' }}>Movie Title</Title>}
-              description={<Text style={{ color: 'black' }}>Release Year: 2023</Text>}
-            />
-          </Card>
-        
-    
-   
-      
-            <Card style={{ width: 300 ,left:'32%',marginTop:'-10%'}}>
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
-            </Card>
+    <div>
+    <h2>{title} Details</h2>
+    <p>Duration: {duration}</p>
+    {poster && <img src={decodeURIComponent(poster)} alt="Movie Poster" style={{ width: '240px', height: '360px' }} />}    {/* แสดงข้อมูลเพิ่มเติมของหนังที่นี่ */}
+  </div>
 
-    </div>
   );
-};
+}
 
-export default MovieDetailPage;
+
