@@ -21,7 +21,7 @@
     animation-name: fadeInOpacity;
     animation-duration: 1s;
     width: 50%;
-    height: 70%;
+    height: 80%;
     display: block;
     justify-content: center;
     align-items: center;
@@ -36,52 +36,56 @@
     font-family: 'Mitr', sans-serif;
 }
 
+.reg-name{
+    width: 100%;
+    display: inline-block;
+}
+
+.reg-prefix{
+    width: 15%;
+    display: inline-block;
+}
+
+.reg-firstname {
+    width: 40%;
+    display: inline-block;
+}
+
+.reg-lastname{
+    width: 40%;
+    display: inline-block;
+    margin-left: 5%;
+}
+
 .reg-username{
-    width: 70%;
-    height: 8%;
-    margin: auto;
-    margin-top: 3%;
-    display: block;
+    width: 55%;
 }
 
 .reg-email{
-    width: 70%;
-    height: 8%;
-    margin: auto;
-    margin-top: 5%;
-    display: block;
+    width: 55%;
 }
 
-.reg-pass{
-    width: 70%;
-    height: 8%;
-    margin: auto;
-    margin-top: 5%;
-    display: block;
+.reg-layout01{
+    width: 100%;
+    display: inline-block;
 }
 
 .reg-gender{
-    width: 70%;
-    height: 8%;
-    margin: auto;
-    margin-top: 5%;
-    display: block;
+    width: 55%;
+    display: inline-block;
 }
 
-.reg-address{
-    width: 70%;
-    height: 8%;
-    margin: auto;
-    margin-top: 5%;
-    display: block;
+.reg-dob{
+    display: inline-block;
+    margin-left: 5%;
 }
 
 .reg-password{
-    width: 70%;
-    height: 8%;
-    margin: auto;
-    margin-top: 5%;
-    display: block;
+    width: 100%;
+}
+
+.reg.confirm{
+    width: 100%;
 }
 
 .reg-button{

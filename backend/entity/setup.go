@@ -40,9 +40,52 @@ func SetupDatabase() {
 		&Review{},
 		&History{},
 		&Download{},
-		&Watchlist{},	
+		&Watchlist{},
 		&WatchlistMovie{},
 	)
 	db = database
+	male := Gender{
+		Gender: "ชาย",
+	}
+	female := Gender{
+		Gender: "หญิง",
+	}
+	ohter := Gender{
+		Gender: "ไม่ระบุ",
+	}
+	db.Model(&Gender{}).Create(&male)
+	db.Model(&Gender{}).Create(&female)
+	db.Model(&Gender{}).Create(&ohter)
 
+	mr := Prefix{
+		Prefix: "นาย",
+	}
+	mrs := Prefix{
+		Prefix: "นาง",
+	}
+	mrss := Prefix{
+		Prefix: "นางสาว",
+	}
+	db.Model(&Prefix{}).Create(&mr)
+	db.Model(&Prefix{}).Create(&mrs)
+	db.Model(&Prefix{}).Create(&mrss)
+
+	admin := StatusUser{
+		Status: "admin",
+	}
+	user := StatusUser{
+		Status: "user",
+	}
+	db.Model(&StatusUser{}).Create(&admin)
+	db.Model(&StatusUser{}).Create(&user)
+
+	adminlogin := User{
+		Username:     "admin naja",
+		Email:        "admin@gmail.com",
+		Password:     "admin",
+		Firstname:    "-",
+		Lastname:     "-",
+		StatusUserID: &admin.ID,
+	}
+	db.Model(&User{}).Create(&adminlogin)
 }

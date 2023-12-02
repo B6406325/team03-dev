@@ -24,6 +24,9 @@ type User struct {
 	SubscribeID *uint
 	Subscribe   Subscribe `gorm:"references:id"`
 
+	StatusUserID *uint
+	StatusUser   StatusUser `gorm:"references:id"`
+
 	Report    []Report    `gorm:"foreignKey:UserID"`
 	Payment   []Payment   `gorm:"foreignKey:UserID"`
 	Review    []Review    `gorm:"foreignKey:UserID"`
@@ -44,4 +47,11 @@ type Prefix struct {
 	Prefix string
 
 	User []User `gorm:"foreignKey:PrefixID"`
+}
+
+type StatusUser struct {
+	gorm.Model
+	Status string
+
+	User []User `gorm:"foreignKey:StatusUserID"`
 }

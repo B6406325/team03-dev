@@ -1,16 +1,14 @@
 export interface UserForLoginInterface{
     ID?:  number
-    UserName?: string
+    Username?: string
     Email?: string
     Password?: string
-    StatusUserID?: StatusUserInterface
-    GenderUserID?: GenderUserInterface
-    AddressUserID?: AddressUserInterface
+    StatusUser?: StatusUserInterface
 }
 
 export interface StatusUserInterface{
     ID?: number
-    StatusName?: string
+    Status?: string
 }
 
 export interface GenderUserInterface{
@@ -18,15 +16,26 @@ export interface GenderUserInterface{
     Gender?: string
 }
 
-export interface AddressUserInterface{
+export interface PrefixUserInterface {
     ID?: number
-    Address?: string
+    Prefix?: string
 }
+
+// export interface SubscribeUserInterface {
+
+// }
 
 export interface UserForRegInterface{
     ID?:  number
     UserName?: string
     Email?: string
     Password?: string
+    Firstname?: string
+    Lastname?: string
+    Dob?: Date
     StatusUserID?: number
+    Gender?: GenderUserInterface
+    GenderID?: number
+    Prefix?: PrefixUserInterface
+    PrefixID?: number
 }
