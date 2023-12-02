@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Modal, Select } from 'antd';
+import { Form, Input, Button, Modal, Select, DatePicker, ConfigProvider } from 'antd';
 
 interface UserChangeDetialProps {
     visible: boolean;
@@ -17,50 +17,75 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
     };
 
     return (
-        <Modal
-            title={<span style={{ fontSize: '1.9em', padding: "20px", fontFamily: 'Mitr' }}>แก้ไขข้อมูลส่วนตัว</span>}
-            visible={visible}
-            onCancel={onCancel}
-            footer={null}
-            width={600}
-            centered
+        <ConfigProvider theme={{
+            components: {
+                Button: {
+                    colorPrimary: '#F5CE00',
+                    algorithm: true,
+                    primaryColor: '#000000',
+                },
+                Input: {
+                    colorPrimary: '#F5CE00',
+                    algorithm: true,
+                },
+                Select: {
+                    colorPrimary: '#F5CE00',
+                    algorithm: true,
+                },
+                DatePicker: {
+                    colorPrimary: '#F5CE00',
+                    algorithm: true,
+                }
+            },
+        }}>
+            <Modal
+                title={<span style={{ fontSize: '1.9em', padding: "20px", fontFamily: 'Mitr' }}>แก้ไขข้อมูลส่วนตัว</span>}
+                visible={visible}
+                onCancel={onCancel}
+                footer={null}
+                width={600}
+                centered
 
-        >
-            <Form
-                form={form}
-                onFinish={onFinish}
             >
-                <Form.Item
-                    name="Fullname"
+                <Form
+                    form={form}
+                    onFinish={onFinish}
                 >
-                    <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Fullname' />
-                </Form.Item>
-                <Form.Item
-                    name="Lastname"
-                >
-                    <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Lastname' />
-                </Form.Item>
-                <Form.Item
-                    name="Address"
-                >
-                    <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Address' />
-                </Form.Item>
-                <Form.Item
-                    name="Lastname"
-                >
-                    <Select style={{fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px'}} placeholder='เพศ'></Select>
-                </Form.Item>
+                    <Form.Item
+                        name="Fullname"
+                    >
+                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Fullname' />
+                    </Form.Item>
+                    <Form.Item
+                        name="Lastname"
+                    >
+                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Lastname' />
+                    </Form.Item>
+                    <Form.Item
+                        name="Address"
+                    >
+                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Address' />
+                    </Form.Item>
 
-                <Form.Item style={{ marginTop: '10px' }}>
-                    <Button style={{ fontSize: 20, width: 100, height: 40, fontFamily: 'Mitr' }} type="primary" htmlType="submit">
-                        Save
-                    </Button>
-                    <Button style={{ fontSize: 20, width: 100, height: 40, fontFamily: 'Mitr', marginLeft: 8 }} htmlType="button" onClick={onCancel}>
-                        Cancel
-                    </Button>
-                </Form.Item>
-            </Form>
-        </Modal>
+                    <Form.Item name="Dob">
+                        <DatePicker style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='วันเกิด'></DatePicker>
+                    </Form.Item>
+
+                    <Form.Item name="Gender">
+                        <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='เพศ'></Select>
+                    </Form.Item>
+
+                    <Form.Item style={{ marginTop: '10px' }}>
+                        <Button style={{ fontSize: 20, width: 100, height: 40, fontFamily: 'Mitr' }} type="primary" htmlType="submit">
+                            Save
+                        </Button>
+                        <Button style={{ fontSize: 20, width: 100, height: 40, fontFamily: 'Mitr', marginLeft: 8 }} htmlType="button" onClick={onCancel}>
+                            Cancel
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
+        </ConfigProvider>
     );
 };
 
