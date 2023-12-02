@@ -18,7 +18,10 @@
     border: 3px solid var(--yellow1, #F5CE00);
     box-shadow: 0 4px 20px #F5CE00;
     text-align: right;
-    padding: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-top: 10px;
 }
 
 .web-user-box {
@@ -30,6 +33,17 @@
     background: #ffffff;
     padding-bottom: 20px;
     box-shadow: 0 1px 1px #575757;
+}
+
+.web-user-box-bar {
+    width: 95%;
+    height: 30px;
+    margin: auto;
+    margin-top: 8px;
+    border-radius: 10px;
+    background: #333333;
+    padding-bottom: 20px;
+    box-shadow: 0 1px 1px #F5CE00;
 }
 
 .user-text-header {
@@ -70,4 +84,11 @@
 
 .user-button {
     margin-right: 80px;
+}
+
+.back-button {
+
+    text-align: left;
+    margin-top: 8px;
+    margin-right: 40px;
 }
