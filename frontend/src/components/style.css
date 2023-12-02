@@ -47,18 +47,35 @@
     left: 10%;
     display: flex;
 
-  }
-  .profile-icon {
-    margin-right: 1rem; /* Adjust the margin as needed */
-    display: flex;
-    position: relative;
-    right:5% ;
+}
 
-  }
+.profile-icon {
+  margin-right: 1rem;
+  /* Adjust the margin as needed */
+  display: flex;
+  position: relative;
+  right: 5%;
 
-  .search-icon :hover{
-    color: #ffcc00;
-  }
-  .profile-icon :hover{
-    color: #ffcc00;
-  }
+}
+
+.search-icon :hover {
+  color: #ffcc00;
+}
+
+.profile-icon :hover {
+  color: #ffcc00;
+}
+
+.drop-down {
+  width: flex;
+  height: flex-grow;
+  text-align: center;
+  font-family: 'Mitr', sans-serif;
+  border-radius: 3px;
+  border-right: 3px solid var(--yellow1, #F5CE00);
+  border-bottom: 3px solid var(--yellow1, #F5CE00);
+}
+
+.button_dropdown{
+  width: 100%;
+}
