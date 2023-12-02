@@ -2,18 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom'; // If you're using React Router for navigation
 import './style.css'; // Import your styles
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown,} from 'antd';
 
 const handleLogout = () => {
     console.log('Logout logic');
     // Add your logout logic here
   };
 const menu = (
-    <Menu>
+    <Menu className='drop-down'>
       <Menu.Item key="profile">
-        <Link to="#">Profile</Link>
+        <Link to="/account">Profile</Link>
       </Menu.Item>
-      <Menu.Item key="logout" onClick={handleLogout}>
+      <Menu.Item key="Subcribtion">
+        <Link to="/subhistory">Subcribtion</Link>
+      </Menu.Item>
+      <Menu.Item key="logout" onClick={handleLogout} danger>
         Logout
       </Menu.Item>
     </Menu>

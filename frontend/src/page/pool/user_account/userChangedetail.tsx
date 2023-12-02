@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form, Input, Button, Modal, ConfigProvider } from 'antd';
+import { Form, Input, Button, Modal, Select, DatePicker, ConfigProvider } from 'antd';
 
-interface UserChangeNameProps {
+interface UserChangeDetialProps {
     visible: boolean;
     onCancel: () => void;
 }
 
-const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) => {
+const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }) => {
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
@@ -39,7 +39,7 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
             },
         }}>
             <Modal
-                title={<span style={{ fontSize: '1.9em', padding: "20px", fontFamily: 'Mitr' }}>แก้ไขข้อมูลผู้ใช้</span>}
+                title={<span style={{ fontSize: '1.9em', padding: "20px", fontFamily: 'Mitr' }}>แก้ไขข้อมูลส่วนตัว</span>}
                 visible={visible}
                 onCancel={onCancel}
                 footer={null}
@@ -52,27 +52,27 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        name="username"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your username',
-                            },
-                        ]}
+                        name="Fullname"
                     >
-                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Username' />
+                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Fullname' />
+                    </Form.Item>
+                    <Form.Item
+                        name="Lastname"
+                    >
+                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Lastname' />
+                    </Form.Item>
+                    <Form.Item
+                        name="Address"
+                    >
+                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Address' />
                     </Form.Item>
 
-                    <Form.Item
-                        name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter your password',
-                            },
-                        ]}
-                    >
-                        <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%' }} placeholder='Password' />
+                    <Form.Item name="Dob">
+                        <DatePicker style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='วันเกิด'></DatePicker>
+                    </Form.Item>
+
+                    <Form.Item name="Gender">
+                        <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='เพศ'></Select>
                     </Form.Item>
 
                     <Form.Item style={{ marginTop: '10px' }}>
@@ -89,4 +89,4 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
     );
 };
 
-export default UserChangeName;
+export default UserChangeDetial;
