@@ -16,6 +16,7 @@ import Searchpage from './page/note/searchpage/searchpage';
 import UserAccount from './page/pool/user_account/userAccount';
 import SubHistory from './page/pool/sub_history/subhistory';
 import Package from './page/pool/package/package';
+import AdminPayment from './page/mix/AdminPayment/adminPayment';
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/admin' element={<Adminhome/>}/>
         <Route path='/admin/movie' element={<Movies/>}/>
+        <Route path='/admin/movie' element={<Movies/>}/>
+        <Route path='/admin/payment' element={<AdminPayment/>}/>
         <Route path="/homepage"  element={<Homepage/>}/>
         <Route path="/moviedetailpage"  element={<MovieDetailPage/>}/>
         <Route path="/topratingpage"  element={<TopRatingpage/>}/>
