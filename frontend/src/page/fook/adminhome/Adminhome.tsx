@@ -2,72 +2,79 @@ import React, { useState } from 'react';
 import './Adminhome.css'
 import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { Route, Routes, useNavigate } from 'react-router-dom';
+import { UserOutlined } from '@ant-design/icons';
 import User from './user/User';
 
 const { Sider } = Layout;
 
 
-export default function Adminhome(){
+export default function Adminhome() {
+  const [size, setSize] = useState<SizeType>('large');
   const navigate = useNavigate();
-  function clickMovie(){
+  function clickMovie() {
     navigate('/admin/movie');
   }
-  function clickPayment(){
-    navigate('/payment');
+  function clickUser() {
+    navigate('/admin');
   }
-  function clickBack(){
+  function clickPayment() {
+    navigate('/admin/payment');
+  }
+  function clickBack() {
     navigate('/');
   }
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-    return(
-      <ConfigProvider theme={{
-        components:{
-            Button:{
-                colorPrimary: '#F5CE00',
-                algorithm: true,
-                primaryColor: '#000000',
-            },
-        },
-    }}>
-      <Layout style={{height: "100vh",backgroundColor:'#D9D9D9'}}>
-        <Sider width={300}>
-          <Menu style={{height:"100vh",backgroundColor:'#000000'}} mode='inline'>
-              <div className='admin-user'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' >User</Button>
-              </div>
-              <div className='admin-movie'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={clickMovie}>Movies</Button>
-              </div>
-              <div className='admin-payment'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={clickPayment}>Payment</Button>
-              </div>
-              <div className='admin-back'>
-                <Button style={{fontSize: 25,width: 150,height:50,fontFamily:'Mitr'}} type='primary' onClick={clickBack}>LogOut</Button>
-              </div>
-          </Menu>
-        </Sider>
-        <Layout>
-          <Header style={{height: 100,marginTop:10,marginLeft:10,marginRight:10,backgroundColor:"#FFFFFF",fontSize:50,fontFamily:'Mitr'}}>
-            <div style={{marginTop:18}}>ADMIN HOME</div>
-          </Header>
-          <Content style={{ height: 100,marginTop:10,marginLeft:10,marginRight:10 }}>
-          <div
-              style={{
-                padding: 24,
-                minHeight: "100%",
-                background: colorBgContainer,
-              }}
-            >
-              <Routes>
-                <Route path='/' element={<User/>}/>
-              </Routes>
+  return (
+
+    <div className='admin-page'>
+      <div className='admin-sidebar'>
+      <div className='admin-sidebar-top'>
+        <div className='admin-sidebar-text'>
+          ADMIN
+        </div>
+        <div className='admin-sidebar-menu'>
+          <Button type="primary" shape="round" size={size} onClick={clickUser} style={{
+            color: 'black', fontSize: 'large', fontWeight: 'bold', marginBottom: '10%', backgroundColor: '#F5CE00'
+          }}>
+            User
+          </Button>
+          <Button type="primary" shape="round" size={size} onClick={clickMovie} style={{
+            color: 'black', fontSize: 'large', fontWeight: 'bold', marginBottom: '10%', backgroundColor: '#F5CE00'
+          }}>
+            Movies
+          </Button>
+
+          <Button type="primary" shape="round" size={size} onClick={clickPayment} style={{
+            color: 'black', fontSize: 'large', fontWeight: 'bold', marginBottom: '10%', backgroundColor: '#F5CE00'
+          }}>
+            Payment
+          </Button>
+        </div>
+        </div>
+
+        <div className='admin-text-logout' onClick={clickBack}>
+          logout
+        </div>
+      </div>
+      <div className='admin-content-payment'>
+        <div className='admin-content-payment-header'>
+          <div className='admin-content-payment-header-text'>
+            ADMIN HOME
+          </div>
+          <div className='admin-conteet-payment-header-right'>
+            <div className='admin-content-payment-header-text2'>
+              Admin01
             </div>
-          </Content>
-        </Layout>
-    </Layout>
-    </ConfigProvider>
-    );
+            <UserOutlined style={{ fontSize: '30px' }} />
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  );
 }
