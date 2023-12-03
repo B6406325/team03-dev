@@ -28,6 +28,9 @@ export default function Login(){
             }
         }
     }
+    function backward() {
+        navigate('/');
+    }
     
     return(
         <div className='web-login'>
@@ -44,6 +47,9 @@ export default function Login(){
                     },
                 },
             }}>
+            <div className='login-backward'>
+                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={backward}>ย้อนกลับ</Button>
+            </div>
             <div className='body-login'>
                 <div className='body-login-text'>เข้าสู่ระบบ</div>
                 <Form onFinish={onFinish}>
