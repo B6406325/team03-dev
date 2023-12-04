@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import './Adminhome.css'
-import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
-import { Content, Header } from 'antd/es/layout/layout';
+import { Button, Table, theme } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons';
-import User from './user/User';
 
-const { Sider } = Layout;
 
 
 export default function Adminhome() {
@@ -25,9 +22,6 @@ export default function Adminhome() {
   function clickBack() {
     navigate('/');
   }
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
   return (
 
     <div className='admin-page'>
@@ -71,7 +65,9 @@ export default function Adminhome() {
             </div>
             <UserOutlined style={{ fontSize: '30px' }} />
           </div>
-
+        </div>
+        <div className='admin-user'>
+          <Table></Table>
         </div>
       </div>
     </div>
