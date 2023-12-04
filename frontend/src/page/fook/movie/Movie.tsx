@@ -1,10 +1,9 @@
-import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Button, ConfigProvider, Layout, Menu, Table, theme } from 'antd';
 import React, { useState, useEffect, } from 'react';
-import { Content, Header } from 'antd/es/layout/layout';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
-import MovieDash from './edit/Moviedash';
+import { Link, useNavigate } from 'react-router-dom';
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
+import './Movie.css'
 const { Sider } = Layout;
 
 export default function Movies() {
@@ -70,14 +69,15 @@ export default function Movies() {
               </Button>
             </Link>
           </div>
-
           <div className='admin-conteet-payment-header-right'>
             <div className='admin-content-payment-header-text2'>
               Admin01
             </div>
             <UserOutlined style={{ fontSize: '30px' }} />
           </div>
-
+        </div>
+        <div className='admin-movie'>
+          <Table></Table>
         </div>
       </div>
     </div>
