@@ -14,8 +14,10 @@ func main() {
 	r.Use(CORSMiddleware())
 	r.POST("user", controller.CreateUser)
 	r.GET("/user/:email/:password", controller.GetUserToLogin)
-	r.GET("/gender" ,controller.ListGenders)
-	r.GET("/prefix" ,controller.ListPrefix)
+	r.GET("/gender", controller.ListGenders)
+	r.GET("/prefix", controller.ListPrefix)
+	r.GET("/movies", controller.ListMovies)
+	r.GET("/users", controller.ListUser)
 	r.Run("localhost: " + PORT)
 
 }

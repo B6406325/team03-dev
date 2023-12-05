@@ -1,12 +1,144 @@
-import { Button, ConfigProvider, Layout, Menu, Table, theme } from 'antd';
+import { Button, Table, Tooltip } from 'antd';
 import React, { useState, useEffect, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import './Movie.css'
-const { Sider } = Layout;
+import type { ColumnType } from 'antd/es/table';
+import { MoviesInterface } from '../../../interface/fook';
+import { ListMovies } from '../../../service/fook';
 
 export default function Movies() {
+  const columns: ColumnType<MoviesInterface>[] = [
+    {
+      title: "ลำดับ",
+      dataIndex: "ID",
+      key: 1,
+      width: 68,
+      align:"center"
+    },
+    {
+      title: "รูป",
+      dataIndex: "Image",
+      key: 2,
+      render: (text, record, index) => (
+        <img src={record.Image} width="50%"/>
+      )
+    },
+    {
+      title: "ชื่อเรื่อง",
+      dataIndex: "Title",
+      key: 3,
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "เรื่องย่อ",
+      dataIndex: "Description",
+      key: 4,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "ความยาว",
+      dataIndex: "Duration",
+      key: 5,
+    },
+    {
+      title: "วันที่ออกฉาย",
+      dataIndex: "ReleaseDate",
+      key: 6,
+      render: (text, record, index) => (
+        <span>{moment(text).format('YYYY-MM-DD')}</span>
+      ),
+    },
+    {
+      title: "ผู้กำกับ",
+      dataIndex: "Director",
+      key: 7,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "นักแสดง",
+      dataIndex: "Cast",
+      key: 8,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "วีดีโอ",
+      dataIndex: "Video",
+      key: 9,
+      render: (text, record, index) => (
+        <a
+        href={text}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Watch Video
+      </a>
+      )
+    },
+    {
+      title: "หมวดหมู่",
+      dataIndex: "Categories",
+      key: 10,
+      render: (item: any) => Object.values(item.Categories)
+    },
+    {
+      title: "กลุ่มเป้าหมาย",
+      dataIndex: "Target",
+      key: 11,
+      render: (item: any) => Object.values(item.Target)
+    },
+    {
+      title: "รูปแบบเสียง",
+      dataIndex: "Soundtrack",
+      key: 12,
+      render: (item: any) => Object.values(item.Soundtrack)
+    },
+    {
+      title: "จัดการ",
+      dataIndex: "manage",
+      key: 13,
+
+    },
+  ];
+  const [movies, setMovies] = useState<MoviesInterface[]>([]);
+  const listMovies = async () => {
+    let res = await ListMovies();
+    if(res){
+      setMovies(res);
+    }
+  };
+  console.log(movies);
+  useEffect(()=>{
+    listMovies();
+  }, []);
+
   const [size, setSize] = useState<SizeType>('large');
   const navigate = useNavigate();
   function clickMovie() {
@@ -21,9 +153,6 @@ export default function Movies() {
   function clickUser() {
     navigate('/admin');
   }
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return (
 
@@ -77,7 +206,7 @@ export default function Movies() {
           </div>
         </div>
         <div className='admin-movie'>
-          <Table></Table>
+          <Table columns={columns} dataSource={movies} scroll={{ x: 1000, y: 900 }} pagination={false} tableLayout='fixed'></Table>
         </div>
       </div>
     </div>
