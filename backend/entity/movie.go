@@ -14,7 +14,7 @@ type Movie struct {
 	ReleaseDate time.Time
 	Director    string
 	Cast        string
-	Image       string
+	Image       string `gorm:"type:longtext"`
 	Video       string
 
 	CategoriesID *uint

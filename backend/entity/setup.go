@@ -1,6 +1,8 @@
 package entity
 
 import (
+	"time"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -44,6 +46,7 @@ func SetupDatabase() {
 		&WatchlistMovie{},
 	)
 	db = database
+	/////////////////////////////////////USER/////////////////////////////////////////////
 	male := Gender{
 		Gender: "ชาย",
 	}
@@ -88,4 +91,119 @@ func SetupDatabase() {
 		StatusUserID: &admin.ID,
 	}
 	db.Model(&User{}).Create(&adminlogin)
+
+	/////////////////////////////////////MOVIES/////////////////////////////////////////////
+	drama := Categories{
+		Categories: "ดราม่า(Drama)",
+	}
+	action := Categories{
+		Categories: "แอคชั่น(Action)",
+	}
+	comedy := Categories{
+		Categories: "ตลก(Comedy)",
+	}
+	horror := Categories{
+		Categories: "สยองขวัญ (Horror)",
+	}
+	fantasy := Categories{
+		Categories: "แฟนตาซี (Fantasy)",
+	}
+	db.Model(&Categories{}).Create(&drama)
+	db.Model(&Categories{}).Create(&action)
+	db.Model(&Categories{}).Create(&comedy)
+	db.Model(&Categories{}).Create(&horror)
+	db.Model(&Categories{}).Create(&fantasy)
+
+	soundthai := Soundtrack{
+		Soundtrack: "เสียงไทย",
+	}
+	soundeng := Soundtrack{
+		Soundtrack: "เสียงอังกฤษ",
+	}
+	db.Model(&Soundtrack{}).Create(&soundthai)
+	db.Model(&Soundtrack{}).Create(&soundeng)
+
+	targetkid := Target{
+		Target: "สำหรับเด็ก",
+	}
+	targetgeneral := Target{
+		Target: "สำหรับทุกวัย",
+	}
+	targetadult := Target{
+		Target: "สำหรับผู้ใหญ่",
+	}
+	db.Model(&Target{}).Create(&targetkid)
+	db.Model(&Target{}).Create(&targetgeneral)
+	db.Model(&Target{}).Create(&targetadult)
+
+	movie1 := Movie{
+		Title:        "The Killer(2023)",
+		Duration:     "118min",
+		Description:  "The Killer ดัดแปลงจากนิยายภาพในชื่อเดียวกันของ Alexis Nolent ว่าด้วยเรื่องราวของนักฆ่าผู้ใช้ชีวิตอย่างรัดกุมรอบคอบ และมีแบบแผนในทุกการกระทำ แต่แล้วชีวิตของเขาต้องเปลี่ยนไป เมื่อความผิดพลาดเพียงครั้งเดียวทำให้เขาต้องต่อสู้กับผู้ว่าจ้างและตัวเองในปฏิบัติการไล่ล่าข้ามโลก ซึ่งเขายืนกรานว่าไม่เกี่ยวกับเรื่องส่วนตัว",
+		ReleaseDate:  time.Date(2023, 9, 3, 0, 0, 0, 0, time.UTC),
+		Director:     "David Fincher",
+		Cast:         "Michael Fassbender,Tilda Swinton,Charles Parnell",
+		Image:        "https://i.imgur.com/L30TIsI.jpg",
+		Video:        "https://www.youtube.com/watch?v=5S7FR_HCg9g",
+		CategoriesID: &drama.ID,
+		SoundtrackID: &soundthai.ID,
+		TargetID:     &targetadult.ID,
+	}
+	movie2 := Movie{
+		Title:        "The Hunger Games: The Ballad of Songbirds & Snakes",
+		Duration:     "157min",
+		Description:  "คอริโอลานุส สโนว์ (รับบทโดย ทอม บลายธ์) หนุ่มน้อยทายาทคนสุดท้ายของตระกูลที่ล่มสลายจากสงครามครั้งใหญ่ในแคปิตอล เขาได้รับมอบหมายให้เป็นพี่เลี้ยงของ ลูซี่ เกรย์ แบร์ด (รับบทโดย เรเชล เซกเลอร์) เด็กสาวบรรณาการจากเขต 12 ที่เข้าร่วมการแข่งขันเกมล่าชีวิตครั้งที่ 10 ก่อนที่ความสัมพันธ์ของทั้งสองจะก่อตัวขึ้นท่ามกลางเกมที่มีเดิมพันเป็นความเป็นความตาย",
+		ReleaseDate:  time.Date(2023, 11, 5, 0, 0, 0, 0, time.UTC),
+		Director:     "Francis Lawrence",
+		Cast:         "Rachel Zegler,Tom Blyth,Violas Davis",
+		Image:        "https://i.imgur.com/bWgVu4c.jpg",
+		Video:        "https://www.youtube.com/watch?v=RDE6Uz73A7g",
+		CategoriesID: &drama.ID,
+		SoundtrackID: &soundthai.ID,
+		TargetID:     &targetgeneral.ID,
+	}
+	movie3 := Movie{
+		Title:        "Oppenheimer",
+		Duration:     "180min",
+		Description:  "เรื่องราวของ Oppenheimer ชายผู้มีปัญหาในตัวเองมากมาย แต่ก็ถูกมองข้ามไปด้วยความปราดเปรื่องของตัวเขา เมื่อเขาถูกขอความช่วยเหลือให้หาหนทางยุติสงครามโลกครั้งที่สอง เขาก็ชี้ไปที่ความหวังเดียวเท่านั้น คือ อาวุธปรมาณูที่มีพลังทำลายล้างรุนแรงจนสามารถยับยั้งไม่ให้ทุกฝ่ายต่อสู้กันต่อไปได้อีก",
+		ReleaseDate:  time.Date(2023, 7, 21, 0, 0, 0, 0, time.UTC),
+		Director:     "Christopher Nolan",
+		Cast:         "Cillian Murphy, Emily Blunt, Matt Damon",
+		Image:        "https://i.imgur.com/VIQdyDD.jpg",
+		Video:        "https://www.youtube.com/watch?v=uYPbbksJxIg",
+		CategoriesID: &drama.ID,
+		SoundtrackID: &soundthai.ID,
+		TargetID:     &targetadult.ID,
+	}
+	movie4 := Movie{
+		Title:        "Spider-Man: Across the Spider-Verse (2023)",
+		Duration:     "140min",
+		Description:  "ไมลส์ มอราลเลส กลับมาอีกครั้งกับเรื่องราวบทใหม่ของการผจญภัยของเพื่อนบ้านที่แสนดีแห่งบรู๊คลิน ไปสู่มัลติเวิร์สร่วมกับ เกวน สเตซี่ ของผองเพื่อนมนุษย์แมงมุมเพื่อเผชิญหน้ากับวายร้ายที่ทรงพลังยิ่งกว่าที่พวกเขาเคยเจอ",
+		ReleaseDate:  time.Date(2023, 5, 30, 0, 0, 0, 0, time.UTC),
+		Director:     "Joaquim Dos Santos, Kemp Powers, Justin K. Thompson",
+		Cast:         "Shameik Moore, Hailee Steinfeld, Brian Tyree Henry, Luna Lauren Velez",
+		Image:        "https://i.imgur.com/cPgk3pr.jpg",
+		Video:        "https://www.youtube.com/watch?v=shW9i6k8cB0",
+		CategoriesID: &action.ID,
+		SoundtrackID: &soundeng.ID,
+		TargetID:     &targetgeneral.ID,
+	}
+	movie5 := Movie{
+		Title:        "Toy Story",
+		Duration:     "81min",
+		Description:  "วูดดี้ ของเล่นคาวบอยยุคคลาสสิก ในฐานะของเล่นตัวโปรดของแอนดี้ เด็กชายวัย 6 ขวบ ทำให้วูดดี้กลายเป็นหัวหน้าบรรดาของเล่น ด้วยความมาดมั่น ใกล้วันที่ย้ายบ้าน แอนดี้ จึงจัดวันเกิดก่อนวันเกิดจริง แต่เมื่อบัซ ไลท์เยียร์ ตุ๊กตาตำรวจอวกาศที่แม่ให้เป็นของขวัญเซอร์ไพรส์ ได้ก้าวเข้าในถิ่นของวูดดี้ ในฐานะของขวัญวันเกิดชิ้นโปรดของแอนดี้ การชิงดีชิงเด่น เพื่อเป็นขวัญใจ ของเจ้านายตัวน้อยจึงเกิดขึ้น",
+		ReleaseDate:  time.Date(1995, 11, 19, 0, 0, 0, 0, time.UTC),
+		Director:     "John Lasseter",
+		Cast:         "Tom Hanks, Tim Allen, Don Rickles",
+		Image:        "https://i.imgur.com/Xx8fSKW.jpg",
+		Video:        "https://youtu.be/CxwTLktovTU",
+		CategoriesID: &comedy.ID,
+		SoundtrackID: &soundeng.ID,
+		TargetID:     &targetkid.ID,
+	}
+	db.Model(&Movie{}).Create(&movie1)
+	db.Model(&Movie{}).Create(&movie2)
+	db.Model(&Movie{}).Create(&movie3)
+	db.Model(&Movie{}).Create(&movie4)
+	db.Model(&Movie{}).Create(&movie5)
 }
