@@ -24,3 +24,12 @@ func ListMovies(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": movies})
 }
+
+func DeleteMovieById(c *gin.Context) {
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM movies WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "movie not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": id})
+}

@@ -1,13 +1,13 @@
-import { Button, Table, Tooltip } from 'antd';
+import { Button, Modal, Table, Tooltip, message } from 'antd';
 import React, { useState, useEffect, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { PlusOutlined, UserOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined, UserOutlined } from "@ant-design/icons";
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import './Movie.css'
 import type { ColumnType } from 'antd/es/table';
 import { MoviesInterface } from '../../../interface/fook';
-import { ListMovies } from '../../../service/fook';
+import { DeleteMovieByID, ListMovies } from '../../../service/fook';
 
 export default function Movies() {
   const columns: ColumnType<MoviesInterface>[] = [
@@ -50,7 +50,7 @@ export default function Movies() {
       ),
     },
     {
-      title: "ความยาว",
+      title: "ความยาว(min)",
       dataIndex: "Duration",
       key: 5,
     },
@@ -124,9 +124,49 @@ export default function Movies() {
       title: "จัดการ",
       dataIndex: "manage",
       key: 13,
+      render: (text, record, index) => (
+        <>
+        <Button  onClick={() =>  navigate(`/movie/edit/${record.ID}`)} shape="circle" icon={<EditOutlined/>} size={"large"} />
+        <Button
+            onClick={() => showModal(record)}
+            style={{ marginLeft: 10 }}
+            shape="circle"
+            icon={<DeleteOutlined/>}
+            size={"large"}
+            danger
+          />
+        </>
+      ),
+      
 
     },
   ];
+  const showModal = (val: MoviesInterface) => {
+    setModalText(
+      `ต้องการลบ ${val.Title} หรือไม่`
+    );
+    setDeleteId(val.ID);
+    setOpen(true);
+  };
+
+  const handleOk = async () => {
+    setConfirmLoading(true);
+    let res = await DeleteMovieByID(deleteId);
+    if (res) {
+      setOpen(false);
+      message.success("ลบสำเร็จ")
+      listMovies();
+    } else {
+      setOpen(false);
+      message.error("เกิดข้อผิดพลาด")
+    }
+    setConfirmLoading(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   const [movies, setMovies] = useState<MoviesInterface[]>([]);
   const listMovies = async () => {
     let res = await ListMovies();
@@ -141,6 +181,10 @@ export default function Movies() {
 
   const [size, setSize] = useState<SizeType>('large');
   const navigate = useNavigate();
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState<String>();
+  const [deleteId, setDeleteId] = useState<Number>();
+  const [open, setOpen] = useState(false);
   function clickMovie() {
     navigate('/admin/movie');
   }
@@ -155,7 +199,6 @@ export default function Movies() {
   }
 
   return (
-
     <div className='admin-page'>
       <div className='admin-sidebar'>
       <div className='admin-sidebar-top'>
@@ -173,7 +216,6 @@ export default function Movies() {
           }}>
             Movies
           </Button>
-
           <Button type="primary" shape="round" size={size} onClick={clickPayment} style={{
             color: 'black', fontSize: 'large', fontWeight: 'bold', marginBottom: '10%', backgroundColor: '#F5CE00'
           }}>
@@ -207,9 +249,17 @@ export default function Movies() {
         </div>
         <div className='admin-movie'>
           <Table columns={columns} dataSource={movies} scroll={{ x: 1000, y: 900 }} pagination={false} tableLayout='fixed'></Table>
+          <Modal
+            title="ลบข้อมูล?"
+            open={open}
+            onOk={handleOk}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+          >
+            <p>{modalText}</p>
+        </Modal>
         </div>
       </div>
     </div>
-
   );
 }

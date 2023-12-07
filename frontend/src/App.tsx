@@ -17,6 +17,8 @@ import UserAccount from './page/pool/user_account/userAccount';
 import SubHistory from './page/pool/sub_history/subhistory';
 import Package from './page/pool/package/package';
 import AdminPayment from './page/mix/AdminPayment/adminPayment';
+import MovieCreate from './page/fook/movie/create/movieCreate';
+import MovieEdit from './page/fook/movie/edit/movieEdit';
 
 function App() {
   return (
@@ -28,12 +30,13 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/admin' element={<Adminhome/>}/>
         <Route path='/admin/movie' element={<Movies/>}/>
-        <Route path='/admin/movie' element={<Movies/>}/>
         <Route path='/admin/payment' element={<AdminPayment/>}/>
         <Route path="/homepage"  element={<Homepage/>}/>
         <Route path="/moviedetailpage"  element={<MovieDetailPage/>}/>
         <Route path="/topratingpage"  element={<TopRatingpage/>}/>
         <Route path="/categoriespage"  element={<Categoriespage/>}/>
+        <Route path="/movie/create" element={<MovieCreate/>}/>
+        <Route path="/movie/edit/:id" element={<MovieEdit/>}/>
         <Route path="/searchpage"  element={<Searchpage/>}/>
         <Route path='/account' element={<UserAccount/>}/>
         <Route path='/subhistory' element={<SubHistory/>}/>

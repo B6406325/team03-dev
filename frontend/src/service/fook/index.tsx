@@ -19,6 +19,25 @@ async function ListMovies() {
   
     return res;
   }
+
+  async function DeleteMovieByID(id: Number | undefined) {
+    const requestOptions = {
+      method: "DELETE"
+    };
+  
+    let res = await fetch(`${apiUrl}/movie/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          return res.data;
+        } else {
+          return false;
+        }
+      });
+  
+    return res;
+  }
 export{
-    ListMovies
+    ListMovies,
+    DeleteMovieByID,
 }
