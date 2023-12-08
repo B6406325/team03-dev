@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './package.css';
 import { Button, ConfigProvider } from 'antd';
+import { PackageComponent } from '../../../interface/pool';
 
-interface PackageComponent {
-    id: number;
-    name: string;
-    price: number;
-    duration: string;
-}
 
 const Package: React.FC = () => {
     const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
@@ -29,9 +24,9 @@ const Package: React.FC = () => {
 
         // สร้างข้อมูล Subscription Packages แบบ mock ไว้ก่อน
         const mockPackages: PackageComponent[] = [
-            { id: 1, name: 'Package 1', price: 99, duration: '7 วัน' },
-            { id: 2, name: 'Package 2', price: 329, duration: '30 วัน' },
-            { id: 3, name: 'Package 3', price: 3499, duration: '1 ปี' },
+            { id: 1, name: 'Package 1', price: 99, package_detail: 'ดูได้ 1 ความระเอียด 720p ดาวน์โหลดไม่ได้', download_status: false },
+            { id: 2, name: 'Package 2', price: 329, package_detail: 'ดูได้ 2 ความระเอียด 1080p ดาวน์โหลดได้', download_status: true },
+            { id: 3, name: 'Package 3', price: 459, package_detail: 'ดูได้ 4 ความระเอียด 1080p ดาวน์โหลดได้', download_status: true },
         ];
 
         setPackages(mockPackages);
@@ -42,7 +37,7 @@ const Package: React.FC = () => {
     };
 
     const handleCancelClick = () => {
-       
+
     };
 
     const handleNextClick = () => {
@@ -72,7 +67,13 @@ const Package: React.FC = () => {
                                 onClick={() => handlePackageClick(packageItem.id)}
                             >
                                 <div className='package-box-selected-text'>{packageItem.name}</div>
-                                <div className='additional-box'>{`${packageItem.duration}/${packageItem.price} บาท`}</div>
+                                <div className='additional-box' style={{display: "grid", gridTemplateRows: "auto auto", gap: "1px"}}>
+                                    <h2>{`${packageItem.price} บาท`}</h2>
+                                    {`ดูได้ ${packageItem.package_detail.split(' ')[1]} จอ`}
+                                    <p>{`${packageItem.package_detail.split(' ')[2]}`}</p>
+                                    <p>{`${packageItem.package_detail.split(' ')[3]}`}</p>
+                                    <p>{`${packageItem.package_detail.split(' ')[4]}`}</p>
+                                </div>
                             </div>
                         ))}
                         <div className='button-cancel'>
