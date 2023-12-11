@@ -8,8 +8,11 @@ export interface MoviesInterface {
     Cast?: string
     Image?: string
     Video?: string
+    CategoriesID?: number
     Categories?: CategoriesInterface
+    TargetID?: number
     Target?: TargetInterface
+    SoundtrackID?: number
     Soundtrack?: SoundtrackInterface
 }
 
@@ -36,7 +39,7 @@ export interface MoviesCreateInterface {
     ReleaseDate?: Date
     Director?: string
     Cast?: string
-    image?: string
+    Image?: string
     Video?: string
     CategoriesID?: number
     Categories?: CategoriesInterface
@@ -45,3 +48,28 @@ export interface MoviesCreateInterface {
     SoundtrackID?: number
     Soundtrack?: SoundtrackInterface
 }
+
+export interface ImageUpload {
+    uid: string
+    lastModified: number
+    lastModifiedDate: string
+    name: string
+    size: number
+    type: string
+    percent: number
+    originFileObj: OriginFileObj
+    error: Error
+    response: string
+    status: string
+    thumbUrl: string
+  }
+  
+  export interface OriginFileObj {
+    uid: string
+  }
+  
+  export interface Error {
+    status: number
+    method: string
+    url: string
+  }

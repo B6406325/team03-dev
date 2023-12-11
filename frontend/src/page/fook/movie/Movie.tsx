@@ -248,7 +248,8 @@ export default function Movies() {
           </div>
         </div>
         <div className='admin-movie'>
-          <Table columns={columns} dataSource={movies} scroll={{ x: 1000, y: 900 }} pagination={false} tableLayout='fixed'></Table>
+          <Table columns={columns} dataSource={movies} scroll={{ x: '120vh', y: "65vh" }} pagination={false} size='small' ></Table>
+          </div>
           <Modal
             title="ลบข้อมูล?"
             open={open}
@@ -258,7 +259,6 @@ export default function Movies() {
           >
             <p>{modalText}</p>
         </Modal>
-        </div>
       </div>
     </div>
   );
