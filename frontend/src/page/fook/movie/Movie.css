@@ -13,3 +13,8 @@
     margin-top: 2%;
     border-radius: 10px;
 }
+
+.admin-movie-layout{
+    width: 100vh;
+    height: 100vh;
+}

@@ -18,7 +18,13 @@ func main() {
 	r.GET("/prefix", controller.ListPrefix)
 	r.GET("/movies", controller.ListMovies)
 	r.GET("/users", controller.ListUser)
-	r.DELETE("movie/:id", controller.DeleteMovieById)
+	r.DELETE("/movie/:id", controller.DeleteMovieById)
+	r.PATCH("/movie", controller.UpdateMovie)
+	r.GET("/movie/:id", controller.GetMovieById)
+	r.GET("/categories", controller.ListCategories)
+	r.GET("/soundtrack", controller.ListSoundtrack)
+	r.GET("/target", controller.ListTarget)
+	r.POST("/movie", controller.CreateMovie)
 	r.Run("localhost: " + PORT)
 
 }
