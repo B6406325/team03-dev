@@ -1,5 +1,6 @@
 import { ConfigProvider , Button} from 'antd';
 import {useNavigate} from 'react-router-dom';
+import logo from '../../asset/logo.jpg';
 
 export default function FirstPage(){
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function FirstPage(){
               <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}>เข้าสู่ระบบ</Button>
             </div>
             <div className='logoweb'>
-            LOGO
+            <img src={logo} style={{width:400,}}/> 
             </div>
             <div className='button02'>
               <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickReg}>สมัครสมาชิก</Button>
