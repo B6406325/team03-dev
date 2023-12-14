@@ -22,7 +22,7 @@ type Payment struct {
 
 type Package struct {
 	gorm.Model
-	PackageName    string
+	PackageName    string `gorm:"uniqueIndex"`
 	Price          float32
 	PackageDetail  string
 	DownloadStatus bool
