@@ -15,7 +15,7 @@ type Report struct {
 
 type Topic struct {
 	gorm.Model
-	Topic string
+	Topic string `gorm:"uniqueIndex"`
 
 	Report []Report `gorm:"foreignKey:TopicID"`
 }

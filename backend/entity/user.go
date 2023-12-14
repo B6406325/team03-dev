@@ -8,9 +8,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Username  string
-	Email     string
-	Password  string
+	Username  string `gorm:"uniqueIndex"`
+	Email     string `gorm:"uniqueIndex"`
+	Password  string `gorm:"uniqueIndex"`
 	Firstname string
 	Lastname  string
 	Address  string
@@ -38,21 +38,21 @@ type User struct {
 
 type Gender struct {
 	gorm.Model
-	Gender string
+	Gender string `gorm:"uniqueIndex"`
 
 	User []User `gorm:"foreignKey:GenderID"`
 }
 
 type Prefix struct {
 	gorm.Model
-	Prefix string
+	Prefix string `gorm:"uniqueIndex"`
 
 	User []User `gorm:"foreignKey:PrefixID"`
 }
 
 type StatusUser struct {
 	gorm.Model
-	Status string
+	Status string `gorm:"uniqueIndex"`
 
 	User []User `gorm:"foreignKey:StatusUserID"`
 }

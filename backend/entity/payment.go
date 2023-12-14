@@ -33,7 +33,7 @@ type Package struct {
 
 type PaymentStatus struct {
 	gorm.Model
-	Status string
+	Status string `gorm:"uniqueIndex"`
 
 	Payment []Payment `gorm:"foreignKey:PaymentStatusID"`
 }

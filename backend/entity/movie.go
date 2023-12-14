@@ -8,7 +8,7 @@ import (
 
 type Movie struct {
 	gorm.Model
-	Title       string
+	Title       string `gorm:"uniqueIndex"`
 	Duration    string
 	Description string
 	ReleaseDate time.Time
@@ -34,21 +34,21 @@ type Movie struct {
 
 type Target struct {
 	gorm.Model
-	Target string
+	Target string `gorm:"uniqueIndex"`
 
 	Movie []Movie `gorm:"foreignKey:TargetID"`
 }
 
 type Soundtrack struct {
 	gorm.Model
-	Soundtrack string
+	Soundtrack string `gorm:"uniqueIndex"`
 
 	Movie []Movie `gorm:"foreignKey:SoundtrackID"`
 }
 
 type Categories struct {
 	gorm.Model
-	Categories string
+	Categories string `gorm:"uniqueIndex"`
 
 	Movie []Movie `gorm:"foreignKey:CategoriesID"`
 }

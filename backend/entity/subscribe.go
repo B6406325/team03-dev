@@ -16,7 +16,7 @@ type Subscribe struct {
 
 type SubscribeStatus struct {
 	gorm.Model
-	Status string
+	Status string `gorm:"uniqueIndex"`
 
 	Subscribe []Subscribe `gorm:"foreignKey:SubscribeStatusID"`
 }
