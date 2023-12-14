@@ -25,6 +25,10 @@ func main() {
 	r.GET("/soundtrack", controller.ListSoundtrack)
 	r.GET("/target", controller.ListTarget)
 	r.POST("/movie", controller.CreateMovie)
+	r.GET("/packages", controller.GetPackageInfo)
+	r.GET("/userinfo/:id", controller.GetUserInfo)
+	r.PATCH("/userinfo", controller.PatchUserInfo)
+	r.DELETE("movie/:id", controller.DeleteMovieById)
 	r.Run("localhost: " + PORT)
 
 }

@@ -13,6 +13,7 @@ type User struct {
 	Password  string
 	Firstname string
 	Lastname  string
+	Address  string
 	Dob       time.Time
 
 	GenderID *uint

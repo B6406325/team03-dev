@@ -1,31 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import "./user.css"
-import { ConfigProvider, Button } from 'antd';
+import { ConfigProvider, Button, Spin, Space } from 'antd';
 import UserChangeName from './userChangeName';
 import UserChangePass from './userChangePass';
-import UserChangeEmail from './userChangeEmail';
+// import UserChangeEmail from './userChangeEmail';
 import UserChangeDetial from './userChangedetail';
 import {
     LeftOutlined,
     HomeOutlined
 } from '@ant-design/icons';
 import Navbar from '../../../components/navbar';
+import { GetUserInfo } from '../../../service/pool';
+import { UserInterface } from '../../../interface/pool';
 
 function UserAccount() {
     const [changeNameVisible, setChangeNameVisible] = useState(false);
-    const [changeEmailVisible, setChangeEmailVisible] = useState(false);
+    // const [changeEmailVisible, setChangeEmailVisible] = useState(false);
     const [changePasswordVisible, setChangePasswordVisible] = useState(false);
     const [changeDetialVisible, setChangeDetialVisible] = useState(false);
+    const [userData, setUserData] = useState<UserInterface | null>(null);
+    const [loading, setLoading] = useState(true); // Add loading state
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+
+        fetchUserData();
+    }, []);
+
+    const fetchUserData = async () => {
+        try {
+            const id = "pool@gmail.com";
+            console.log('Fetching user data...');
+            let data = await GetUserInfo(id);
+
+            console.log('User data:', data);
+            setUserData(data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        } finally {
+            setLoading(false); // Set loading to false after fetching data
+        }
+    };
+
+    // Add this console log to check userData before rendering
+    console.log('userData before rendering:', userData);
 
     const toggleChangeNamePop = () => {
         setChangeNameVisible(!changeNameVisible);
     };
 
-    const toggleChangeEmailPop = () => {
-        setChangeEmailVisible(!changeEmailVisible);
-    };
+    // const toggleChangeEmailPop = () => {
+    //     setChangeEmailVisible(!changeEmailVisible);
+    // };
 
     const toggleChangePasswordPop = () => {
         setChangePasswordVisible(!changePasswordVisible);
@@ -35,26 +63,25 @@ function UserAccount() {
         setChangeDetialVisible(!changeDetialVisible);
     };
 
-    const handleToHis = () => {
-        setTimeout(() => {
-            navigate("/subhistory");
-        }, 500);
-    };
-
-    const handleToPack = () => {
-        setTimeout(() => {
-            navigate("/package");
-        }, 500);
-    };
-
     const handleToHome = () => {
         setTimeout(() => {
             navigate("/homepage");
         }, 500);
     };
 
+    if (loading) {
+        return (
+            <Space size="middle">
+                <Spin size="large" />
+            </Space>
+        );
+    }
+
     return (
-        <div> <header style={{ backgroundColor: 'black' }}><Navbar /></header>
+        <div>
+            <header style={{ backgroundColor: 'black' }}>
+                <Navbar />
+            </header>
             <ConfigProvider theme={{
                 components: {
                     Button: {
@@ -65,6 +92,11 @@ function UserAccount() {
                 },
             }}>
                 <div className='web-user'>
+                    {/* {userData && userData.map(user => (
+                         <li key={user.id}>
+                            <p>{user.Username}</p>
+                            </li>
+                        ))} */}
                     <div className='web-user-boxmain'>
                         <Button
                             className='back-button'
@@ -72,61 +104,62 @@ function UserAccount() {
                             style={{ fontSize: 15, fontFamily: 'Mitr' }}
                             onClick={handleToHome}
                         ><HomeOutlined />กลับไป Home</Button>
-                        <div className='web-user-box' style={{ marginTop: 0 }}>
-                            {/* ============================================My Account=================================================================== */}
-                            <div className='user-text-header'>My Account</div>
-                            <div className='user-line' />
-                            <div className='user-text'>Username:
-                                <div className='user-button'>
-                                    <Button
-                                        style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
-                                        type='primary'
-                                        onClick={toggleChangeNamePop}
-                                    >แก้ไขชื่อ</Button>
+                        {userData && userData.map(user => (
+                            <div className='web-user-box' style={{ marginTop: 0 }}>
+                                {/* ============================================My Account=================================================================== */}
+                                <div className='user-text-header'>My Account</div>
+                                <div className='user-line' />
+                                <div className='user-text'>Email: {user.Email}
+                                    <div className='user-button'>
+                                        <Button
+                                            style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
+                                            type="primary"
+                                            onClick={toggleChangePasswordPop}
+                                        >เปลี่ยนรหัส</Button>
+                                    </div>
+                                    <UserChangePass visible={changePasswordVisible} onCancel={toggleChangePasswordPop} />
                                 </div>
-                                <UserChangeName visible={changeNameVisible} onCancel={toggleChangeNamePop} />
-                            </div>
 
-                            <div className='user-text'>Email:
-                                <div className='user-button'>
-                                    <Button
-                                        style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
-                                        type='primary'
-                                        onClick={toggleChangeEmailPop}
-                                    >แก้ไขอีเมล์</Button>
+                                <div className='user-text'>Username: {user.Username} 
+                                
+                                    <div className='user-button'>
+                                        <Button
+                                            style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
+                                            type='primary'
+                                            onClick={toggleChangeNamePop}
+                                        >แก้ไขชื่อ</Button>
+                                    </div>
+                                    <UserChangeName visible={changeNameVisible} onCancel={toggleChangeNamePop} />
                                 </div>
-                                <UserChangeEmail visible={changeEmailVisible} onCancel={toggleChangeEmailPop} />
-                            </div>
 
-                            <div className='user-text'>Full Name:
-                                <div className='user-button'>
-                                    <Button
-                                        style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
-                                        type='primary'
-                                        onClick={toggleChangeDetialPop}
-                                    >แก้ไขข้อมูล</Button>
-                                </div>
-                                <UserChangeDetial visible={changeDetialVisible} onCancel={toggleChangeDetialPop} />
-                            </div>
-                            <div className='user-text'>Address:
-                                    
-                            </div>
-                            <div className='user-text'>Gender:
-                                    
-                            </div>
 
-                            <div className='user-text'>Password:
-                                <div className='user-button'>
-                                    <Button
-                                        style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
-                                        type="primary"
-                                        onClick={toggleChangePasswordPop}
-                                    >เปลี่ยนรหัส</Button>
+
+                                <div className='user-text'>Full Name: {user.Firstname} {user.Lastname}
+                                    <div className='user-button'>
+                                        <Button
+                                            style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
+                                            type='primary'
+                                            onClick={toggleChangeDetialPop}
+                                        >แก้ไขข้อมูล</Button>
+                                    </div>
+                                    <UserChangeDetial visible={changeDetialVisible} onCancel={toggleChangeDetialPop} />
                                 </div>
-                                <UserChangePass visible={changePasswordVisible} onCancel={toggleChangePasswordPop} />
+                                <div className='user-text'>Gender:
+
+                                </div>
+
+                                <div className='user-text'>Date of Birth: {user.Dob}
+
+                                </div>
+                                <div className='user-text'>Address: {user.Address} 
+
+                                </div>
+
+
+
                             </div>
-                        </div>
-                         {/* ===============================================Subscription================================================================ */}
+                        ))}
+                        {/* ===============================================Subscription================================================================ */}
                         <div className='web-user-box'>
                             <div className='user-text-header'>Subscription</div>
                             <div className='user-line' />
@@ -139,9 +172,9 @@ function UserAccount() {
                             </div>
                             <div className='user-text'>Exp:
                                 <div className='user-button'>
-                                <Link to="/subhistory">
-                                    <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติ Sub</Button>
-                                </Link>
+                                    <Link to="/subhistory">
+                                        <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติ Sub</Button>
+                                    </Link>
                                 </div>
                             </div>
                             <div className='user-text'></div>
@@ -150,7 +183,7 @@ function UserAccount() {
                             </div>
                         </div>
                         <div className='web-user-box'>
-                             {/* =========================================Other====================================================================== */}
+                            {/* =========================================Other====================================================================== */}
                             <div className='user-text-header'>Other</div>
                             <div className='user-line' />
                             <div className='user-text'>ประวัติการรับชม
@@ -176,7 +209,6 @@ function UserAccount() {
             </ConfigProvider>
             {/* <Footer style={{ textAlign: 'center' }}>Movie App ©2023 Created by Team03 of System Engineering</Footer> */}
         </div>
-
     );
 };
 
