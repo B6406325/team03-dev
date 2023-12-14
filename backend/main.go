@@ -28,7 +28,6 @@ func main() {
 	r.GET("/packages", controller.GetPackageInfo)
 	r.GET("/userinfo/:id", controller.GetUserInfo)
 	r.PATCH("/userinfo", controller.PatchUserInfo)
-	r.DELETE("movie/:id", controller.DeleteMovieById)
 	r.Run("localhost: " + PORT)
 
 }
