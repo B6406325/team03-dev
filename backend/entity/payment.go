@@ -1,8 +1,6 @@
 package entity
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -26,7 +24,7 @@ type Package struct {
 	gorm.Model
 	PackageName    string
 	Price          float32
-	Duration       time.Time
+	PackageDetail  string
 	DownloadStatus bool
 
 	Payment   []Payment   `gorm:"foreignKey:PackageID"`

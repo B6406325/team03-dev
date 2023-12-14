@@ -20,6 +20,10 @@ npm install antd --save
 npm install --save moment react-moment
 ```
 
+**react-cookie**
+```bash
+npm install react-cookie
+```
 
 
 # Backend
