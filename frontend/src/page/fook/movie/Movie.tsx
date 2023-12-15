@@ -1,4 +1,4 @@
-import { Button, Modal, Table, Tooltip, message } from 'antd';
+import { Button, Input, Modal, Table, Tooltip, message } from 'antd';
 import React, { useState, useEffect, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import moment from 'moment';
@@ -8,6 +8,8 @@ import './Movie.css'
 import type { ColumnType } from 'antd/es/table';
 import { MoviesInterface } from '../../../interface/fook';
 import { DeleteMovieByID, ListMovies } from '../../../service/fook';
+
+const Search = Input.Search;
 
 export default function Movies() {
   const columns: ColumnType<MoviesInterface>[] = [
@@ -106,7 +108,8 @@ export default function Movies() {
       title: "หมวดหมู่",
       dataIndex: "Categories",
       key: 10,
-      render: (item: any) => Object.values(item.Categories)
+      render: (item: any) => Object.values(item.Categories),
+      
     },
     {
       title: "กลุ่มเป้าหมาย",
@@ -137,8 +140,6 @@ export default function Movies() {
           />
         </>
       ),
-      
-
     },
   ];
   const showModal = (val: MoviesInterface) => {
@@ -175,9 +176,6 @@ export default function Movies() {
     }
   };
   console.log(movies);
-  useEffect(()=>{
-    listMovies();
-  }, []);
 
   const [size, setSize] = useState<SizeType>('large');
   const navigate = useNavigate();
@@ -185,6 +183,8 @@ export default function Movies() {
   const [modalText, setModalText] = useState<String>();
   const [deleteId, setDeleteId] = useState<Number>();
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
+
   function clickMovie() {
     navigate('/admin/movie');
   }
@@ -197,6 +197,15 @@ export default function Movies() {
   function clickUser() {
     navigate('/admin');
   }
+  
+  const filteredMovies = movies.filter((movie) =>
+  Object.values(movie).some((value) =>
+    value !== null && value !== undefined && value.toString().toLowerCase().includes(searchText.toLowerCase())
+  )
+);
+  useEffect(() => {
+    listMovies();
+  },[]);
 
   return (
     <div className='admin-page'>
@@ -239,6 +248,10 @@ export default function Movies() {
                 เพิ่มข้อมูล
               </Button>
             </Link>
+            <Search style={{marginLeft:20}} 
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            />
           </div>
           <div className='admin-conteet-payment-header-right'>
             <div className='admin-content-payment-header-text2'>
@@ -248,7 +261,7 @@ export default function Movies() {
           </div>
         </div>
         <div className='admin-movie'>
-          <Table columns={columns} dataSource={movies} scroll={{ x: '120vh', y: "65vh" }} pagination={false} size='small' ></Table>
+          <Table columns={columns} dataSource={filteredMovies} scroll={{ x: '120vh', y: "65vh" }} pagination={false} size='small' ></Table>
           </div>
           <Modal
             title="ลบข้อมูล?"
