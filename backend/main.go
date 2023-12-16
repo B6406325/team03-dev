@@ -18,6 +18,19 @@ func main() {
 	r.GET("/prefix", controller.ListPrefix)
 	r.GET("/movies", controller.ListMovies)
 	r.GET("/users", controller.ListUser)
+
+	//payment
+	r.POST("/payment/:UserID/:PackageID", controller.UserPaymentCreate)
+	r.GET("/admin/payment", controller.PaymentAdmin)
+	r.GET("/admin/payment/:ID", controller.AllowedPayment)
+	r.GET("/admin/subscribe/:UserID" ,controller.UpdateSubscribe)
+	r.GET("/admin/payment2/:ID", controller.NotAllowedPayment)
+	r.GET("/admin/subscribe2/:UserID" ,controller.UpdateSubscribe2)
+	r.GET("/login/subscribe/:UserID" ,controller.SubscribeCheck)
+	r.GET("payment/:UserID",controller.GetUserbyid)
+	r.GET("payment/package/:PackageID",controller.GetPackagebyid)
+
+
 	r.DELETE("/movie/:id", controller.DeleteMovieById)
 	r.PATCH("/movie", controller.UpdateMovie)
 	r.GET("/movie/:id", controller.GetMovieById)

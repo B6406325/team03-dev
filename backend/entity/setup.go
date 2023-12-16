@@ -44,6 +44,7 @@ func SetupDatabase() {
 		&Download{},
 		&Watchlist{},
 		&WatchlistMovie{},
+	
 	)
 	db = database
 	/////////////////////////////////////USER/////////////////////////////////////////////
@@ -79,8 +80,36 @@ func SetupDatabase() {
 	user := StatusUser{
 		Status: "user",
 	}
+	
 	db.Model(&StatusUser{}).Create(&admin)
 	db.Model(&StatusUser{}).Create(&user)
+
+	waiting := SubscribeStatus{
+		Status: "Waiting",
+	}
+	allowed := SubscribeStatus{
+		Status: "Allowed",
+	}
+	notallowed := SubscribeStatus{
+		Status: "NotAllowed",
+	}
+	
+	db.Model(&SubscribeStatus{}).Create(&waiting)
+	db.Model(&SubscribeStatus{}).Create(&allowed)
+	db.Model(&SubscribeStatus{}).Create(&notallowed)
+
+	allowedAdmin := PaymentStatus{
+		Status: "Allowed",
+		
+	}
+	notallowedAdmin := PaymentStatus{
+		Status: "NotAllowed",
+	}
+	
+	db.Model(&PaymentStatus{}).Create(&allowedAdmin)
+	db.Model(&PaymentStatus{}).Create(&notallowedAdmin)
+
+	
 
 	adminlogin := User{
 		Username:     "admin naja",

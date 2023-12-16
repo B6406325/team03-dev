@@ -20,7 +20,7 @@ async function ListUsersToLogin(data: UserForLoginInterface) {
         } else {
           return { status: false, message: res.error };
         }
-      });
+      })
     console.log(res);
     return res;
 }

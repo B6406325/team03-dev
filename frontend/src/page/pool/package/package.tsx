@@ -11,6 +11,7 @@ const Package: React.FC = () => {
     const [packages, setPackages] = useState<PackageInterface[]>([]);
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['selectedPackage']);
+    
 
     useEffect(() => {
         fetchPackages();
@@ -29,7 +30,8 @@ const Package: React.FC = () => {
         setSelectedPackage((prevSelectedPackage) => (prevSelectedPackage === packageId ? null : packageId));
 
         // เก็บข้อมูลลงใน Cookie
-        setCookie('selectedPackage', packageId.toString(), { maxAge: 3 * 24 * 60 * 60 }); // 3 คือจำนวนวันที่ Cookie จะหมดอายุ
+        setCookie('selectedPackage', packageId, { maxAge: 3 * 24 * 60 * 60 }); // 3 คือจำนวนวันที่ Cookie จะหมดอายุ
+        
     };
 
     const handleCancelClick = () => {
@@ -41,6 +43,9 @@ const Package: React.FC = () => {
         // ดึงข้อมูลจาก Cookie
         const selectedPackageFromCookie = cookies.selectedPackage;
         console.log('Selected Package from Cookie:', selectedPackageFromCookie);
+        setTimeout(function () {
+            navigate("/payment");
+        }, 800);
     };
 
     return (

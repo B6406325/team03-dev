@@ -1,13 +1,14 @@
 package entity
 
 import (
+	"time"
 	"gorm.io/gorm"
 )
 
 type Payment struct {
 	gorm.Model
 	Amount   float32
-	Datetime string
+	Datetime time.Time
 	Bill     string
 
 	UserID *uint

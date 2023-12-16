@@ -11,7 +11,10 @@ type Subscribe struct {
 	SubscribeStatusID *uint
 	SubscribeStatus   SubscribeStatus `gorm:"references:id"`
 
-	Users []User  `gorm:"foreignKey:SubscribeID"`
+	UserID *uint
+	User   User `gorm:"references:id"`
+
+
 }
 
 type SubscribeStatus struct {

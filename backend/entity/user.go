@@ -22,14 +22,12 @@ type User struct {
 	PrefixID *uint
 	Prefix   Prefix `gorm:"references:id"`
 
-	SubscribeID *uint
-	Subscribe   Subscribe `gorm:"references:id"`
-
 	StatusUserID *uint
 	StatusUser   StatusUser `gorm:"references:id"`
 
 	Report    []Report    `gorm:"foreignKey:UserID"`
 	Payment   []Payment   `gorm:"foreignKey:UserID"`
+	Subscribe  []Subscribe `gorm:"foreignKey:UserID"`
 	Review    []Review    `gorm:"foreignKey:UserID"`
 	History   []History   `gorm:"foreignKey:UserID"`
 	Download  []Download  `gorm:"foreignKey:UserID"`

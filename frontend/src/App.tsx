@@ -17,6 +17,7 @@ import UserAccount from './page/pool/user_account/userAccount';
 import SubHistory from './page/pool/sub_history/subhistory';
 import Package from './page/pool/package/package';
 import AdminPayment from './page/mix/AdminPayment/adminPayment';
+import UserPayment from './page/mix/UserPayment/userpayment';
 import MovieCreate from './page/fook/movie/create/movieCreate';
 import MovieEdit from './page/fook/movie/edit/movieEdit';
 
@@ -41,6 +42,7 @@ function App() {
         <Route path='/account' element={<UserAccount/>}/>
         <Route path='/subhistory' element={<SubHistory/>}/>
         <Route path='/package' element={<Package/>}/>
+        <Route path='/payment' element={<UserPayment/>}/>
       </Routes>
     </Router>
     </>
