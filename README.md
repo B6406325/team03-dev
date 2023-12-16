@@ -24,7 +24,9 @@ npm install --save moment react-moment
 ```bash
 npm install react-cookie
 ```
-
+```bash
+npm i --save-dev @types/js-cookie
+```
 
 # Backend
 
