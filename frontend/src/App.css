@@ -4,28 +4,25 @@
   display: flex;
   position: fixed;
   background-image: url("../src/asset/background.jpg");
+  align-items: center;
+  justify-content: center;
 }
 
-
 .button01{
-  position: absolute;
-  margin-top: 30px;
-  margin-left: 50px;
+  position: relative;
+  display: inline-block;
 }
 
 .logoweb{
   position: absolute;
-  width: 20%;
-  height: 20%;
   align-items: center;
   justify-content: center;
-  display: flex;
-  margin-left: 750px;
+  margin-bottom: 25vh;
 }
 
 .button02{
-  position: absolute;
-  margin-top: 30px;
-  margin-left: 1680px;
+  position: relative;
+  display: inline-block;
+  margin-left: 20vh;
 }
 
