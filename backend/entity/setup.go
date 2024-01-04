@@ -13,8 +13,10 @@ func DB() *gorm.DB {
 	return db
 }
 
-func SetupDatabase() {
-	database, err := gorm.Open(sqlite.Open("Database_team03.db"), &gorm.Config{})
+func SetupDatabase() (*gorm.DB, error){
+	var err error
+	var database *gorm.DB
+	database, err = gorm.Open(sqlite.Open("Database_team03.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -283,4 +285,6 @@ func SetupDatabase() {
 	db.Model(&Package{}).Create(&package1)
 	db.Model(&Package{}).Create(&package2)
 	db.Model(&Package{}).Create(&package3)
+	
+	return database, nil
 }

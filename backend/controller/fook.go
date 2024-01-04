@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/B6406325/team03/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -47,15 +48,31 @@ func GetMovieById(c *gin.Context) {
 func UpdateMovie(c *gin.Context) {
 	var movie entity.Movie
 	var result entity.Movie
+	db, err := entity.SetupDatabase()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := c.ShouldBindJSON(&movie); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", movie.ID).First(&result); tx.RowsAffected == 0 {
+
+	_, err = govalidator.ValidateStruct(movie)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ค้นหา movie ด้วย id
+	if tx := db.Where("id = ?", movie.ID).First(&result); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "movie not found"})
 		return
 	}
-	if err := entity.DB().Save(&movie).Error; err != nil {
+
+	if err := db.Save(&movie).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -94,20 +111,41 @@ func CreateMovie(c *gin.Context) {
 	var categories entity.Categories
 	var target entity.Target
 	var soundtrack entity.Soundtrack
+	// bind เข้าตัวแปร user
 	if err := c.ShouldBindJSON(&movie); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", movie.CategoriesID).First(&categories); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "categories not found"})
+
+	db, err := entity.SetupDatabase()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", movie.TargetID).First(&target); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "target not found"})
+
+	_, err = govalidator.ValidateStruct(movie)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", movie.SoundtrackID).First(&soundtrack); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "soundtrack not found"})
+
+	// ค้นหา categories ด้วย id
+	db.First(&categories, movie.CategoriesID)
+	if categories.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "categories not found"})
+		return
+	}
+	// ค้นหา target ด้วย id
+	db.First(&target, movie.TargetID)
+	if target.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "target not found"})
+		return
+	}
+	// ค้นหา soundtrack ด้วย id
+	db.First(&soundtrack, movie.SoundtrackID)
+	if soundtrack.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "soundtrack not found"})
 		return
 	}
 
@@ -126,9 +164,11 @@ func CreateMovie(c *gin.Context) {
 		TargetID:     movie.TargetID,
 	}
 
-	if err := entity.DB().Create(&movie).Error; err != nil {
+	// บันทึก
+	if err := db.Create(&m).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": m})
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": m})
 }

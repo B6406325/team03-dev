@@ -8,8 +8,8 @@ import (
 
 type Movie struct {
 	gorm.Model
-	Title       string `gorm:"uniqueIndex"`
-	Duration    string
+	Title       string `gorm:"uniqueIndex" valid:"required~Title is required"`
+	Duration    string 
 	Description string
 	ReleaseDate time.Time
 	Director    string
@@ -17,13 +17,13 @@ type Movie struct {
 	Image       string `gorm:"type:longtext"`
 	Video       string
 
-	CategoriesID *uint
+	CategoriesID *uint `valid:"required~Categories is required"`
 	Categories   Categories `gorm:"references:id"`
 
-	SoundtrackID *uint
+	SoundtrackID *uint `valid:"required~Soundtrack is required"`
 	Soundtrack   Soundtrack `gorm:"references:id"`
 
-	TargetID *uint
+	TargetID *uint `valid:"required~Target is required"`
 	Target   Target `gorm:"references:id"`
 
 	Review         []Review         `gorm:"foreignKey:MovieID"`

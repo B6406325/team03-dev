@@ -9,8 +9,8 @@ import (
 type User struct {
 	gorm.Model
 	Username  string `gorm:"uniqueIndex"`
-	Email     string `gorm:"uniqueIndex"`
-	Password  string `gorm:"uniqueIndex"`
+	Email     string `gorm:"uniqueIndex" valid:"required~Email is required, email~Email is invalid"`
+	Password  string `gorm:"uniqueIndex" valid:"required~Password is required, stringlength(4|4)"`
 	Firstname string
 	Lastname  string
 	Address  string
