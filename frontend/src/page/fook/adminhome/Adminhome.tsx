@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Adminhome.css'
-import { Button, Table, theme } from 'antd';
+import { Button, Table, theme, message, Modal } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { useNavigate } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined, UserOutlined } from '@ant-design/icons';
@@ -9,6 +9,7 @@ import { UserInterface } from '../../../interface/login';
 import { ListUsers } from '../../../service/login';
 import moment from 'moment';
 import Search from 'antd/es/input/Search';
+import { DeleteUserByID } from '../../../service/fook';
 
 
 export default function Adminhome() {
@@ -82,9 +83,9 @@ export default function Adminhome() {
       key: 10,
       render: (text, record, index) => (
         <>
-        <Button shape="circle" icon={<EditOutlined/>} size={"large"} />
+        <Button onClick={() =>  navigate(`/user/edit/${record.ID}`)} shape="circle" icon={<EditOutlined/>} size={"large"} />
         <Button
-            // onClick={() => showModal(record)}
+            onClick={() => showModal(record)}
             style={{ marginLeft: 10 }}
             shape="circle"
             icon={<DeleteOutlined/>}
@@ -95,8 +96,38 @@ export default function Adminhome() {
       ),
     },
   ];
+  const showModal = (val: UserInterface) => {
+    setModalText(
+      `ต้องการลบ ${val.Email} หรือไม่`
+    );
+    setDeleteId(val.ID);
+    setOpen(true);
+  };
+
+  const handleOk = async () => {
+    setConfirmLoading(true);
+    let res = await DeleteUserByID(deleteId);
+    if (res) {
+      setOpen(false);
+      message.success("ลบสำเร็จ")
+      listUsers();
+    } else {
+      setOpen(false);
+      message.error("เกิดข้อผิดพลาด")
+    }
+    setConfirmLoading(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+  
   const [size, setSize] = useState<SizeType>('large');
   const [users, setUsers] = useState<UserInterface[]>([]);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState<String>();
+  const [deleteId, setDeleteId] = useState<Number>();
+  const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const listUsers = async () => {
     let res = await ListUsers();
@@ -177,6 +208,15 @@ export default function Adminhome() {
         <div className='admin-user'>
           <Table columns={columns} dataSource={filteredUsers} scroll={{ x: '110vh', y: "65vh" }} pagination={false}></Table>
         </div>
+        <Modal
+            title="ลบข้อมูล?"
+            open={open}
+            onOk={handleOk}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+          >
+            <p>{modalText}</p>
+        </Modal>
       </div>
     </div>
 

@@ -40,6 +40,24 @@ async function ListMovies() {
     return res;
   }
 
+  async function DeleteUserByID(id: Number | undefined) {
+    const requestOptions = {
+      method: "DELETE"
+    };
+  
+    let res = await fetch(`${apiUrl}/user/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          return res.data;
+        } else {
+          return false;
+        }
+      });
+  
+    return res;
+  }
+
   async function GetMovieById(id: Number | undefined) {
     const requestOptions = {
       method: "GET"
@@ -170,4 +188,5 @@ export{
     GetSoundtrack,
     GetTarget,
     CreateMovie,
+    DeleteUserByID,
 }

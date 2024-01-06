@@ -20,6 +20,7 @@ import AdminPayment from './page/mix/AdminPayment/adminPayment';
 import UserPayment from './page/mix/UserPayment/userpayment';
 import MovieCreate from './page/fook/movie/create/movieCreate';
 import MovieEdit from './page/fook/movie/edit/movieEdit';
+import UserEdit from './page/fook/adminhome/edit/userEdit';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path='/subhistory' element={<SubHistory/>}/>
         <Route path='/package' element={<Package/>}/>
         <Route path='/payment' element={<UserPayment/>}/>
+        <Route path='/user/edit/:id' element={<UserEdit/>}/>
       </Routes>
     </Router>
     </>

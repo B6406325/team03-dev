@@ -19,6 +19,7 @@ func main() {
 	r.GET("/statususer", controller.ListStatusUser)
 	r.GET("/movies", controller.ListMovies)
 	r.GET("/users", controller.ListUser)
+	r.DELETE("/user/:id", controller.DeleteUserById)
 
 	//payment
 	r.POST("/payment/:UserID/:PackageID", controller.UserPaymentCreate)
@@ -43,7 +44,6 @@ func main() {
 	r.GET("/userinfo/:id", controller.GetUserInfo)
 	r.PATCH("/userinfo", controller.PatchUserInfo)
 	r.Run("localhost: " + PORT)
-
 }
 
 func CORSMiddleware() gin.HandlerFunc {

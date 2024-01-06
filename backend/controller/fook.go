@@ -35,6 +35,15 @@ func DeleteMovieById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
+func DeleteUserById(c *gin.Context) {
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM users WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": id})
+}
+
 func GetMovieById(c *gin.Context) {
 	var movie entity.Movie
 	id := c.Param("id")
