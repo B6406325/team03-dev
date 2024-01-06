@@ -10,7 +10,7 @@ import (
 
 func ListUser(c *gin.Context) {
 	var users []entity.User
-	if err := entity.DB().Raw("SELECT * FROM users").Scan(&users).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("StatusUser").Preload("Prefix").Raw("SELECT * FROM users").Find(&users).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

@@ -115,3 +115,12 @@ func ListPrefix(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": prefix})
 }
+
+func ListStatusUser(c *gin.Context) {
+	var status []entity.StatusUser
+	if err := entity.DB().Raw("SELECT * FROM StatusUsers").Scan(&status).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": status})
+}

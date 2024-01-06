@@ -16,6 +16,7 @@ func main() {
 	r.GET("/user/:email/:password", controller.GetUserToLogin)
 	r.GET("/gender", controller.ListGenders)
 	r.GET("/prefix", controller.ListPrefix)
+	r.GET("/statususer", controller.ListStatusUser)
 	r.GET("/movies", controller.ListMovies)
 	r.GET("/users", controller.ListUser)
 

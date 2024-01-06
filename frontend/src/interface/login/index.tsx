@@ -21,10 +21,6 @@ export interface PrefixUserInterface {
     Prefix?: string
 }
 
-// export interface SubscribeUserInterface {
-
-// }
-
 export interface UserForRegInterface{
     ID?:  number
     UserName?: string
@@ -34,6 +30,22 @@ export interface UserForRegInterface{
     Lastname?: string
     Dob?: Date
     StatusUserID?: number
+    Gender?: GenderUserInterface
+    GenderID?: number
+    Prefix?: PrefixUserInterface
+    PrefixID?: number
+}
+
+export interface UserInterface{
+    ID?:  number
+    UserName?: string
+    Email?: string
+    Password?: string
+    Firstname?: string
+    Lastname?: string
+    Dob?: Date
+    StatusUserID?: number
+    StatusUser?: StatusUserInterface
     Gender?: GenderUserInterface
     GenderID?: number
     Prefix?: PrefixUserInterface

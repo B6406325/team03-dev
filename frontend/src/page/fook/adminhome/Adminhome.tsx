@@ -1,14 +1,110 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Adminhome.css'
 import { Button, Table, theme } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined } from '@ant-design/icons';
-
+import { DeleteOutlined, EditOutlined, UserOutlined } from '@ant-design/icons';
+import type { ColumnType } from 'antd/es/table';
+import { UserInterface } from '../../../interface/login';
+import { ListUsers } from '../../../service/login';
+import moment from 'moment';
+import Search from 'antd/es/input/Search';
 
 
 export default function Adminhome() {
+  const columns: ColumnType<UserInterface>[] = [
+    {
+      title: "ลำดับ",
+      dataIndex: "ID",
+      key: 1,
+      align:"center"
+    },
+    {
+      title: "ชื่อผู้ใช้",
+      dataIndex: "Username",
+      key: 2,
+      align:"center"
+    },
+    {
+      title: "อีเมล",
+      dataIndex: "Email",
+      key: 3,
+      align:"center"
+    },
+    {
+      title: "รหัสผ่าน",
+      dataIndex: "Password",
+      key: 4,
+      align:"center"
+    },
+    {
+      title: "คำนำหน้า",
+      dataIndex: "Prefix",
+      key: 5,
+      render: (item: any) => Object.values(item.Prefix),
+    },
+    {
+      title: "ชื่อต้น",
+      dataIndex: "Firstname",
+      key: 6,
+      align:"center"
+    },
+    {
+      title: "ชื่อท้าย",
+      dataIndex: "Lastname",
+      key: 7,
+      align:"center"
+    },
+    {
+      title: "วันเกิด",
+      dataIndex: "Dob",
+      key: 8,
+      align:"center",
+      render: (text, record, index) => (
+        <span>{moment(text).format('YYYY-MM-DD')}</span>
+      ),
+    },
+    {
+      title: "เพศ",
+      dataIndex: "Gender",
+      key: 9,
+      render: (item: any) => Object.values(item.Gender),
+    },
+    {
+      title: "สถานะ",
+      dataIndex: "StatusUser",
+      key: 10,
+      render: (item: any) => Object.values(item.Status),
+    },
+    {
+      title: "จัดการ",
+      dataIndex: "manage",
+      key: 10,
+      render: (text, record, index) => (
+        <>
+        <Button shape="circle" icon={<EditOutlined/>} size={"large"} />
+        <Button
+            // onClick={() => showModal(record)}
+            style={{ marginLeft: 10 }}
+            shape="circle"
+            icon={<DeleteOutlined/>}
+            size={"large"}
+            danger
+          />
+        </>
+      ),
+    },
+  ];
   const [size, setSize] = useState<SizeType>('large');
+  const [users, setUsers] = useState<UserInterface[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const listUsers = async () => {
+    let res = await ListUsers();
+    if(res){
+      setUsers(res);
+    }
+  };
+  console.log(users);
   const navigate = useNavigate();
   function clickMovie() {
     navigate('/admin/movie');
@@ -22,6 +118,14 @@ export default function Adminhome() {
   function clickBack() {
     navigate('/');
   }
+  const filteredUsers = users.filter((user) =>
+  Object.values(user).some((value) =>
+    value !== null && value !== undefined && value.toString().toLowerCase().includes(searchText.toLowerCase())
+  )
+  );
+  useEffect(() => {
+    listUsers();
+  },[]);
   return (
 
     <div className='admin-page'>
@@ -59,6 +163,10 @@ export default function Adminhome() {
           <div className='admin-content-payment-header-text'>
             ADMIN HOME
           </div>
+          <Search style={{marginLeft:20,width:500}} 
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            />
           <div className='admin-conteet-payment-header-right'>
             <div className='admin-content-payment-header-text2'>
               Admin01
@@ -67,7 +175,7 @@ export default function Adminhome() {
           </div>
         </div>
         <div className='admin-user'>
-          <Table></Table>
+          <Table columns={columns} dataSource={filteredUsers} scroll={{ x: '110vh', y: "65vh" }} pagination={false}></Table>
         </div>
       </div>
     </div>
