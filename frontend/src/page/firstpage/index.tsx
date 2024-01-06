@@ -24,10 +24,11 @@ export default function FirstPage(){
             },
         }}>
           <div className="App">
+            <div className='bg-logo'></div>
             <div className='logoweb'>
             <img src={logo} style={{width:400,}}/> 
             </div>
-            <div style={{marginTop:300,display:'inline-block'}}>
+            <div style={{marginTop:450,display:'inline-block'}}>
               <div className='button01'>
                 <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}>เข้าสู่ระบบ</Button>
               </div>

@@ -1,0 +1,6 @@
+.bg-logo{
+    position: absolute;
+    width: 70vh;
+    height: 60vh;
+    background-color: rgba(0, 0, 0, 0.7);
+}   
