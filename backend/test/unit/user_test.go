@@ -12,7 +12,7 @@ func TestUser(t *testing.T){
 
 	g := NewGomegaWithT(t)
 
-	t.Run(`OK`, func(t *testing.T) {
+	t.Run(`Password wrong`, func(t *testing.T) {
 		user := entity.User{
 			Username: "1",
 			Email: "1@gmail.com",
