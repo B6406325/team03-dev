@@ -13,13 +13,13 @@ type User struct {
 	Password  string `gorm:"uniqueIndex" valid:"required~Password is required, stringlength(4|4)"`
 	Firstname string
 	Lastname  string
-	Address  string
+	Address   string
 	Dob       time.Time
 
-	GenderID *uint
+	GenderID *uint  `valid:"required~Gender is required"`
 	Gender   Gender `gorm:"references:id"`
 
-	PrefixID *uint
+	PrefixID *uint  `valid:"required~Prefix is required"`
 	Prefix   Prefix `gorm:"references:id"`
 
 	StatusUserID *uint
@@ -27,7 +27,7 @@ type User struct {
 
 	Report    []Report    `gorm:"foreignKey:UserID"`
 	Payment   []Payment   `gorm:"foreignKey:UserID"`
-	Subscribe  []Subscribe `gorm:"foreignKey:UserID"`
+	Subscribe []Subscribe `gorm:"foreignKey:UserID"`
 	Review    []Review    `gorm:"foreignKey:UserID"`
 	History   []History   `gorm:"foreignKey:UserID"`
 	Download  []Download  `gorm:"foreignKey:UserID"`
