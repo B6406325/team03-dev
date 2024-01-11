@@ -10,11 +10,11 @@ type User struct {
 	gorm.Model
 	Username  string `gorm:"uniqueIndex"`
 	Email     string `gorm:"uniqueIndex" valid:"required~Email is required, email~Email is invalid"`
-	Password  string `gorm:"uniqueIndex" valid:"required~Password is required, stringlength(4|4)"`
-	Firstname string
-	Lastname  string
-	Address   string
-	Dob       time.Time
+	Password  string `gorm:"uniqueIndex" valid:"required~Password is required, stringlength(4|100)"`
+	Firstname string `valid:"required~Firstname is required"`
+	Lastname  string `valid:"required~Lastname is required"`
+	Address   string //`valid:"required~Address is required"`
+	Dob       time.Time `valid:"required~Dob is required"`
 
 	GenderID *uint  `valid:"required~Gender is required"`
 	Gender   Gender `gorm:"references:id"`

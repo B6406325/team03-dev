@@ -9,13 +9,13 @@ import (
 type Movie struct {
 	gorm.Model
 	Title       string `gorm:"uniqueIndex" valid:"required~Title is required"`
-	Duration    string 
-	Description string
-	ReleaseDate time.Time
-	Director    string
-	Cast        string
-	Image       string `gorm:"type:longtext"`
-	Video       string
+	Duration    string `valid:"required~Duration is required"`
+	Description string `valid:"required~Description is required, stringlength(1|250)"`
+	ReleaseDate time.Time `valid:"required~ReleaseDate is required"`
+	Director    string `valid:"required~Director is required"`
+	Cast        string `valid:"required~Cast is required"`
+	Image       string `gorm:"type:longtext" valid:"required~Image is required"`
+	Video       string `valid:"required~Video is required"`
 
 	CategoriesID *uint `valid:"required~Categories is required"`
 	Categories   Categories `gorm:"references:id"`
