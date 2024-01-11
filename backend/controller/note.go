@@ -31,7 +31,13 @@ func CreateReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+ // Check if the user has already reviewed the movie
+ var existingReview  entity.Review
+ if err := entity.DB().Where("user_id = ? AND movie_id = ?", review.UserID,review.MovieID).First(&existingReview).Error; err == nil {
+	 // If a review already exists for the user and movie, return an error
+	 c.JSON(http.StatusBadRequest, gin.H{"error": "User has already reviewed this movie"})
+	 return
+ }
 	// ค้นหา categories ด้วย id
 	db.First(&movie, review.MovieID)
 	if movie.ID == 0 {

@@ -164,7 +164,7 @@ export default function Register(){
                     </Form.Item>
                 </Form>
             </div>
-        <div className='reg-back-button'><Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}>ล็อกอิน</Button></div>
+        <div className='reg-back-button'><Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}><b>ล็อกอิน</b></Button></div>
         </div>
         </ConfigProvider>
         

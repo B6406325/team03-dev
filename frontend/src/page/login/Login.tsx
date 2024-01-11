@@ -76,7 +76,7 @@ export default function Login() {
                 },
             }}>
                 <div className='login-backward'>
-                    <Button style={{ fontSize: 25, width: 200, height: 50, fontFamily: 'Mitr' }} type='primary' onClick={backward}>ย้อนกลับ</Button>
+                    <Button style={{ fontSize: 25, width: 200, height: 50, fontFamily: 'Mitr' }} type='primary' onClick={backward}><b>ย้อนกลับ</b></Button>
                 </div>
                 <div className='body-login'>
                     <div className='body-login-text'>เข้าสู่ระบบ</div>
@@ -97,7 +97,7 @@ export default function Login() {
                             </Link>
                             <div className='login-button'>
                                 <Form.Item>
-                                    <Button style={{ fontSize: 25, width: 200, height: 50, fontFamily: 'Mitr' }} type='primary' htmlType='submit'>เข้าสู่ระบบ</Button>
+                                    <Button style={{ fontSize: 25, width: 200, height: 50, fontFamily: 'Mitr' ,}} type='primary' htmlType='submit'><b>เข้าสู่ระบบ</b></Button>
                                 </Form.Item>
                             </div>
                         </div>
