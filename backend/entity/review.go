@@ -24,11 +24,11 @@ type Review struct {
 
 }
 
-type Rating struct {
+type Rating struct{
 	gorm.Model
 	RatingValue int `gorm:"uniqueIndex"`
 
-	Review []Review `gorm:"foreignKey:RatingID"`
+	Review	[]Review	`gorm:foreignkey:RatingID`
 }
 
 type Genre struct {
