@@ -2,21 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom'; // If you're using React Router for navigation
 import './style.css'; // Import your styles
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
-import { Menu, Dropdown,} from 'antd';
+import { Menu, Dropdown } from 'antd';
 
 const handleLogout = () => {
     console.log('Logout logic');
     // Add your logout logic here
   };
 const menu = (
-    <Menu className='drop-down'>
+    <Menu>
       <Menu.Item key="profile">
-        <Link to="/account">Profile</Link>
+        <Link to="#">Profile</Link>
       </Menu.Item>
-      <Menu.Item key="Subcribtion">
-        <Link to="/subhistory">Subcribtion</Link>
-      </Menu.Item>
-      <Menu.Item key="logout" onClick={handleLogout} danger>
+      <Menu.Item key="logout" onClick={handleLogout}>
         Logout
       </Menu.Item>
     </Menu>
@@ -32,9 +29,9 @@ const Navbar = () => {
         <li>
           <Link to="/homepage">หน้าแรก</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/topratingpage">เรทติ้งสูงสุด</Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/categoriespage">หมวดหมู่</Link>
         </li>

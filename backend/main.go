@@ -43,6 +43,17 @@ func main() {
 	r.GET("/packages", controller.GetPackageInfo)
 	r.GET("/userinfo/:id", controller.GetUserInfo)
 	r.PATCH("/userinfo", controller.PatchUserInfo)
+
+	//Review
+	r.GET("/genres", controller.ListGenre)
+	r.GET("/ratings", controller.ListRating)
+	r.GET("/reviews", controller.ListReview)
+	r.GET("/review/:MovieID", controller.GetReviewByMovieID)
+	r.GET("/getreview/:UserID", controller.GetReviewByUserID)
+	r.POST("/review", controller.CreateReview)
+	r.PATCH("/updatereview", controller.UpdateReview)
+	r.DELETE("/reviews/:id", controller.DeleteReviewByUserID)
+
 	r.Run("localhost: " + PORT)
 }
 
