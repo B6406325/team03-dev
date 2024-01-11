@@ -16,12 +16,15 @@ export default function MovieCreate(){
 
     const onFinish = async (values: MoviesCreateInterface) => {
       values.Image = image?.thumbUrl;
+      values.Duration = Number(values.Duration);
       let res = await CreateMovie(values);
       if (res.status) {
         message.success("เพิ่มข้อมูลเสร็จสิ้น");
         setTimeout(function () {
           navigate("/admin/movie");
       }, 2000);
+      }else{
+        message.error(res.message);
       }
     };
 

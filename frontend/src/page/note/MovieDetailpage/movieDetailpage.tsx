@@ -62,7 +62,7 @@ export default function MovieDetailPage() {
     setTimeout(() => {
       // Reload the page after the delay
       window.location.reload();
-    }, 2000);
+    }, 500);
     } else {
       messageApi.open({
         type: "error",

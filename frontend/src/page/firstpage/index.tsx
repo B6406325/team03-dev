@@ -30,10 +30,10 @@ export default function FirstPage(){
             </div>
             <div style={{marginTop:450,display:'inline-block'}}>
               <div className='button01'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}>เข้าสู่ระบบ</Button>
+                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}><b>เข้าสู่ระบบ</b></Button>
               </div>
               <div className='button02'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickReg}>สมัครสมาชิก</Button>
+                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickReg}><b>สมัครสมาชิก</b></Button>
               </div>
             </div>
           </div>
