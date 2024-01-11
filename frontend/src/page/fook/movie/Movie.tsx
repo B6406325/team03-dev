@@ -24,6 +24,7 @@ export default function Movies() {
       title: "รูป",
       dataIndex: "Image",
       key: 2,
+      align:"center",
       render: (text, record, index) => (
         <img src={record.Image} width="50%"/>
       )
@@ -32,6 +33,7 @@ export default function Movies() {
       title: "ชื่อเรื่อง",
       dataIndex: "Title",
       key: 3,
+      align:"center",
       render: (address) => (
         <Tooltip placement="topLeft" title={address}>
           {address}
@@ -55,11 +57,13 @@ export default function Movies() {
       title: "ความยาว(min)",
       dataIndex: "Duration",
       key: 5,
+      align:"center",
     },
     {
       title: "วันที่ออกฉาย",
       dataIndex: "ReleaseDate",
       key: 6,
+      align:"center",
       render: (text, record, index) => (
         <span>{moment(text).format('YYYY-MM-DD')}</span>
       ),

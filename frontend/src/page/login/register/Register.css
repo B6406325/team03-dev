@@ -70,6 +70,10 @@
     display: inline-block;
 }
 
+.reg-address{
+    width: 55%;
+}
+
 .reg-gender{
     width: 55%;
     display: inline-block;

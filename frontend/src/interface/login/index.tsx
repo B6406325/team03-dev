@@ -28,6 +28,7 @@ export interface UserForRegInterface{
     Password?: string
     Firstname?: string
     Lastname?: string
+    Address?: string
     Dob?: Date
     StatusUserID?: number
     Gender?: GenderUserInterface
@@ -43,6 +44,7 @@ export interface UserInterface{
     Password?: string
     Firstname?: string
     Lastname?: string
+    Address?: string
     Dob?: Date
     StatusUserID?: number
     StatusUser?: StatusUserInterface

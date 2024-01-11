@@ -1,7 +1,7 @@
 export interface MoviesInterface {
     ID?: number
     Title?: string
-    Duration?: string
+    Duration?: number
     Description?: string
     ReleaseDate?: Date
     Director?: string
@@ -34,7 +34,7 @@ export interface SoundtrackInterface {
 export interface MoviesCreateInterface {
     ID?: number
     Title?: string
-    Duration?: string
+    Duration?: number
     Description?: string
     ReleaseDate?: Date
     Director?: string
