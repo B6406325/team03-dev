@@ -15,15 +15,15 @@ type Movie struct {
 	Director    string `valid:"required~Director is required"`
 	Cast        string `valid:"required~Cast is required"`
 	Image       string `gorm:"type:longtext" valid:"required~Image is required"`
-	Video       string `valid:"required~Video is required"`
+	Video       string `valid:"required~Video is required, url~Video is invalid"`
 
-	CategoriesID *uint `valid:"required~Categories is required"`
+	CategoriesID *uint 
 	Categories   Categories `gorm:"references:id"`
 
-	SoundtrackID *uint `valid:"required~Soundtrack is required"`
+	SoundtrackID *uint 
 	Soundtrack   Soundtrack `gorm:"references:id"`
 
-	TargetID *uint `valid:"required~Target is required"`
+	TargetID *uint 
 	Target   Target `gorm:"references:id"`
 
 	Review         []Review         `gorm:"foreignKey:MovieID"`
