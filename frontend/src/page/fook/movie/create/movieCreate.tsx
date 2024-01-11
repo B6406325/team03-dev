@@ -153,22 +153,22 @@ export default function MovieCreate(){
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>
-                        <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="หมวดหมู่" name="CategoriesID" rules={[{required: true}]}>
+                    <Col xs={12} sm={12} md={12} lg={12} xl={6}>
+                            <Form.Item label="หมวดหมู่" name="CategoriesID" rules={[{required: true,message: "กรอกหมวดหมู่"}]}>
                                 <Select>
                                 {categories.map((item) => (<Option value={item.ID} key={item.Categories}>{item.Categories}</Option>))}
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="กลุ่มเป้าหมาย" name="TargetID" rules={[{required: true}]}>
+                            <Form.Item label="กลุ่มเป้าหมาย" name="TargetID" rules={[{required: true,message: "กรอกเป้าหมาย"}]}>
                                 <Select>
                                 {target.map((item) => (<Option value={item.ID} key={item.Target}>{item.Target}</Option>))}
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="รูปแบบเสียง" name="SoundtrackID" rules={[{required: true}]}>
+                            <Form.Item label="รูปแบบเสียง" name="SoundtrackID" rules={[{required: true,message: "กรอกรูปแบบเสียง"}]}>
                                 <Select>
                                 {soundtrack.map((item) => (<Option value={item.ID} key={item.Soundtrack}>{item.Soundtrack}</Option>))}
                                 </Select>
