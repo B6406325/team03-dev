@@ -49,7 +49,7 @@ func TestMovie(t *testing.T){
 		g.Expect(err.Error()).To(Equal("Title is required"))
 	})
 
-	t.Run(`Description more than 250`, func(t *testing.T) {
+	t.Run(`Description more than 500`, func(t *testing.T) {
 		movie := entity.Movie{
 			Title: "nung",
 			Duration: 120,
@@ -64,7 +64,7 @@ func TestMovie(t *testing.T){
 		ok, err := govalidator.ValidateStruct(movie)
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
-		g.Expect(err.Error()).To(Equal(fmt.Sprintf("Description: %s does not validate as stringlength(1|250)", movie.Description)))
+		g.Expect(err.Error()).To(Equal(fmt.Sprintf("Description: %s does not validate as stringlength(1|500)", movie.Description)))
 	})
 
 	t.Run(`Video not url`, func(t *testing.T) {
