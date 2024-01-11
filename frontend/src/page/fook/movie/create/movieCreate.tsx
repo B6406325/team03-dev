@@ -175,7 +175,7 @@ export default function MovieCreate(){
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-                            <Form.Item label="รูปภาพ" name="Image" valuePropName="fileList" getValueFromEvent={normFile} rules={[{required: true}]}> 
+                            <Form.Item label="รูปภาพ" name="Image" valuePropName="fileList" getValueFromEvent={normFile} rules={[{required: true,message: "อัปโหลดรูปภาพ!"}]}> 
                             <Upload maxCount={1} multiple={false} listType="picture-card">
                                 <div>
                                     <PlusOutlined />
