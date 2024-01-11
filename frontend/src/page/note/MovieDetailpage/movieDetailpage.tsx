@@ -33,6 +33,7 @@ export default function MovieDetailPage() {
   const [movie, setMovies] = useState<MoviesInterface[]>([]);
   const [movy, setMovy] = useState<MoviesInterface>();
   const { confirm } = Modal;
+  const [form] = Form.useForm();
 
   const showModal = () => {
     confirm({
@@ -118,7 +119,6 @@ export default function MovieDetailPage() {
     if (r){
       console.log(r)
       setMovy(r);
-      
     } 
   let u = await GetUserByID(Number(userID));
     if (u){
@@ -160,12 +160,14 @@ export default function MovieDetailPage() {
   const onFinish = async (values: ReviewInterface) => {
     values.Movie = movy;
     values.User = user;
+    values.MovieID = Number(movieID);
+    values.UserID = Number(userID);
     if (!open){
       let res = await CreateReview(values);
       if (res.status) {
         messageApi.open({
           type: "success",
-          content: res.message,
+          content: "สำเร็จ",
         });
     
         setTimeout(() => {
@@ -335,12 +337,10 @@ export default function MovieDetailPage() {
                            onChange={handleReviewChange}/>
                   <p style={{color:'white'}}>จำนวนตัวอักษร: {reviewText.length}/100</p>  
                   </div>
-                  
                 </Form.Item >
-                
-                
               </div>
-              
+              <Form.Item name="MovieID"></Form.Item>
+              <Form.Item name="UserID"></Form.Item>
               <button className='submit-review-btn' type='submit'><b>ส่งรีวิว</b></button>
             </Form>
           </div>
@@ -351,7 +351,7 @@ export default function MovieDetailPage() {
               {review.map((reviewItem) => (
                   <div className='show-review-all-2'>
                     <p key={reviewItem.ID}>
-                      <div className='review-username'><b>{reviewItem.User?.Username}</b></div>
+                      <div className='review-username'><b>{reviewItem.User?.UserName}</b></div>
                       <div className='review-genre'><b>หมวดหมู่:</b> {reviewItem.Genre?.Name} <b>คะแนน:</b> {reviewItem.Rating?.RatingValue}</div>
                       <div className='review-text'>{reviewItem.ReviewText}<br></br>
                         {isCurrentUserOwner(reviewItem.User?.ID) &&  

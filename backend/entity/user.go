@@ -16,10 +16,10 @@ type User struct {
 	Address   string `valid:"required~Address is required"`
 	Dob       time.Time `valid:"required~Dob is required"`
 
-	GenderID *uint  `valid:"required~Gender is required"`
+	GenderID *uint 
 	Gender   Gender `gorm:"references:id"`
 
-	PrefixID *uint  `valid:"required~Prefix is required"`
+	PrefixID *uint  
 	Prefix   Prefix `gorm:"references:id"`
 
 	StatusUserID *uint

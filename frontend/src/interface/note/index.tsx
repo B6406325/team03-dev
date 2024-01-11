@@ -1,5 +1,5 @@
 import { MoviesInterface } from "../fook";
-import { UserInterface } from "../pool";
+import { UserInterface } from "../login";
 
 export interface ReviewInterface{
     ID?:number;

@@ -8,77 +8,73 @@ import (
 )
 
 func CreateReview(c *gin.Context) {
-    var review entity.Review
-	
-    if err := c.ShouldBindJSON(&review); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-    // Check if the user has already reviewed the movie
-    // var existingReview  entity.Review
-    // if err := entity.DB().Where("user_id = ? AND movie_id = ?", review.UserID,review.MovieID).First(&existingReview).Error; err == nil {
-    //     // If a review already exists for the user and movie, return an error
-    //     c.JSON(http.StatusBadRequest, gin.H{"error": "User has already reviewed this movie"})
-    //     return
-    // }
-
-    
-    _, err := govalidator.ValidateStruct(review)
-    
-	if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-    
-	// ค้นหา gender ด้วย id
-	var genre entity.Genre
-	entity.DB().First(&genre, review.GenreID)
-	if genre.ID == 0 {
-        c.JSON(http.StatusNotFound, gin.H{"error": "genre not found"})
-		return
-	}
-    
-	var rating entity.Rating
-	entity.DB().First(&rating, review.RatingID)
-	if rating.ID == 0 {
-        c.JSON(http.StatusNotFound, gin.H{"error": "rating not found"})
-		return
-	}
-
-	var user entity.User
-	entity.DB().First(&user, review.UserID)
-	if user.ID == 0 {
-        c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
-		return
-	}
-
+	var review entity.Review
 	var movie entity.Movie
-	entity.DB().First(&movie, review.MovieID)
+	var user entity.User
+	var rating entity.Rating
+	var genre entity.Genre
+	// bind เข้าตัวแปร user
+	if err := c.ShouldBindJSON(&review); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	db, err := entity.SetupDatabase()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err = govalidator.ValidateStruct(review)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ค้นหา categories ด้วย id
+	db.First(&movie, review.MovieID)
 	if movie.ID == 0 {
-        c.JSON(http.StatusNotFound, gin.H{"error": "movie not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "movie not found"})
+		return
+	}
+	// ค้นหา target ด้วย id
+	db.First(&user, review.UserID)
+	if user.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+		return
+	}
+	// ค้นหา soundtrack ด้วย id
+	db.First(&rating, review.RatingID)
+	if rating.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "rating not found"})
+		return
+	}
+	db.First(&genre, review.GenreID)
+	if genre.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "genre not found"})
 		return
 	}
 
 	r := entity.Review{
-		User: user,
 		Movie: movie,
+		User: user,
 		Rating: rating,
 		Genre: genre,
 		ReviewText: review.ReviewText,
-		UserID: review.UserID,
 		MovieID: review.MovieID,
+		UserID: review.UserID,
 		RatingID: review.RatingID,
 		GenreID: review.GenreID,
-
-
 	}
 
-    if err := entity.DB().Create(&r).Error; err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-    
-    c.JSON(http.StatusOK, gin.H{"data": "review completed"})
+	// บันทึก
+	if err := db.Create(&r).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": r})
 }
 
 func ListReview(c *gin.Context) {
