@@ -117,37 +117,37 @@ export default function MovieCreate(){
                 <Form onFinish={onFinish} autoComplete="off">
                     <Row gutter={[16, 16]}>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ชื่อเรื่อง" name="Title" rules={[{required: true}]}>
+                            <Form.Item label="ชื่อเรื่อง" name="Title" rules={[{required: true,message: "กรอกชื่อเรื่อง!"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
-                        <Col xs={32} sm={32} md={32} lg={32} xl={18}>
-                            <Form.Item label="เรื่องย่อ" name="Description" rules={[{required: true}]}>
-                                <Input/>
-                            </Form.Item>
-                        </Col>
-                        <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ความยาว(min)" name="Duration" rules={[{required: true}]}>
+                        <Col xs={32} sm={32} md={32} lg={32} xl={18}>     
+                            <Form.Item label="เรื่องย่อ" name="Description" rules={[{required: true,message: "กรอกเรื่องย่อ!"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="วันที่ออกฉาย" name="ReleaseDate" rules={[{required: true}]}>
+                            <Form.Item label="ความยาว(min)" name="Duration" rules={[{required: true,message: "กรอกความยาวหนัง!"}]}>
+                                <Input/>
+                            </Form.Item>
+                        </Col>
+                        <Col xs={12} sm={12} md={12} lg={12} xl={6}>
+                            <Form.Item label="วันที่ออกฉาย" name="ReleaseDate" rules={[{required: true,message: "กรอกวันที่ออกฉาย!"}]}>
                                 <DatePicker></DatePicker>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ผู้กำกับ" name="Director" rules={[{required: true}]}>
+                            <Form.Item label="ผู้กำกับ" name="Director" rules={[{required: true,message: "กรอกผู้กำกับ!"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="นักแสดง" name="Cast" rules={[{required: true}]}>
+                            <Form.Item label="นักแสดง" name="Cast" rules={[{required: true,message: "กรอกนักแสดง"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="วีดีโอ" name="Video" rules={[{required: true}]}>
+                            <Form.Item label="วีดีโอ" name="Video" rules={[{required: true,message: "กรอกวีดีโอ"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
