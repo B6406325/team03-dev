@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -9,7 +8,7 @@ import (
 type Review struct {
 	gorm.Model
 	ReviewText string
-	DateTime   time.Time
+	// DateTime   time.Time
 
 	UserID *uint
 	User   User `gorm:"references:id"`
@@ -23,13 +22,11 @@ type Review struct {
 	GenreID *uint
 	Genre   Genre `gorm:"references:id"`
 
-	HasSpoilID *uint
-	HasSpoil   HasSpoil `gorm:"references:id"`
 }
 
 type Rating struct {
 	gorm.Model
-	Ratingvalue int `gorm:"uniqueIndex"`
+	RatingValue int `gorm:"uniqueIndex"`
 
 	Review []Review `gorm:"foreignKey:RatingID"`
 }
@@ -41,9 +38,3 @@ type Genre struct {
 	Review []Review `gorm:"foreignKey:GenreID"`
 }
 
-type HasSpoil struct {
-	gorm.Model
-	IsSpoil bool
-
-	Review []Review `gorm:"foreignKey:HasSpoilID"`
-}

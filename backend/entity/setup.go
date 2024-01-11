@@ -29,7 +29,6 @@ func SetupDatabase() (*gorm.DB, error){
 		&Soundtrack{},
 		&Genre{},
 		&Categories{},
-		&HasSpoil{},
 		&Color{},
 		&CategoriesWatchlist{},
 		&Rating{},
@@ -285,6 +284,44 @@ func SetupDatabase() (*gorm.DB, error){
 	db.Model(&Package{}).Create(&package1)
 	db.Model(&Package{}).Create(&package2)
 	db.Model(&Package{}).Create(&package3)
+
+	// ==============================Review Setup============
+	rating1 := Rating{
+		RatingValue: 1,
+	}
+	db.Model(&Rating{}).Create(&rating1)
 	
+	rating2 := Rating{
+		RatingValue: 2,
+	}
+	db.Model(&Rating{}).Create(&rating2)
+	
+	rating3 := Rating{
+		RatingValue: 3,
+	}
+	db.Model(&Rating{}).Create(&rating3)
+	
+	rating4 := Rating{
+		RatingValue: 4,
+	}
+	db.Model(&Rating{}).Create(&rating4)
+	
+	rating5 := Rating{
+		RatingValue: 5,
+	}
+	db.Model(&Rating{}).Create(&rating5)
+	
+	genre1 := Genre{
+		Name:"แง่บวก",
+	
+	}
+	db.Model(&Genre{}).Create(&genre1)
+	
+	genre2 := Genre{
+		Name:"แง่ลบ",
+	
+	}
+	db.Model(&Genre{}).Create(&genre2)
+		
 	return database, nil
 }
