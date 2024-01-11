@@ -83,6 +83,7 @@ func CreateUser(c *gin.Context) {
 		Password:     user.Password,
 		Firstname:    user.Firstname,
 		Lastname:     user.Lastname,
+		Address:      user.Address,
 		Dob:          user.Dob,
 		StatusUserID: user.StatusUserID,
 		GenderID:     user.GenderID,

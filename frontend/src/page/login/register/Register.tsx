@@ -19,6 +19,8 @@ export default function Register(){
             setTimeout(function () {
                 navigate("/login");
             }, 2000);
+        }else{
+            message.error(res.message);
         }
     }
     function onClickLogin(){
@@ -92,7 +94,16 @@ export default function Register(){
                         </Form.Item>
                     </div>
                     <div className='reg-email'>
-                        <Form.Item name="Email" rules={[{required: true,message: "กรุณากรอกอีเมล"}]}>
+                        <Form.Item name="Email" rules={[
+                            {
+                                required: true,
+                                message: "กรุณากรอกอีเมล"
+                            },
+                            {
+                                type: "email",
+                                message: "รูปแบบอีเมลไม่ถูกต้อง !",
+                            },
+                        ]}>
                             <Input style={{height:50,fontSize:20,fontFamily:'Mitr'}} placeholder='อีเมล'></Input>
                         </Form.Item>
                     </div>
@@ -110,8 +121,22 @@ export default function Register(){
                             </Form.Item>
                         </div>
                     </div>
+                    <div className='reg-address'>
+                        <Form.Item name="Address" rules={[{required: true,message: "กรุณากรอกที่อยู่"}]}>
+                            <Input style={{height:50,fontSize:20,fontFamily:'Mitr'}} placeholder='ที่อยู่'></Input>
+                        </Form.Item>
+                    </div>
                     <div className='reg-password'>
-                        <Form.Item name="Password" hasFeedback rules={[{required:true, message:"โปรดใส่รหัสผ่าน"}]}>
+                        <Form.Item name="Password" hasFeedback rules={[
+                            {
+                                required:true,
+                                message:"โปรดใส่รหัสผ่าน"
+                            },
+                            {
+                                min: 4,
+                                message: "รหัสผ่านไม่ต่ำกว่า 4 ตัว"
+                            }
+                        ]}>
                             <Input style={{height:53,fontSize:25,fontFamily:'Mitr'}} placeholder='รหัสผ่าน' type='password'></Input>
                         </Form.Item>
                     </div>
