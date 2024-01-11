@@ -9,7 +9,7 @@ import (
 type Movie struct {
 	gorm.Model
 	Title       string `gorm:"uniqueIndex" valid:"required~Title is required"`
-	Duration    string `valid:"required~Duration is required"`
+	Duration    int `valid:"required~Duration is required"`
 	Description string `valid:"required~Description is required, stringlength(1|250)"`
 	ReleaseDate time.Time `valid:"required~ReleaseDate is required"`
 	Director    string `valid:"required~Director is required"`

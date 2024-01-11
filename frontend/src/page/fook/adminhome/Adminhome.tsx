@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Adminhome.css'
-import { Button, Table, theme, message, Modal } from 'antd';
+import { Button, Table, Tooltip, message, Modal } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { useNavigate } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined, UserOutlined } from '@ant-design/icons';
@@ -24,13 +24,29 @@ export default function Adminhome() {
       title: "ชื่อผู้ใช้",
       dataIndex: "Username",
       key: 2,
-      align:"center"
+      align:"center",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),  
     },
     {
       title: "อีเมล",
       dataIndex: "Email",
       key: 3,
-      align:"center"
+      align:"center",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: "รหัสผ่าน",
@@ -42,19 +58,36 @@ export default function Adminhome() {
       title: "คำนำหน้า",
       dataIndex: "Prefix",
       key: 5,
+      align:"center",
       render: (item: any) => Object.values(item.Prefix),
     },
     {
       title: "ชื่อต้น",
       dataIndex: "Firstname",
       key: 6,
-      align:"center"
+      align:"center",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: "ชื่อท้าย",
       dataIndex: "Lastname",
       key: 7,
-      align:"center"
+      align:"center",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: "วันเกิด",
@@ -70,17 +103,20 @@ export default function Adminhome() {
       dataIndex: "Gender",
       key: 9,
       render: (item: any) => Object.values(item.Gender),
+      align:"center",
     },
     {
       title: "สถานะ",
       dataIndex: "StatusUser",
       key: 10,
       render: (item: any) => Object.values(item.Status),
+      align:"center",
     },
     {
       title: "จัดการ",
       dataIndex: "manage",
       key: 10,
+      align:"center",
       render: (text, record, index) => (
         <>
         <Button onClick={() =>  navigate(`/user/edit/${record.ID}`)} shape="circle" icon={<EditOutlined/>} size={"large"} />
