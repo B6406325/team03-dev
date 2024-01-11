@@ -9,18 +9,18 @@ import (
 
 func CreateReview(c *gin.Context) {
     var review entity.Review
-
+	
     if err := c.ShouldBindJSON(&review); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
     // Check if the user has already reviewed the movie
-    var existingReview  entity.Review
-    if err := entity.DB().Where("user_id = ? AND movie_id = ?", review.UserID,review.MovieID).First(&existingReview).Error; err == nil {
-        // If a review already exists for the user and movie, return an error
-        c.JSON(http.StatusBadRequest, gin.H{"error": "User has already reviewed this movie"})
-        return
-    }
+    // var existingReview  entity.Review
+    // if err := entity.DB().Where("user_id = ? AND movie_id = ?", review.UserID,review.MovieID).First(&existingReview).Error; err == nil {
+    //     // If a review already exists for the user and movie, return an error
+    //     c.JSON(http.StatusBadRequest, gin.H{"error": "User has already reviewed this movie"})
+    //     return
+    // }
 
     
     _, err := govalidator.ValidateStruct(review)
@@ -38,7 +38,42 @@ func CreateReview(c *gin.Context) {
 		return
 	}
     
-    if err := entity.DB().Create(&review).Error; err != nil {
+	var rating entity.Rating
+	entity.DB().First(&rating, review.RatingID)
+	if rating.ID == 0 {
+        c.JSON(http.StatusNotFound, gin.H{"error": "rating not found"})
+		return
+	}
+
+	var user entity.User
+	entity.DB().First(&user, review.UserID)
+	if user.ID == 0 {
+        c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+		return
+	}
+
+	var movie entity.Movie
+	entity.DB().First(&movie, review.MovieID)
+	if movie.ID == 0 {
+        c.JSON(http.StatusNotFound, gin.H{"error": "movie not found"})
+		return
+	}
+
+	r := entity.Review{
+		User: user,
+		Movie: movie,
+		Rating: rating,
+		Genre: genre,
+		ReviewText: review.ReviewText,
+		UserID: review.UserID,
+		MovieID: review.MovieID,
+		RatingID: review.RatingID,
+		GenreID: review.GenreID,
+
+
+	}
+
+    if err := entity.DB().Create(&r).Error; err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }

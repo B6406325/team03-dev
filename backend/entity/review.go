@@ -28,7 +28,7 @@ type Rating struct{
 	gorm.Model
 	RatingValue int `gorm:"uniqueIndex"`
 
-	Review	[]Review	`gorm:foreignkey:RatingID`
+	Review	[]Review	`gorm:"foreignkey:RatingID"`
 }
 
 type Genre struct {
