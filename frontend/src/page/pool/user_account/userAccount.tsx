@@ -10,7 +10,7 @@ import {
     HomeOutlined
 } from '@ant-design/icons';
 import Navbar from '../../../components/navbar';
-import { GetUserInfo, GetGenderType, GetPrefixType } from '../../../service/pool';
+import { GetUserInfo } from '../../../service/pool';
 import { UserInterface } from '../../../interface/pool';
 import Cookies from 'js-cookie';
 
@@ -18,8 +18,6 @@ function UserAccount() {
     const [changeNameVisible, setChangeNameVisible] = useState(false);
     const [changePasswordVisible, setChangePasswordVisible] = useState(false);
     const [changeDetialVisible, setChangeDetialVisible] = useState(false);
-    const [genderType, setGenderType] = useState<string | undefined>(undefined);
-    const [prefixType, setPrefixType] = useState<string | undefined>(undefined);
     const [userData, setUserData] = useState<UserInterface | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -27,14 +25,11 @@ function UserAccount() {
 
     useEffect(() => {
         fetchUserData();
-        fetchGenderType();
-        fetchPrefixType();
     }, []);
-    
 
     const fetchUserData = async () => {
         try {
-            console.log('User ID from localStorage:', localStorage.getItem('UserID'));
+            // console.log('User ID from localStorage:', localStorage.getItem('UserID'));
             const id = localStorage.getItem('UserID');
 
             if (!id) {
@@ -42,7 +37,7 @@ function UserAccount() {
                 return;
             }
 
-            console.log('Fetching user data for user ID:', id);
+            // console.log('Fetching user data for user ID:', id);
 
             let data = await GetUserInfo(id);
             console.log('User data:', data);
@@ -54,24 +49,6 @@ function UserAccount() {
         }
     };
 
-    const fetchGenderType = async () => {
-        const id = localStorage.getItem("UserID");
-        const data = await GetGenderType(id);
-    
-        if (data) {
-            setGenderType(data.Gender); // Set the genderType state
-        }
-    };
-    
-    const fetchPrefixType = async () => {
-        const id = localStorage.getItem("UserID");
-        const data = await GetPrefixType(id);
-    
-        if (data) {
-            setPrefixType(data.Prefix); // Set the prefixType state
-        }
-    };
-    
 
     const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
@@ -96,32 +73,6 @@ function UserAccount() {
         setTimeout(() => {
             navigate("/homepage");
         }, 500);
-    };
-
-    const getGenderLabel = (genderId: number) => {
-        switch (genderId) {
-          case 1:
-            return "ชาย";
-          case 2:
-            return "หญิง";
-          case 3:
-            return "ไม่ระบุ";
-          default:
-            return "ไม่ระบุ"; // Handle unexpected values gracefully
-        }
-    };
-
-    const getPrefixLabel = (prefixId: number) => {
-        switch (prefixId) {
-          case 1:
-            return "นาย";
-          case 2:
-            return "นาง";
-          case 3:
-            return "นางสาว";
-          default:
-            return "ไม่ระบุ"; // Handle unexpected values gracefully
-        }
     };
 
     if (loading) {
@@ -185,7 +136,7 @@ function UserAccount() {
 
 
 
-                                <div className='user-text'>Full Name: {getPrefixLabel(user.PrefixID)} {user.Firstname} {user.Lastname}
+                                <div className='user-text'>Full Name: {user.Prefix?.Prefix} {user.Firstname} {user.Lastname}
                                     <div className='user-button'>
                                         <Button
                                             style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
@@ -195,7 +146,7 @@ function UserAccount() {
                                     </div>
                                     <UserChangeDetial visible={changeDetialVisible} onCancel={toggleChangeDetialPop} />
                                 </div>
-                                <div className='user-text'>Gender: {getGenderLabel(user.GenderID)}
+                                <div className='user-text'>Gender: {user.Gender?.Gender}
 
                                 </div>
 
@@ -260,7 +211,7 @@ function UserAccount() {
             </ConfigProvider>
             {/* <Footer style={{ textAlign: 'center' }}>Movie App ©2023 Created by Team03 of System Engineering</Footer> */}
         </div>
-        
+
     );
 };
 

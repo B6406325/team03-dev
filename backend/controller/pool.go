@@ -33,17 +33,8 @@ func GetPackageInfo(c *gin.Context) {
 func GetUserInfo(c *gin.Context) {
 	var UserInfo []entity.User
 	userID := c.Param("id")
-	if err := entity.DB().Raw(
+	if err := entity.DB().Preload("Gender").Preload("Prefix").Raw(
 		`SELECT * FROM users WHERE id = ?`, userID).Find(&UserInfo).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := entity.DB().Raw(`
-        SELECT users.*, genders.gender, prefixes.prefix
-        FROM users
-        LEFT JOIN genders ON users.gender_id = genders.id
-        LEFT JOIN prefixes ON users.prefix_id = prefixes.id
-        WHERE users.id = ?`, userID).Find(&UserInfo).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -142,4 +133,14 @@ func GetPrefixType(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": prefix})
+}
+
+func GetGenPre(c *gin.Context) {
+	var users []entity.User
+	userID := c.Param("id")
+	if err := entity.DB().Preload("Gender").Preload("Prefix").Raw(`SELECT * FROM users WHERE id = ?`, userID).Find(&users).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": users})
 }

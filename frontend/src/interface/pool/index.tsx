@@ -8,20 +8,14 @@ export interface PackageInterface {
 
 export interface UserInterface {
     map(arg0: (user: any) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
-    ID?: number;
-    Username?:  string;
-	Email?:     string;
-	Password?:  string;
-	Firstname?: string;
-	Lastname?:  string;
-    Address?: string;
-    Dob?:       Date;
-
-	SubscribeID?: number;
-
-	StatusUserID?: number;
-
-
+    ID?:  number
+    Username?: string
+    Email?: string
+    Password?: string
+    Firstname?: string
+    Lastname?: string
+    Address?: string
+    Dob?: Date
     Gender?: GenderUserInterface
     GenderID?: number
     Prefix?: PrefixUserInterface
