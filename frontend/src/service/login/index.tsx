@@ -1,4 +1,4 @@
-import { UserForLoginInterface , UserForRegInterface } from "../../interface/login";
+import { UserForLoginInterface , UserForRegInterface, UserInterface } from "../../interface/login";
 const apiUrl = "http://localhost:8080";
 
 async function ListUsersToLogin(data: UserForLoginInterface) {
@@ -126,6 +126,44 @@ async function ListUsers() {
   return res;
 }
 
+async function GetUserById(id: Number | undefined) {
+  const requestOptions = {
+    method: "GET"
+  };
+
+  let res = await fetch(`${apiUrl}/userid/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function UpdateUser(data: UserInterface) {
+  const requestOptions = {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/user`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+}
+
 export{
     ListUsersToLogin,
     CreateUser,
@@ -133,4 +171,6 @@ export{
     GetPrefix,
     GetStatusUser,
     ListUsers,
+    GetUserById,
+    UpdateUser,
 }
