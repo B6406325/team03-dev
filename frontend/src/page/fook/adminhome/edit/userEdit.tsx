@@ -1,15 +1,11 @@
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Card, Col, DatePicker, Divider, Form, Input, Row, Select, message } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, Row, Select, message } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import dayjs from 'dayjs';
 import { GenderUserInterface, PrefixUserInterface, StatusUserInterface, UserInterface } from "../../../../interface/login";
 import { GetGenders, GetPrefix, GetStatusUser, GetUserById, UpdateUser } from "../../../../service/login";
 import moment from 'moment';
-import 'moment/locale/th';
-dayjs.extend(customParseFormat);
 
 const { Option } = Select;
 
@@ -48,7 +44,7 @@ export default function MovieEdit(){
             Address: res.Address,
             GenderID: res.GenderID,
             PrefixID: res.PrefixID,
-            Dob: moment(res.Dob, "YYYY-MM-DD"),
+            // Dob: res.Dob,
             StatusUserID: res.StatusUserID,
         });
         }
@@ -84,7 +80,6 @@ export default function MovieEdit(){
         }else{
             message.error(res.message);
         }
-        console.log(values);
       };
 
       useEffect(() => {
@@ -142,51 +137,51 @@ export default function MovieEdit(){
                 <Form form={form} onFinish={onFinish}>
                     <Row gutter={[16, 16]}>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ชื่อผู้ใช้" name="Username" rules={[{required: true}]}>
+                            <Form.Item label="ชื่อผู้ใช้" name="Username" rules={[{required: true,message:"กรอกชื่อผู้ใช้"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={32} sm={32} md={32} lg={32} xl={18}>
-                            <Form.Item label="อีเมล" name="Email" rules={[{required: true}]}>
+                            <Form.Item label="อีเมล" name="Email" rules={[{required: true,message:"กรอกอีเมล"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="รหัสผ่าน" name="Password" rules={[{required: true}]}>
+                            <Form.Item label="รหัสผ่าน" name="Password" rules={[{required: true,message:"กรอกรหัสผ่าน"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ชื่อต้น" name="Firstname" rules={[{required: true}]}>
+                            <Form.Item label="ชื่อต้น" name="Firstname" rules={[{required: true,message:"กรอกชื่อต้น"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ชื่อท้าย" name="Lastname" rules={[{required: true}]}>
+                            <Form.Item label="ชื่อท้าย" name="Lastname" rules={[{required: true,message:"กรอกชื่อท้าย"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ที่อยู่" name="Address" rules={[{required: true}]}>
+                            <Form.Item label="ที่อยู่" name="Address" rules={[{required: true,message:"กรอกที่อยู่"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="วันเกิด" name="Dob" rules={[{required: true}]}>
-                            <DatePicker format="YYYY-MM-DD" />
+                            <Form.Item label="วันเกิด" name="Dob" rules={[{required: true,message:"กรอกวันเกิด"}]}>
+                            <DatePicker/>
                             </Form.Item>
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="เพศ" name="GenderID">
+                            <Form.Item label="เพศ" name="GenderID" rules={[{required: true,message:"กรอกเพศ"}]}>
                                 <Select allowClear>
                                 {gender.map((item) => (<Option value={item.ID} key={item.Gender}>{item.Gender}</Option>))}
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="คำนำหน้า" name="PrefixID">
+                            <Form.Item label="คำนำหน้า" name="PrefixID" rules={[{required: true,message:"กรอกคำนำหน้า"}]}>
                                 <Select>
                                 {prefix.map((item) => (<Option value={item.ID} key={item.Prefix}>{item.Prefix}</Option>))}
                                 </Select>

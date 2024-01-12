@@ -119,7 +119,7 @@ func ListPrefix(c *gin.Context) {
 
 func ListStatusUser(c *gin.Context) {
 	var status []entity.StatusUser
-	if err := entity.DB().Raw("SELECT * FROM StatusUsers").Scan(&status).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM status_users").Scan(&status).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

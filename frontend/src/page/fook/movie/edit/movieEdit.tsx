@@ -49,8 +49,6 @@ export default function MovieEdit(){
         console.log(values);
       };
 
-      const releaseDate: string | undefined = movie?.ReleaseDate?.toString();
-      const date: string | undefined = moment(releaseDate).format("YYYY-MM-DD");
       const getMovieById = async () => {
         let res = await GetMovieById(Number(id));
         if (res) {
@@ -151,65 +149,65 @@ export default function MovieEdit(){
                 <Form form={form} onFinish={onFinish}>
                     <Row gutter={[16, 16]}>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ชื่อเรื่อง" name="Title" rules={[{required: true}]}>
+                            <Form.Item label="ชื่อเรื่อง" name="Title" rules={[{required: true,message:"กรอกชื่อเรื่อง"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={32} sm={32} md={32} lg={32} xl={18}>
-                            <Form.Item label="เรื่องย่อ" name="Description" rules={[{required: true}]}>
+                            <Form.Item label="เรื่องย่อ" name="Description" rules={[{required: true,message:"กรอกเรื่องย่อ"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ความยาว(min)" name="Duration" rules={[{required: true}]}>
+                            <Form.Item label="ความยาว(min)" name="Duration" rules={[{required: true,message:"กรอกความยาว"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="วันที่ออกฉาย" name="ReleaseDate" rules={[{required: true}]}>
+                            <Form.Item label="วันที่ออกฉาย" name="ReleaseDate" rules={[{required: true,message:"กรอกวันที่ออกฉาย"}]}>
                                 <DatePicker></DatePicker>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="ผู้กำกับ" name="Director" rules={[{required: true}]}>
+                            <Form.Item label="ผู้กำกับ" name="Director" rules={[{required: true,message:"กรอกผู้กำกับ"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="นักแสดง" name="Cast" rules={[{required: true}]}>
+                            <Form.Item label="นักแสดง" name="Cast" rules={[{required: true,message:"กรอกนักแสดง"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="วีดีโอ" name="Video" rules={[{required: true}]}>
+                            <Form.Item label="วีดีโอ" name="Video" rules={[{required: true,message:"กรอกลิ้ง"}]}>
                                 <Input/>
                             </Form.Item>
                         </Col>
                     </Row>
                     <Row gutter={[16, 16]}>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="หมวดหมู่" name="CategoriesID">
+                            <Form.Item label="หมวดหมู่" name="CategoriesID" rules={[{required: true,message:"กรอกหมวดหมู่"}]} >
                                 <Select allowClear>
                                 {categories.map((item) => (<Option value={item.ID} key={item.Categories}>{item.Categories}</Option>))}
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="กลุ่มเป้าหมาย" name="TargetID">
+                            <Form.Item label="กลุ่มเป้าหมาย" name="TargetID" rules={[{required: true,message:"กรอกเป้าหมาย"}]}>
                                 <Select>
                                 {target.map((item) => (<Option value={item.ID} key={item.Target}>{item.Target}</Option>))}
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col xs={12} sm={12} md={12} lg={12} xl={6}>
-                            <Form.Item label="รูปแบบเสียง" name="SoundtrackID">
+                            <Form.Item label="รูปแบบเสียง" name="SoundtrackID" rules={[{required: true,message:"กรอกรูปแบบเสียง"}]}>
                                 <Select>
                                 {soundtrack.map((item) => (<Option value={item.ID} key={item.Soundtrack}>{item.Soundtrack}</Option>))}
                                 </Select>
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-                            <Form.Item label="รูปภาพ" name="Image" valuePropName="fileList" getValueFromEvent={normFile} rules={[{required: true}]}>
+                            <Form.Item label="รูปภาพ" name="Image" valuePropName="fileList" getValueFromEvent={normFile} rules={[{required: true,message:"อัปโหลดรูป"}]}>
                             <Upload maxCount={1} multiple={false} listType="picture-card">
                                 <div>
                                     <PlusOutlined />
