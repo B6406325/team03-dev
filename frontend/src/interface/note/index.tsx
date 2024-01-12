@@ -1,13 +1,13 @@
 import { MoviesInterface } from "../fook";
-import { UserInterface } from "../login";
+import { UserForLoginInterface, UserInterface } from "../login";
 
 export interface ReviewInterface{
     ID?:number;
     ReviewText?: string;
-	DateTime?: string;
+	DateTime?: Date ;
     
     UserID?:number;
-	User?:UserInterface;
+	User?:UserForLoginInterface;
 
 	MovieID?:number;
 	Movie?: MoviesInterface;

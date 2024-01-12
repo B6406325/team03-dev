@@ -2,8 +2,9 @@ package controller
 
 import (
 	"net/http"
-	"github.com/asaskevich/govalidator"
+	"time"
 	"github.com/B6406325/team03/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -68,6 +69,7 @@ func CreateReview(c *gin.Context) {
 		Rating: rating,
 		Genre: genre,
 		ReviewText: review.ReviewText,
+		DateTime: time.Now().Local(),
 		MovieID: review.MovieID,
 		UserID: review.UserID,
 		RatingID: review.RatingID,

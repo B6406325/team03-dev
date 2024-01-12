@@ -1,25 +1,27 @@
 package entity
 
 import (
-
+	"time"
 	"gorm.io/gorm"
+	"github.com/asaskevich/govalidator"
+
 )
 
 type Review struct {
 	gorm.Model
-	ReviewText string
-	// DateTime   time.Time
+	ReviewText string `valid:"maxstringlength(100)~พิมพ์ได้สูงสุด100ตัวอักษร"`
+	DateTime   time.Time `valid:"CheckDateTime~วันที่ไม่ถูกต้อง"`
 
-	UserID *uint
+	UserID uint `valid:"-"`
 	User   User `gorm:"references:id"`
 
-	MovieID *uint
+	MovieID uint   `valid:"-"`
 	Movie   Movie `gorm:"references:id"`
 
-	RatingID *uint
+	RatingID uint	`valid:"required~Rating is required"`
 	Rating   Rating `gorm:"references:id"`
 
-	GenreID *uint
+	GenreID uint	`valid:"required~Genre is required"`
 	Genre   Genre `gorm:"references:id"`
 
 }
@@ -38,3 +40,15 @@ type Genre struct {
 	Review []Review `gorm:"foreignKey:GenreID"`
 }
 
+
+func init() {
+	govalidator.CustomTypeTagMap.Set("CheckDateTime", func(i interface{}, _ interface{}) bool {
+		t := i.(time.Time)
+		if t.Before(time.Now().Add(-2*time.Minute)) || t.After(time.Now().Add(2*time.Minute)) {
+			return false
+
+		} else {
+			return true
+		}
+	})
+}

@@ -8,19 +8,19 @@ import Download from '../../../components/Download/Download';
 import Review from '../../../components/Review/Review';
 import Share from '../../../components/Share/Share';
 import './movieDetailpage.css';
-import { ReviewInterface,GenreInterface,RatingInterface } from '../../../interface/note';
+import { ReviewInterface,GenreInterface,RatingInterface, } from '../../../interface/note';
 import { MoviesInterface } from '../../../interface/fook';
 import { GetMovieById } from '../../../service/fook';
 import { GetReviewsByUserID,CreateReview,DeleteReviewByUserID,GetReviews,ListGenre,ListRating,UpdateReview } from '../../../service/note';
 import Cookies from 'js-cookie'; //npm install js-cookie
 import { GetUserByID } from '../../../service/mix';
-import { UserInterface } from '../../../interface/pool';
+import { UserInterface,UserForLoginInterface } from '../../../interface/login';
 
 export default function MovieDetailPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const movieID = searchParams.get('ID');
-  const userID = Cookies.get('UserID');
+  const userID = String(Cookies.get('UserID'));
   const [messageApi, contextHolder] = message.useMessage();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [open, setOpen] = useState(false);
@@ -351,7 +351,7 @@ export default function MovieDetailPage() {
               {review.map((reviewItem) => (
                   <div className='show-review-all-2'>
                     <p key={reviewItem.ID}>
-                      <div className='review-username'><b>{reviewItem.User?.UserName}</b></div>
+                      <div className='review-username'><b>{reviewItem.User?.Username}</b></div>
                       <div className='review-genre'><b>หมวดหมู่:</b> {reviewItem.Genre?.Name} <b>คะแนน:</b> {reviewItem.Rating?.RatingValue}</div>
                       <div className='review-text'>{reviewItem.ReviewText}<br></br>
                         {isCurrentUserOwner(reviewItem.User?.ID) &&  
