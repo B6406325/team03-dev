@@ -3,7 +3,7 @@ import { UpdateUser } from '../../../service/pool';
 import { GetUserInfo } from '../../../service/pool';
 import { UserInterface } from '../../../interface/pool';
 import { Form, Input, Button, Modal, ConfigProvider, Col, Row, message } from 'antd';
-
+import Cookies from 'js-cookie';
 interface UserChangeNameProps {
     visible: boolean;
     onCancel: () => void;
@@ -14,10 +14,9 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
     const [messageApi, contextHolder] = message.useMessage();
     const [upUser, setUpUser] = useState<UserInterface>();
 
-    const onFinish = async (values: any) => {
-        const id = "pool@gmail.com";
-        values.Email = id;
+    const id = Cookies.get('UserID');
 
+    const onFinish = async (values: any) => {
         try {
             // Fetch the user's current data
             const currentUser = await GetUserInfo(id);
@@ -55,7 +54,7 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
             }
         } catch (error) {
             console.error("Error updating user:", error);
-            const errorMessage: string = (error as Error)?.message || "เกิดข้อผิดพลาดในการอัปเดตชื่อผู้ใช้";
+            const errorMessage: string = (error as Error)?.message || "เกิดข้อผิดพลาดในการอัปเดตข้อมูลผู้ใช้";
             messageApi.open({
                 type: "error",
                 content: errorMessage,
@@ -63,11 +62,9 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
         }
     };
 
-    const getUserByEmail = async () => {
-        const sid = "pool@gmail.com";
-
+    const getUserByID = async () => {
         try {
-            let res = await GetUserInfo(sid);
+            let res = await GetUserInfo(id);
 
             if (res) {
                 setUpUser(res);
@@ -79,10 +76,10 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
     };
 
     useEffect(() => {
-        getUserByEmail();
+        getUserByID();
         // Set initial form values when user data changes
         form.setFieldsValue({
-            username: upUser?.Username,
+            Username: upUser?.Username,
         });
     }, []);
 
@@ -122,7 +119,7 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
                     onFinish={onFinish}
                 >
                     <Form.Item
-                        name="username"
+                        name="Username"
                         rules={[
                             {
                                 required: true,
@@ -154,6 +151,7 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
                         </Button>
                     </Form.Item>
                 </Form>
+                {contextHolder}
             </Modal>
         </ConfigProvider>
     );

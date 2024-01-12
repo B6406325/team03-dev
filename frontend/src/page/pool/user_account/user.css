@@ -17,6 +17,7 @@ body {
     padding: 30px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.2);
+
     border: 3px solid var(--yellow1, #F5CE00);
     box-shadow: 0 4px 20px #F5CE00;
     text-align: right;
@@ -106,6 +107,5 @@ body {
 .back-button {
 
     text-align: left;
-    margin-top: 8px;
     margin-right: 40px;
 }

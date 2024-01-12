@@ -15,13 +15,25 @@ export interface UserInterface {
 	Firstname?: string;
 	Lastname?:  string;
     Address?: string;
-    Dob?:       any;
-
-	GenderID?: number;
-
-	PrefixID?: number;
+    Dob?:       Date;
 
 	SubscribeID?: number;
 
 	StatusUserID?: number;
+
+
+    Gender?: GenderUserInterface
+    GenderID?: number
+    Prefix?: PrefixUserInterface
+    PrefixID?: number
+}
+
+export interface GenderUserInterface{
+    ID?: number
+    Gender?: string
+}
+
+export interface PrefixUserInterface {
+    ID?: number
+    Prefix?: string
 }

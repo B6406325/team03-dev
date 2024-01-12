@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import './package.css';
 import { Button, ConfigProvider } from 'antd';
 import { PackageInterface } from '../../../interface/pool';
@@ -10,7 +10,9 @@ const Package: React.FC = () => {
     const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
     const [packages, setPackages] = useState<PackageInterface[]>([]);
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies(['selectedPackage']);
+
+    const selectedPackageFromCookie = Cookies.get('selectedPackage');
+
     
 
     useEffect(() => {
@@ -26,27 +28,24 @@ const Package: React.FC = () => {
         } 
     };
 
-    const handlePackageClick = (packageId: number) => {
+    const handlePackageClick = (packageId: any) => {
         setSelectedPackage((prevSelectedPackage) => (prevSelectedPackage === packageId ? null : packageId));
-
         // เก็บข้อมูลลงใน Cookie
-        setCookie('selectedPackage', packageId, { maxAge: 3 * 24 * 60 * 60 }); // 3 คือจำนวนวันที่ Cookie จะหมดอายุ
+        Cookies.set('selectedPackage', packageId, { expires: 3 });
         
     };
 
     const handleCancelClick = () => {
-        // Go back to the previous page using React Router
         navigate(-1);
     };
 
     const handleNextClick = async () => {
-        // ดึงข้อมูลจาก Cookie
-        const selectedPackageFromCookie = cookies.selectedPackage;
         console.log('Selected Package from Cookie:', selectedPackageFromCookie);
         setTimeout(function () {
             navigate("/payment");
         }, 800);
     };
+    
 
     return (
         <div>

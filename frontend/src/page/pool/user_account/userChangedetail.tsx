@@ -1,23 +1,27 @@
 import { UpdateUser } from '../../../service/pool';
 import { GetUserInfo } from '../../../service/pool';
-import { UserInterface } from '../../../interface/pool';
+import { UserInterface, GenderUserInterface, PrefixUserInterface } from '../../../interface/pool';
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Modal, Select, DatePicker, ConfigProvider, Col, Row, message } from 'antd';
-
+import { Form, Input, Button, Modal, Select, DatePicker, ConfigProvider, message } from 'antd';
+import { GetGenders, GetPrefix } from '../../../service/login';
+import Cookies from 'js-cookie';
 interface UserChangeDetialProps {
     visible: boolean;
     onCancel: () => void;
 }
 
+const { Option } = Select;
+
 const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }) => {
     const [form] = Form.useForm();
+    const [genders, setGenders] = useState<GenderUserInterface[]>([]);
+    const [prefix, setPrefix] = useState<PrefixUserInterface[]>([]);
     const [messageApi, contextHolder] = message.useMessage();
     const [upUser, setUpUser] = useState<UserInterface>();
 
-    const onFinish = async (values: any) => {
-        const id = "pool@gmail.com";
-        values.Email = id;
+    const id = localStorage.getItem('UserID');
 
+    const onFinish = async (values: any) => {
         try {
             // Fetch the user's current data
             const currentUser = await GetUserInfo(id);
@@ -65,11 +69,9 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
 
 
 
-    const getUserByEmail = async () => {
-        const sid = "pool@gmail.com";
-
+    const getUserByID = async () => {
         try {
-            let res = await GetUserInfo(sid);
+            let res = await GetUserInfo(id);
 
             if (res) {
                 setUpUser(res);
@@ -80,16 +82,31 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
         }
     };
 
+    const getGender = async () => {
+        let res = await GetGenders();
+        if (res) {
+          setGenders(res);
+        }
+    };
+
+    const getPrefix = async () => {
+        let res = await GetPrefix();
+        if (res) {
+          setPrefix(res);
+        }
+    };
+
     useEffect(() => {
-        getUserByEmail();
+        getGender();
+        getPrefix();
+        getUserByID();
         // Set initial form values when user data changes
         form.setFieldsValue({
             Firstname: upUser?.Firstname,
             Lastname: upUser?.Lastname,
             Address: upUser?.Address,
-              Dob: upUser?.Dob,
+            Dob: upUser?.Dob,
             //   Gender: upUser?.Gender,
-            //   password: upUser?.password,
         });
     }, []);
 
@@ -128,6 +145,11 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
                     form={form}
                     onFinish={onFinish}
                 >
+                    <Form.Item name="Prefix">
+                        <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='คำนำหน้า'>
+                        {prefix.map((item) => (<Option value={item.ID} key={item.Prefix}>{item.Prefix}</Option>))}
+                        </Select>
+                    </Form.Item>
                     <Form.Item
                         name="Firstname"
                     >
@@ -149,8 +171,11 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
                     </Form.Item>
 
                     <Form.Item name="Gender">
-                        <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='เพศ'></Select>
+                        <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='เพศ'>
+                        {genders.map((item) => (<Option value={item.ID} key={item.Gender}>{item.Gender}</Option>))} 
+                        </Select>
                     </Form.Item>
+                    
 
                     <Form.Item
                         name="password"
