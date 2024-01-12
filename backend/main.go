@@ -20,6 +20,9 @@ func main() {
 	r.GET("/movies", controller.ListMovies)
 	r.GET("/users", controller.ListUser)
 	r.DELETE("/user/:id", controller.DeleteUserById)
+	r.GET("/userid/:id", controller.GetUserById)
+	r.PATCH("/user", controller.UpdateUser)
+
 
 	//payment
 	r.POST("/payment/:UserID/:PackageID", controller.UserPaymentCreate)

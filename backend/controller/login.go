@@ -119,9 +119,53 @@ func ListPrefix(c *gin.Context) {
 
 func ListStatusUser(c *gin.Context) {
 	var status []entity.StatusUser
-	if err := entity.DB().Raw("SELECT * FROM StatusUsers").Scan(&status).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM status_users").Scan(&status).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": status})
+}
+
+func UpdateUser(c *gin.Context) {
+	var user entity.User
+	var result entity.User
+	db, err := entity.SetupDatabase()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err = govalidator.ValidateStruct(user)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ค้นหา movie ด้วย id
+	if tx := db.Where("id = ?", user.ID).First(&result); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
+
+	if err := db.Save(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": user})
+}
+
+func GetUserById(c *gin.Context) {
+	var user entity.User
+	id := c.Param("id")
+	if err := entity.DB().Preload("Gender").Preload("Prefix").Preload("StatusUser").Raw("SELECT * FROM users WHERE id = ?", id).Find(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": user})
 }
