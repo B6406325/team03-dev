@@ -33,7 +33,6 @@ export default function MovieDetailPage() {
   const [movie, setMovies] = useState<MoviesInterface[]>([]);
   const [movy, setMovy] = useState<MoviesInterface>();
   const { confirm } = Modal;
-  const [form] = Form.useForm();
 
   const showModal = () => {
     confirm({
@@ -108,7 +107,7 @@ export default function MovieDetailPage() {
     }   
   };
 
-  const getMovie = async () => {
+  const getData = async () => {
     let res = await GetMovieById(Number(movieID));
     if (res){
       console.log(res)
@@ -141,7 +140,7 @@ export default function MovieDetailPage() {
     getGenres();
     getRating();
     getReview();
-    getMovie();
+    getData();
     getReviewByUser();
     console.log(review[0]);
     console.log(movie)

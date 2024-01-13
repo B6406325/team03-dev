@@ -39,19 +39,19 @@ func CreateReview(c *gin.Context) {
 	 c.JSON(http.StatusBadRequest, gin.H{"error": "User has already reviewed this movie"})
 	 return
  }
-	// ค้นหา categories ด้วย id
+	// ค้นหา Movie ด้วย id
 	db.First(&movie, review.MovieID)
 	if movie.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "movie not found"})
 		return
 	}
-	// ค้นหา target ด้วย id
+	// ค้นหา User ด้วย id
 	db.First(&user, review.UserID)
 	if user.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
 	}
-	// ค้นหา soundtrack ด้วย id
+	// ค้นหา Rating ด้วย id
 	db.First(&rating, review.RatingID)
 	if rating.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "rating not found"})
@@ -195,14 +195,14 @@ func ListMovie(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"data": movies})
 }
 
-func GetMovieByID(c *gin.Context) {
-    var movie []entity.Movie
-    id := c.Param("id")
-    if err := entity.DB().Raw("SELECT * FROM movies WHERE id = ?", id).Scan(&movie).Error; err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-    c.JSON(http.StatusOK, gin.H{"data": movie})
-}
+// func GetMovieByID(c *gin.Context) {
+//     var movie []entity.Movie
+//     id := c.Param("id")
+//     if err := entity.DB().Raw("SELECT * FROM movies WHERE id = ?", id).Scan(&movie).Error; err != nil {
+//         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+//         return
+//     }
+//     c.JSON(http.StatusOK, gin.H{"data": movie})
+// }
 
 
