@@ -19,6 +19,7 @@ export default function MovieEdit(){
     const [target, setTarget] = useState<TargetInterface[]>([]);
     const [soundtrack, setSoundtrack] = useState<SoundtrackInterface[]>([]);
     const [image, setImage] = useState<ImageUpload>()
+    const [prevMenuImage, setPrevMenuImage] = useState<string | undefined>();
 
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -39,6 +40,9 @@ export default function MovieEdit(){
       const onFinish = async (values: MoviesInterface) => {
         values.ID = movie?.ID;
         values.Image = image?.thumbUrl;
+        if(!values.Image) {
+          values.Image = prevMenuImage;
+        }
         let res = await UpdateMovie(values);
         if (res.status) {
           message.success("อัปเดตสำเร็จ")
@@ -53,6 +57,7 @@ export default function MovieEdit(){
         let res = await GetMovieById(Number(id));
         if (res) {
           setMovie(res);
+          setPrevMenuImage(res.Image);  
           form.setFieldsValue({ 
             Title: res.Title,
             Duration: res.Duration,
@@ -67,6 +72,7 @@ export default function MovieEdit(){
             SoundtrackID: res.SoundtrackID,
         });
         }
+        console.log(res);
       };
 
       const getCategories = async () => {
