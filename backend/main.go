@@ -22,6 +22,7 @@ func main() {
 	r.DELETE("/user/:id", controller.DeleteUserById)
 	r.GET("/userid/:id", controller.GetUserById)
 	r.PATCH("/user", controller.UpdateUser)
+	r.GET("/subscribes", controller.ListSubscribe)
 
 
 	//payment

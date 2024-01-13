@@ -1,3 +1,5 @@
+import { PackageInterface } from "../pool"
+
 export interface UserForLoginInterface{
     ID?:  number
     Username?: string
@@ -52,4 +54,19 @@ export interface UserInterface{
     GenderID?: number
     Prefix?: PrefixUserInterface
     PrefixID?: number
+}
+
+export interface SubscribeInterface{
+    ID?: number
+    PackageID?: number
+    Package?: PackageInterface
+    SubscribeStatusID?: number
+    SubscribeStatus?: SubscribeStatusInterface
+    UserID?: number
+    User?: UserInterface
+}
+
+export interface SubscribeStatusInterface{
+    ID?: number
+    Status?: string
 }

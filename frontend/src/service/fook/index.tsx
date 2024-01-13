@@ -22,6 +22,26 @@ async function ListMovies() {
     return res;
   }
 
+  async function ListSubscribe() {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    let res = await fetch(`${apiUrl}/subscribes`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          return res.data;
+        } else {
+          return false;
+        }
+      });
+  
+    return res;
+  }
+
   async function DeleteMovieByID(id: Number | undefined) {
     const requestOptions = {
       method: "DELETE"
@@ -64,6 +84,24 @@ async function ListMovies() {
     };
   
     let res = await fetch(`${apiUrl}/movie/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          return res.data;
+        } else {
+          return false;
+        }
+      });
+  
+    return res;
+  }
+
+  async function GetSubscribeByID(id: Number | undefined) {
+    const requestOptions = {
+      method: "GET"
+    };
+  
+    let res = await fetch(`${apiUrl}/subscribe/${id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -189,4 +227,6 @@ export{
     GetTarget,
     CreateMovie,
     DeleteUserByID,
+    GetSubscribeByID,
+    ListSubscribe,
 }

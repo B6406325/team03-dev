@@ -9,12 +9,27 @@ import (
 )
 
 func ListUser(c *gin.Context) {
-	var users []entity.User
-	if err := entity.DB().Preload("Gender").Preload("StatusUser").Preload("Prefix").Raw("SELECT * FROM users").Find(&users).Error; err != nil {
+    var users []entity.User
+    if err := entity.DB().
+        Preload("Gender").
+        Preload("StatusUser").
+        Preload("Prefix").
+        Raw("SELECT * FROM users").
+        Find(&users).
+        Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, gin.H{"data": users})
+}
+
+func ListSubscribe(c *gin.Context) {
+	var subscribes []entity.Subscribe
+	if err := entity.DB().Preload("Package").Preload("User").Preload("SubscribeStatus").Raw("SELECT * FROM subscribes").Find(&subscribes).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": users})
+	c.JSON(http.StatusOK, gin.H{"data": subscribes})
 }
 
 func ListMovies(c *gin.Context) {
