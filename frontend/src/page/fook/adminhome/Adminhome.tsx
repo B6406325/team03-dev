@@ -5,15 +5,15 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { useNavigate } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined, UserOutlined } from '@ant-design/icons';
 import type { ColumnType } from 'antd/es/table';
-import { UserInterface } from '../../../interface/login';
+import { SubscribeInterface, UserInterface } from '../../../interface/login';
 import { ListUsers } from '../../../service/login';
 import moment from 'moment';
 import Search from 'antd/es/input/Search';
-import { DeleteUserByID } from '../../../service/fook';
+import { DeleteUserByID, GetSubscribeByID, ListSubscribe } from '../../../service/fook';
 
 
 export default function Adminhome() {
-  const columns: ColumnType<UserInterface>[] = [
+  const columns: ColumnType<UserInterface&SubscribeInterface>[] = [
     {
       title: "ลำดับ",
       dataIndex: "ID",
@@ -113,9 +113,25 @@ export default function Adminhome() {
       align:"center",
     },
     {
+      title: "การอนุมัติ",
+      dataIndex: "SubscribeStatus",
+      key: 11,
+      align: "center",
+      render: (text: any, record: any, index: any) => (
+        <>
+          {subscribe.map((item) => (
+            item.UserID === record.ID ? (
+              // Render content when there is a match
+              <span key={item.UserID}>{item.SubscribeStatus?.Status}</span>
+            ) : null
+          ))}
+        </>
+      ),
+    },
+    {
       title: "จัดการ",
       dataIndex: "manage",
-      key: 10,
+      key: 12,
       align:"center",
       render: (text, record, index) => (
         <>
@@ -157,7 +173,7 @@ export default function Adminhome() {
   const handleCancel = () => {
     setOpen(false);
   };
-  
+  const [subscribe, setSubscribe] = useState<SubscribeInterface[]>([]);
   const [size, setSize] = useState<SizeType>('large');
   const [users, setUsers] = useState<UserInterface[]>([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -172,6 +188,13 @@ export default function Adminhome() {
     }
   };
   console.log(users);
+  const listSubscribe = async () => {
+    let res = await ListSubscribe();
+    if(res){
+      setSubscribe(res);
+    }
+    console.log(res)
+  };
   const navigate = useNavigate();
   function clickMovie() {
     navigate('/admin/movie');
@@ -192,6 +215,8 @@ export default function Adminhome() {
   );
   useEffect(() => {
     listUsers();
+    // getSubscribeByID();
+    listSubscribe();
   },[]);
   return (
 
