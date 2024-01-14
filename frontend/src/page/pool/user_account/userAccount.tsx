@@ -6,12 +6,13 @@ import UserChangeName from './userChangeName';
 import UserChangePass from './userChangePass';
 import UserChangeDetial from './userChangedetail';
 import {
+    LoadingOutlined,
     LeftOutlined,
     HomeOutlined
 } from '@ant-design/icons';
 import Navbar from '../../../components/navbar';
-import { GetUserInfo } from '../../../service/pool';
-import { UserInterface } from '../../../interface/pool';
+import { GetUserInfo, GetUserPackageInfo, CancelSubscription } from '../../../service/pool';
+import { UserInterface, PackageInterface } from '../../../interface/pool';
 import Cookies from 'js-cookie';
 
 function UserAccount() {
@@ -19,36 +20,57 @@ function UserAccount() {
     const [changePasswordVisible, setChangePasswordVisible] = useState(false);
     const [changeDetialVisible, setChangeDetialVisible] = useState(false);
     const [userData, setUserData] = useState<UserInterface | null>(null);
+    const [userPackageInfo, setUserPackageInfo] = useState<PackageInterface | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        fetchUserData();
-    }, []);
+        // Fetch user data only if it's not available in the state
+        if (!userData) {
+            fetchData();
+        }
 
-    const fetchUserData = async () => {
+        // fetchUserPackageInfo();
+        // fetchData();
+    }, []);;
+
+    const fetchData = async () => {
         try {
-            // console.log('User ID from localStorage:', localStorage.getItem('UserID'));
             const id = localStorage.getItem('UserID');
+            // Fetch user data
+            let userData = await GetUserInfo(id);
+            console.log('User data:', userData);
+            setUserData(userData);
 
-            if (!id) {
-                console.error('User ID not found in localStorage');
-                return;
-            }
-
-            // console.log('Fetching user data for user ID:', id);
-
-            let data = await GetUserInfo(id);
-            console.log('User data:', data);
-            setUserData(data);
+            // Fetch user package info
+            let packageInfo = await GetUserPackageInfo(id);
+            console.log('User Package Info:', packageInfo);
+            setUserPackageInfo(packageInfo);
         } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
         }
     };
 
+    const handleCancelSubscription = async () => {
+    try {
+        const id = localStorage.getItem('UserID');
+        
+        // Call the service function to cancel subscription
+        await CancelSubscription(id);
+
+        // After cancellation, you may want to reload the user data and package info
+        fetchData();
+    } catch (error) {
+        console.error('Error cancelling subscription:', error);
+    }
+
+    setTimeout(() => {
+        navigate("/");
+    }, 500);
+};
 
     const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
@@ -77,9 +99,14 @@ function UserAccount() {
 
     if (loading) {
         return (
-            <Space size="middle">
-                <Spin size="large" />
-            </Space>
+            <div className='web-user'>
+                <div className='loading-screen'>
+                    <Space size="middle" >
+                        <Spin indicator={<LoadingOutlined style={{ fontSize: 36, color: '#F5CE00', fontFamily: 'Mitr' }} spin />} />
+                        Loading...
+                    </Space>
+                </div>
+            </div>
         );
     }
 
@@ -99,14 +126,14 @@ function UserAccount() {
                 },
             }}>
                 <div className='web-user'>
-                    <div className='web-user-boxmain'>
+                    <div className='web-user-boxmain' style={{ marginTop: 40 }}>
                         <Button
                             className='back-button'
                             type='primary'
                             style={{ fontSize: 15, fontFamily: 'Mitr', marginTop: 0 }}
                             onClick={handleToHome}
                         ><HomeOutlined />กลับไป Home</Button>
-                        {userData && userData.map(user => (
+                        {Array.isArray(userData) && userData.map((user, index) => (
                             <div key={user.ID} className='web-user-box' style={{ marginTop: 0 }}>
                                 {/* ============================================My Account=================================================================== */}
                                 <div className='user-text-header'>My Account</div>
@@ -156,36 +183,39 @@ function UserAccount() {
                                 <div className='user-text'>Address: {user.Address}
 
                                 </div>
-
-
-
                             </div>
                         ))}
                         {/* ===============================================Subscription================================================================ */}
-                        <div className='web-user-box'>
-                            <div className='user-text-header'>Subscription</div>
-                            <div className='user-line' />
-                            <div className='user-text'>Package:
-                                <div className='user-button'>
-                                    <Link to="/package">
-                                        <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>เปลี่ยนแพ็คเกจ</Button>
-                                    </Link>
+                        {Array.isArray(userPackageInfo) && userPackageInfo.length > 0 && (
+                            <div className='web-user-box'>
+                                <div className='user-text-header'>Subscription</div>
+                                <div className='user-line' />
+                                <div className='user-text'>Package: {userPackageInfo[userPackageInfo.length - 1].PackageName}
+                                    <div className='user-button'>
+                                        <Link to="/package">
+                                            <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>เปลี่ยนแพ็คเกจ</Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className='user-text'>Price: {userPackageInfo[userPackageInfo.length - 1].Price} บาท
+                                    <div className='user-button'>
+                                        <Link to="/subhistory">
+                                            <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติ</Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className='user-text'>Download Status: {userPackageInfo[userPackageInfo.length - 1].DownloadStatus ? 'ได้' : 'ไม่'}
+                                    <div className='user-button'>
+                                        <Button onClick={handleCancelSubscription} style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }}>ยกเลิก</Button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='user-text'>Exp:
-                                <div className='user-button'>
-                                    <Link to="/subhistory">
-                                        <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติ</Button>
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className='user-text'></div>
-                            <div className='user-button'>
-                                <Button htmlType="button" style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }}>ยกเลิก</Button>
-                            </div>
-                        </div>
+                        )}
+
+
+
+                        {/* =========================================Other====================================================================== */}
                         <div className='web-user-box'>
-                            {/* =========================================Other====================================================================== */}
                             <div className='user-text-header'>Other</div>
                             <div className='user-line' />
                             <div className='user-text'>ประวัติการรับชม

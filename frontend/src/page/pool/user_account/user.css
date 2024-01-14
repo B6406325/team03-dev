@@ -17,7 +17,6 @@ body {
     padding: 30px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.2);
-
     border: 3px solid var(--yellow1, #F5CE00);
     box-shadow: 0 4px 20px #F5CE00;
     text-align: right;
@@ -35,7 +34,7 @@ body {
 @media screen and (max-width: 968px) {
 
     .web-user-boxmain {
-        width: 80%;
+        width: 90%;
         /* Adjust width for smaller screens */
     }
 
@@ -109,3 +108,19 @@ body {
     text-align: left;
     margin-right: 40px;
 }
+
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: #F5CE00;
+    background-color: #000000;
+  }
+  
+
+  

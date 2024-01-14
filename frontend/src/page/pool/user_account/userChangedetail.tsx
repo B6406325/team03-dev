@@ -4,7 +4,6 @@ import { UserInterface, GenderUserInterface, PrefixUserInterface } from '../../.
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Modal, Select, DatePicker, ConfigProvider, message } from 'antd';
 import { GetGenders, GetPrefix } from '../../../service/login';
-import Cookies from 'js-cookie';
 interface UserChangeDetialProps {
     visible: boolean;
     onCancel: () => void;
@@ -85,14 +84,14 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
     const getGender = async () => {
         let res = await GetGenders();
         if (res) {
-          setGenders(res);
+            setGenders(res);
         }
     };
 
     const getPrefix = async () => {
         let res = await GetPrefix();
         if (res) {
-          setPrefix(res);
+            setPrefix(res);
         }
     };
 
@@ -106,7 +105,8 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
             Lastname: upUser?.Lastname,
             Address: upUser?.Address,
             Dob: upUser?.Dob,
-            //   Gender: upUser?.Gender,
+            GenderID: upUser?.GenderID,
+            PrefixID: upUser?.PrefixID
         });
     }, []);
 
@@ -145,9 +145,9 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
                     form={form}
                     onFinish={onFinish}
                 >
-                    <Form.Item name="Prefix">
+                    <Form.Item name="PrefixID">
                         <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='คำนำหน้า'>
-                        {prefix.map((item) => (<Option value={item.ID} key={item.Prefix}>{item.Prefix}</Option>))}
+                            {prefix.map((item) => (<Option value={item.ID} key={item.Prefix}>{item.Prefix}</Option>))}
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -170,12 +170,12 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
                         <DatePicker style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='วันเกิด'></DatePicker>
                     </Form.Item>
 
-                    <Form.Item name="Gender">
+                    <Form.Item name="GenderID">
                         <Select style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '30%', height: '40px', marginTop: '10px' }} placeholder='เพศ'>
-                        {genders.map((item) => (<Option value={item.ID} key={item.Gender}>{item.Gender}</Option>))} 
+                            {genders.map((item) => (<Option value={item.ID} key={item.Gender}>{item.Gender}</Option>))}
                         </Select>
                     </Form.Item>
-                    
+
 
                     <Form.Item
                         name="password"

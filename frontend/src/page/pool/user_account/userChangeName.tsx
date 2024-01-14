@@ -40,9 +40,12 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
                         type: "success",
                         content: "แก้ไขข้อมูลสำเร็จ",
                     });
+                    setTimeout(function () {
+                        window.location.reload();
+                      }, 1000);
 
                     onCancel(); // Close the modal if needed
-                    window.location.reload(); // Reload the page
+
                 }
             } else {
                 // Handle the case when the user is not found
