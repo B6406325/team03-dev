@@ -120,29 +120,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Lastname:     "-",
 		StatusUserID: &admin.ID,
 	}
-	user1 := User{
-		Username:     "user1",
-		Email:        "user1@gmail.com",
-		Password:     "user1",
-		Firstname:    "user1F",
-		Lastname:     "user1L",
-		Address:      "111 University Avenue, Suranaree Sub DistrictMuang Nakhon Ratchasima, Nakhon Ratchasima 30000, Thailand",		
-		
-		StatusUserID: &user.ID,
-	}
-	user2 := User{
-		Username:     "user2",
-		Email:        "user2@gmail.com",
-		Password:     "user2",
-		Firstname:    "user2F",
-		Lastname:     "user2L",
-		Address:      "222 University Avenue, Suranaree Sub DistrictMuang Nakhon Ratchasima, Nakhon Ratchasima 30000, Thailand",		
-		
-		StatusUserID: &user.ID,
-	}
 	db.Model(&User{}).Create(&adminlogin)
-	db.Model(&User{}).Create(&user1)
-	db.Model(&User{}).Create(&user2)
 
 	/////////////////////////////////////MOVIES/////////////////////////////////////////////
 	drama := Categories{
@@ -260,7 +238,7 @@ func SetupDatabase() (*gorm.DB, error){
 	db.Model(&Movie{}).Create(&movie5)
 
 	package1 := Package{
-		PackageName:    "Package 1",
+		PackageName:    "พื้นฐาน",
 		Price:          99.0,
 		PackageDetail:  "ดูได้ 1 ความระเอียด 720p ดาวน์โหลดไม่ได้",
 		DownloadStatus: false,
@@ -268,7 +246,7 @@ func SetupDatabase() (*gorm.DB, error){
 	
 
 	package2 := Package{
-		PackageName:    "Package 2",
+		PackageName:    "มาตรฐาน",
 		Price:          359.0,
 		PackageDetail:  "ดูได้ 2 ความระเอียด 1080p ดาวน์โหลดได้",
 		DownloadStatus: true,
@@ -276,7 +254,7 @@ func SetupDatabase() (*gorm.DB, error){
 	
 
 	package3 := Package{
-		PackageName:    "Package 3",
+		PackageName:    "พรีเมียม",
 		Price:          499.0,
 		PackageDetail:  "ดูได้ 4 ความระเอียด 1080p ดาวน์โหลดได้",
 		DownloadStatus: true,
