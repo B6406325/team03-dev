@@ -44,8 +44,13 @@ func main() {
 	r.GET("/soundtrack", controller.ListSoundtrack)
 	r.GET("/target", controller.ListTarget)
 	r.POST("/movie", controller.CreateMovie)
+
+	//Account
 	r.GET("/packages", controller.GetPackageInfo)
 	r.GET("/userinfo/:id", controller.GetUserInfo)
+	r.GET("/userpackage/:id", controller.GetUserPackageInfo)
+	r.GET("/userbill/:id", controller.GetUserBill)
+	r.PATCH("/cancel-subscription/:id", controller.CancelSubscription)
 	r.PATCH("/userinfo", controller.PatchUserInfo)
 
 	//Review
