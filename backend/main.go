@@ -63,6 +63,14 @@ func main() {
 	r.PATCH("/updatereview", controller.UpdateReview)
 	r.DELETE("/reviews/:id", controller.DeleteReviewByUserID)
 
+	//History
+	r.POST("/createHistory", controller.CreateHistory)
+	r.GET("/listHistoryByUserId/:UserID", controller.ListHistoryByUserID)
+	r.DELETE("/deleteHistory/:id", controller.DeleteHistoryByMovieID)
+
+
+
+
 	r.Run("localhost: " + PORT)
 }
 

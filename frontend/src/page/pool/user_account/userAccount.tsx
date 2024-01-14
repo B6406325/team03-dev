@@ -232,7 +232,7 @@ function UserAccount() {
                             <div className='user-line' />
                             <div className='user-text'>ประวัติการรับชม
                                 <div className='user-button'>
-                                    <Link to="/moviehistory">
+                                    <Link to="/moviehistorypage">
                                         <Button style={{ fontSize: 20, width: 170, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติการรับชม</Button>
                                     </Link>
                                 </div>

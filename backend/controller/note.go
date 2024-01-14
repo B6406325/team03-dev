@@ -134,8 +134,12 @@ func UpdateReview(c *gin.Context) {
     if tx := entity.DB().Where("id = ?", review.ID).First(&result); tx.RowsAffected == 0 { 
     c.JSON(http.StatusBadRequest, gin.H{"error": "review not found"})
     return
-    
     }
+
+	review.CreatedAt = result.CreatedAt
+    review.UpdatedAt = time.Now().Local()
+	review.DateTime = time.Now().Local()
+
     if err := entity.DB().Save(&review).Error; err != nil {
     c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
     return
@@ -195,14 +199,54 @@ func ListMovie(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{"data": movies})
 }
 
-// func GetMovieByID(c *gin.Context) {
-//     var movie []entity.Movie
-//     id := c.Param("id")
-//     if err := entity.DB().Raw("SELECT * FROM movies WHERE id = ?", id).Scan(&movie).Error; err != nil {
-//         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-//         return
-//     }
-//     c.JSON(http.StatusOK, gin.H{"data": movie})
-// }
+
+//======================================= History ======================================================
+func CreateHistory(c *gin.Context) {
+	var history entity.History
+	
+	// bind เข้าตัวแปร history
+	if err := c.ShouldBindJSON(&history); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	history.DateTime = time.Now().Local()
+
+	// บันทึก
+	if err := entity.DB().Create(&history).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		
+		return
+		
+	}
+		
+	c.JSON(http.StatusOK, gin.H{"data": history})
+}
+
+func ListHistoryByUserID(c *gin.Context) {
+    var history entity.History
+
+    id := c.Param("UserID")
+
+    if err := entity.DB().Raw("SELECT * FROM histories WHERE user_id = ? ORDER BY created_at DESC ", id).Scan(&history).Error; err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"data": history})
+}
+
+func DeleteHistoryByMovieID(c *gin.Context) {
+
+    id := c.Param("id")
+    if tx := entity.DB().Exec("DELETE FROM histories WHERE id = ?", id); 
+	tx.RowsAffected == 0 {
+    c.JSON(http.StatusBadRequest, gin.H{"error": "history not found"})
+    return
+    }
+    c.JSON(http.StatusOK, gin.H{"data": id})
+    
+}
 
 
