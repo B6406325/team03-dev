@@ -1,61 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./subhistory.css"
-import { ConfigProvider, Button, Space, Table, Tag, Modal } from 'antd';
+import { ConfigProvider, Button, Space, Table, Tag, Modal, Spin, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
     LeftOutlined,
     HomeOutlined,
-    EyeOutlined
+    EyeOutlined,
+    LoadingOutlined
 } from '@ant-design/icons';
 import Navbar from '../../../components/navbar';
-
-
-interface Subscription {
-    key: string;
-    name: string;
-    price: string;
-    imageURL: string;
-}
-
+import { GetUserPackageInfo, GetUserBill } from '../../../service/pool';
+import { Subscription } from '../../../interface/pool';
 
 function SubHistory() {
     const [imageData, setImageData] = useState<string | null>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
-    const [subscriptionData, setSubscriptionData] = useState([
-        { key: '1', name: 'Subscription 1', price: '$10', imageURL: 'https://cdn.printshoppy.com/image/cache/catalog/product-image/stationery/bill-book/bill-book-102-600x800.png' },
-        { key: '2', name: 'Subscription 2', price: '$20', imageURL: 'https://example.com/image2.jpg' },
-        { key: '3', name: 'Subscription 3', price: '$10', imageURL: 'https://example.com/image1.jpg' },
-        { key: '4', name: 'Subscription 4', price: '$20', imageURL: 'https://example.com/image2.jpg' },
-        { key: '5', name: 'Subscription 5', price: '$10', imageURL: 'https://example.com/image1.jpg' },
-        { key: '6', name: 'Subscription 6', price: '$20', imageURL: 'https://example.com/image2.jpg' },
-        { key: '7', name: 'Subscription 7', price: '$20', imageURL: 'https://example.com/image2.jpg' },
-        { key: '8', name: 'Subscription 8', price: '$10', imageURL: 'https://example.com/image1.jpg' },
-        { key: '9', name: 'Subscription 9', price: '$20', imageURL: 'https://example.com/image2.jpg' },
-        { key: '10', name: 'Subscription 8', price: '$10', imageURL: 'https://example.com/image1.jpg' },
-        { key: '11', name: 'Subscription 9', price: '$20', imageURL: 'https://example.com/image2.jpg' },
-        // Add more sample data as needed
-    ]);
+    const [subscriptionData, setSubscriptionData] = useState<Subscription[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        fetchUserPackageInfo();
+    }, []); // Empty dependency array to run the effect once after the initial render
+
+    const fetchUserPackageInfo = async () => {
+        try {
+            setLoading(true);
+
+            const userId = localStorage.getItem('UserID');
+            if (!userId) {
+                // Handle the case where UserID is not available
+                return;
+            }
+
+            let userBill = await GetUserBill(userId);
+
+            console.log('userBill:', userBill);
+
+            userBill.sort((a: Subscription, b: Subscription) =>
+                new Date(b.Created).getTime() - new Date(a.Created).getTime()
+            );
+
+            setSubscriptionData(userBill);
+        } catch (error) {
+            console.error('Error fetching user package information:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
+    const ModalContent = () => {
+        return (
+          <>
+            <div style={{ textAlign: 'center' }}>
+              {imageData ? (
+                <Image style={{ maxWidth: '100%', height: 'auto' }} src={imageData} alt="Bill" />
+              ) : (
+                <p>No image available</p>
+              )}
+            </div>
+          </>
+        );
+      };
 
-    const columns = [
+    const columns: ColumnsType<Subscription> = [
         {
             title: 'Name',
-            dataIndex: 'name',
+            dataIndex: 'PackageName',
             key: 'name',
         },
         {
             title: 'Price',
-            dataIndex: 'price',
+            dataIndex: 'Price',
             key: 'price',
         },
         {
-            title: 'Action',
-            key: 'action',
-            render: (text: string, record: Subscription) => (
-                <Button  onClick={() => handleViewImage(record)}>
+            title: 'Bill',
+            key: 'bill',
+            render: (_, record) => (
+                <Button type='primary' onClick={() => handleViewImage(record)}>
                     <EyeOutlined /> ดูสลิป
                 </Button>
             ),
@@ -63,10 +88,15 @@ function SubHistory() {
     ];
 
     const handleViewImage = (record: Subscription) => {
-        setImageData(record.imageURL);
-        setIsModalVisible(true);
-    };
+        console.log('Clicked Record:', record);
+        if (record.Bill) {
+            setImageData(record.Bill);
+            setIsModalVisible(true);
 
+            // Log the details of the clicked record to the console
+            console.log('Clicked Record:', record);
+        }
+    };
 
     const handleToHome = () => {
         setTimeout(() => {
@@ -74,10 +104,24 @@ function SubHistory() {
         }, 500);
     };
 
-
+    if (loading) {
+        return (
+            <div className='web-user'>
+                <div className='loading-screen'>
+                    <Space size="middle" >
+                        <Spin indicator={<LoadingOutlined style={{ fontSize: 36, color: '#F5CE00', fontFamily: 'Mitr' }} spin />} />
+                        Loading...
+                    </Space>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div><header style={{ backgroundColor: 'black' }}><Navbar /></header>
+        <div>
+            <header style={{ backgroundColor: 'black' }}>
+                <Navbar />
+            </header>
             <div className='web-subhistory'>
 
                 <ConfigProvider theme={{
@@ -106,18 +150,20 @@ function SubHistory() {
                                 style={{ paddingRight: '40px', paddingLeft: '40px', marginTop: '10px' }}
                                 dataSource={subscriptionData}
                                 columns={columns}
-                                pagination={{ pageSize: 6 }} />
+                                pagination={{ pageSize: 6 }}
+                                rowKey="ID"
+                                loading={loading}
+                            />
                         </div>
                         <Modal
-                            title="รูปสลิปของวันที่ "
+                            title="รูปสลิป"
                             visible={isModalVisible}
                             onCancel={() => setIsModalVisible(false)}
                             footer={null}
                         >
-                            {imageData && <img src={imageData} alt="Subscription" style={{ width: '100%' }} />}
+                            <ModalContent />
                         </Modal>
                     </div>
-
                 </ConfigProvider>
             </div>
         </div>

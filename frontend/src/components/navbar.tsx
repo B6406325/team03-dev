@@ -11,7 +11,7 @@ const handleLogout = () => {
 const menu = (
     <Menu>
       <Menu.Item key="profile">
-        <Link to="#">Profile</Link>
+        <Link to="/account">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" onClick={handleLogout}>
         Logout

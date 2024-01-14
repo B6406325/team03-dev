@@ -1,5 +1,5 @@
 import { MoviesInterface } from "../fook";
-import { UserForLoginInterface, UserInterface } from "../login";
+import { UserForLoginInterface,} from "../login";
 
 export interface ReviewInterface{
     ID?:number;
@@ -29,4 +29,17 @@ export interface GenreInterface{
     ID?:number;
     Name?:string;
 
+}
+
+export interface HistoryInterface{
+    ID?:number;
+	DateTime?: Date ;
+    
+    UserID?:number;
+	User?:UserForLoginInterface;
+
+	MovieID?:number;
+	Movie?: MoviesInterface;
+
+	
 }

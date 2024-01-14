@@ -2,82 +2,118 @@ import { UserInterface } from "../../interface/pool";
 
 const apiUrl = "http://localhost:8080";
 
+const fetchJson = async (url: string, options: RequestInit = {}): Promise<any> => {
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  return response.json();
+};
 
 const GetPackageInfo = async () => {
-  const requestOptions = {
-    method: "GET",
-  };
-
   const url = `${apiUrl}/packages`;
+  const data = await fetchJson(url);
+  return data?.data || false;
+};
 
-  let res = await fetch(url, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
+const GetUserInfo = async (id: any) => {
+  try {
+    const url = `${apiUrl}/userinfo/${id}`;
+    const data = await fetchJson(url);
+    return data?.data || null;
+  } catch (error) {
+    console.error("Error fetching user information:", error);
+    throw new Error("Failed to fetch user information");
+  }
+};
 
-  return res;
+const GetUserPackageInfo = async (id: any) => {
+  try {
+    const url = `${apiUrl}/userpackage/${id}`;
+    const data = await fetchJson(url);
+    return data?.data || null;
+  } catch (error) {
+    console.error("Error fetching user package information:", error);
+    throw new Error("Failed to fetch user package information");
+  }
+};
+
+const GetUserBill = async (id: any) => {
+  try {
+      const url = `${apiUrl}/userbill/${id}`;
+      const data = await fetchJson(url);
+      return data?.data || null;
+  } catch (error) {
+      console.error("Error fetching user package information:", error);
+      throw new Error("Failed to fetch user package information");
+  }
 };
 
 
+async function UpdateUser(data: UserInterface) {
+  const userId = localStorage.getItem("UserID");
 
-const GetUserInfo = async (id: any) => {
+  if (!userId) {
+    return { status: false, message: "User ID is not available" };
+  }
+
   const requestOptions = {
-      method: "GET",
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ID: parseInt(userId),
+      Password: data.Password,
+      Username: data.Username,
+      Firstname: data.Firstname,
+      Lastname: data.Lastname,
+      Address: data.Address,
+      Dob: data.Dob,
+      GenderID: data.GenderID,
+      PrefixID: data.PrefixID,
+    }),
   };
 
   try {
-      let response = await fetch(`${apiUrl}/userinfo/${id}`, requestOptions);
+    const url = `${apiUrl}/userinfo`;
+    const responseData = await fetchJson(url, requestOptions);
+    
+    return { status: true, message: responseData.message };
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return { status: false, message: "An error occurred while updating user information" };
+  }
+}
+
+const CancelSubscription = async (userId: any) => {
+  try {
+      const response = await fetch(`${apiUrl}/cancel-subscription/${userId}`, {
+          method: 'PATCH',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
 
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      let res = await response.json();
-
-      if (res && res.data) {
-          return res.data;
-      } else {
-          return null; // Return null if the data or user is not found
-      }
+      const responseData = await response.json();
+      return responseData;
   } catch (error) {
-      console.error("Error fetching user information:", error);
-      throw new Error("Failed to fetch user information");
+      console.error('Error cancelling subscription:', error);
+      throw new Error('Failed to cancel subscription');
   }
 };
-
-async function UpdateUser(data: UserInterface) {
-  const requestOptions = {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  };
-
-  let res = await fetch(`${apiUrl}/userinfo`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return { status: true, message: res.data };
-      } else {
-        return { status: false, message: res.error };
-      }
-    });
-
-  return res;
-}
-
-
-
-
 
 export {
   GetPackageInfo,
   GetUserInfo,
   UpdateUser,
-}
-
-
+  GetUserPackageInfo,
+  CancelSubscription,
+  GetUserBill,
+};

@@ -120,29 +120,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Lastname:     "-",
 		StatusUserID: &admin.ID,
 	}
-	user1 := User{
-		Username:     "user1",
-		Email:        "user1@gmail.com",
-		Password:     "user1",
-		Firstname:    "user1F",
-		Lastname:     "user1L",
-		Address:      "111 University Avenue, Suranaree Sub DistrictMuang Nakhon Ratchasima, Nakhon Ratchasima 30000, Thailand",		
-		
-		StatusUserID: &user.ID,
-	}
-	user2 := User{
-		Username:     "user2",
-		Email:        "user2@gmail.com",
-		Password:     "user2",
-		Firstname:    "user2F",
-		Lastname:     "user2L",
-		Address:      "222 University Avenue, Suranaree Sub DistrictMuang Nakhon Ratchasima, Nakhon Ratchasima 30000, Thailand",		
-		
-		StatusUserID: &user.ID,
-	}
 	db.Model(&User{}).Create(&adminlogin)
-	db.Model(&User{}).Create(&user1)
-	db.Model(&User{}).Create(&user2)
 
 	/////////////////////////////////////MOVIES/////////////////////////////////////////////
 	drama := Categories{
@@ -196,7 +174,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Director:     "David Fincher",
 		Cast:         "Michael Fassbender,Tilda Swinton,Charles Parnell",
 		Image:        "https://i.imgur.com/L30TIsI.jpg",
-		Video:        "https://www.youtube.com/watch?v=5S7FR_HCg9g",
+		Video:        "https://www.youtube.com/embed/BoPZ48br0sw?si=-08RW3OAMEAe0R2o&amp;controls=0",
 		CategoriesID: &drama.ID,
 		SoundtrackID: &soundthai.ID,
 		TargetID:     &targetadult.ID,
@@ -209,7 +187,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Director:     "Francis Lawrence",
 		Cast:         "Rachel Zegler,Tom Blyth,Violas Davis",
 		Image:        "https://i.imgur.com/bWgVu4c.jpg",
-		Video:        "https://www.youtube.com/watch?v=RDE6Uz73A7g",
+		Video:        "https://www.youtube.com/embed/RDE6Uz73A7g?si=3XGk4s1vJV1usUPG&amp;controls=0&amp;start=4",
 		CategoriesID: &drama.ID,
 		SoundtrackID: &soundthai.ID,
 		TargetID:     &targetgeneral.ID,
@@ -222,7 +200,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Director:     "Christopher Nolan",
 		Cast:         "Cillian Murphy, Emily Blunt, Matt Damon",
 		Image:        "https://i.imgur.com/VIQdyDD.jpg",
-		Video:        "https://www.youtube.com/watch?v=uYPbbksJxIg",
+		Video:        "https://www.youtube.com/embed/dRTD5UKcQgQ?si=KRRCdih_Qh25qumz&amp;controls=0&amp;start=4",
 		CategoriesID: &drama.ID,
 		SoundtrackID: &soundthai.ID,
 		TargetID:     &targetadult.ID,
@@ -235,7 +213,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Director:     "Joaquim Dos Santos, Kemp Powers, Justin K. Thompson",
 		Cast:         "Shameik Moore, Hailee Steinfeld, Brian Tyree Henry, Luna Lauren Velez",
 		Image:        "https://i.imgur.com/cPgk3pr.jpg",
-		Video:        "https://www.youtube.com/watch?v=shW9i6k8cB0",
+		Video:        "https://www.youtube.com/embed/cqGjhVJWtEg?si=oJ497cYxZrfYIcgU&amp;controls=0&amp;start=4",
 		CategoriesID: &action.ID,
 		SoundtrackID: &soundeng.ID,
 		TargetID:     &targetgeneral.ID,
@@ -248,7 +226,7 @@ func SetupDatabase() (*gorm.DB, error){
 		Director:     "John Lasseter",
 		Cast:         "Tom Hanks, Tim Allen, Don Rickles",
 		Image:        "https://i.imgur.com/Xx8fSKW.jpg",
-		Video:        "https://youtu.be/CxwTLktovTU",
+		Video:        "https://www.youtube.com/embed/v-PjgYDrg70?si=RMKy32mFQTlGkNfd&amp;controls=0&amp;start=4",
 		CategoriesID: &comedy.ID,
 		SoundtrackID: &soundeng.ID,
 		TargetID:     &targetkid.ID,
@@ -260,7 +238,7 @@ func SetupDatabase() (*gorm.DB, error){
 	db.Model(&Movie{}).Create(&movie5)
 
 	package1 := Package{
-		PackageName:    "Package 1",
+		PackageName:    "พื้นฐาน",
 		Price:          99.0,
 		PackageDetail:  "ดูได้ 1 ความระเอียด 720p ดาวน์โหลดไม่ได้",
 		DownloadStatus: false,
@@ -268,7 +246,7 @@ func SetupDatabase() (*gorm.DB, error){
 	
 
 	package2 := Package{
-		PackageName:    "Package 2",
+		PackageName:    "มาตรฐาน",
 		Price:          359.0,
 		PackageDetail:  "ดูได้ 2 ความระเอียด 1080p ดาวน์โหลดได้",
 		DownloadStatus: true,
@@ -276,7 +254,7 @@ func SetupDatabase() (*gorm.DB, error){
 	
 
 	package3 := Package{
-		PackageName:    "Package 3",
+		PackageName:    "พรีเมียม",
 		Price:          499.0,
 		PackageDetail:  "ดูได้ 4 ความระเอียด 1080p ดาวน์โหลดได้",
 		DownloadStatus: true,

@@ -5,23 +5,36 @@ export interface PackageInterface {
     PackageDetail?: string;
     DownloadStatus?: boolean;
 }
-
 export interface UserInterface {
     map(arg0: (user: any) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
-    ID?: number;
-    Username?:  string;
-	Email?:     string;
-	Password?:  string;
-	Firstname?: string;
-	Lastname?:  string;
-    Address?: string;
-    Dob?:       any;
+    ID?: number
+    Username?: string
+    Email?: string
+    Password?: string
+    Firstname?: string
+    Lastname?: string
+    Address?: string
+    Dob?: Date
+    Gender?: GenderUserInterface
+    GenderID?: number
+    Prefix?: PrefixUserInterface
+    PrefixID?: number
+}
 
-	GenderID?: number;
+export interface GenderUserInterface {
+    ID?: number
+    Gender?: string
+}
 
-	PrefixID?: number;
+export interface PrefixUserInterface {
+    ID?: number
+    Prefix?: string
+}
 
-	SubscribeID?: number;
-
-	StatusUserID?: number;
+export interface Subscription {
+    ID?: number
+    Created: string | number | Date;
+    PackageName?: string;
+    Price?: number;
+    Bill?: string;
 }

@@ -44,8 +44,13 @@ func main() {
 	r.GET("/soundtrack", controller.ListSoundtrack)
 	r.GET("/target", controller.ListTarget)
 	r.POST("/movie", controller.CreateMovie)
+
+	//Account
 	r.GET("/packages", controller.GetPackageInfo)
 	r.GET("/userinfo/:id", controller.GetUserInfo)
+	r.GET("/userpackage/:id", controller.GetUserPackageInfo)
+	r.GET("/userbill/:id", controller.GetUserBill)
+	r.PATCH("/cancel-subscription/:id", controller.CancelSubscription)
 	r.PATCH("/userinfo", controller.PatchUserInfo)
 
 	//Review
@@ -57,6 +62,14 @@ func main() {
 	r.POST("/review", controller.CreateReview)
 	r.PATCH("/updatereview", controller.UpdateReview)
 	r.DELETE("/reviews/:id", controller.DeleteReviewByUserID)
+
+	//History
+	r.POST("/createHistory", controller.CreateHistory)
+	r.GET("/listHistoryByUserId/:UserID", controller.ListHistoryByUserID)
+	r.DELETE("/deleteHistory/:id", controller.DeleteHistoryByMovieID)
+
+
+
 
 	r.Run("localhost: " + PORT)
 }

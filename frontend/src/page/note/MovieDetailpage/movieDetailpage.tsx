@@ -1,5 +1,5 @@
 import React,{ useState,useEffect, } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import { PlayCircleFilled,ExclamationCircleFilled} from '@ant-design/icons';
 import { Tooltip,message,Select,Form,Modal,Input,} from 'antd';
 import Navbar from '../../../components/navbar';
@@ -8,13 +8,13 @@ import Download from '../../../components/Download/Download';
 import Review from '../../../components/Review/Review';
 import Share from '../../../components/Share/Share';
 import './movieDetailpage.css';
-import { ReviewInterface,GenreInterface,RatingInterface, } from '../../../interface/note';
+import { ReviewInterface,GenreInterface,RatingInterface, HistoryInterface, } from '../../../interface/note';
 import { MoviesInterface } from '../../../interface/fook';
 import { GetMovieById } from '../../../service/fook';
-import { GetReviewsByUserID,CreateReview,DeleteReviewByUserID,GetReviews,ListGenre,ListRating,UpdateReview } from '../../../service/note';
+import { GetReviewsByUserID,CreateReview,DeleteReviewByUserID,GetReviews,ListGenre,ListRating,UpdateReview,CreateHistory } from '../../../service/note';
 import Cookies from 'js-cookie'; //npm install js-cookie
 import { GetUserByID } from '../../../service/mix';
-import { UserInterface,UserForLoginInterface } from '../../../interface/login';
+import { UserInterface, } from '../../../interface/login';
 
 export default function MovieDetailPage() {
   const location = useLocation();
@@ -33,6 +33,8 @@ export default function MovieDetailPage() {
   const [movie, setMovies] = useState<MoviesInterface[]>([]);
   const [movy, setMovy] = useState<MoviesInterface>();
   const { confirm } = Modal;
+  const navigate = useNavigate();
+
 
   const showModal = () => {
     confirm({
@@ -156,6 +158,28 @@ export default function MovieDetailPage() {
     return userId !== undefined && userId === Number(userID);
   };
 
+  //History
+  const saveHistory = async (values: HistoryInterface) =>{
+    values.Movie = movy;
+    values.User = user;
+    values.MovieID = Number(movieID);
+    values.UserID = Number(userID);
+    console.log(values)
+    let result = await CreateHistory(values);
+    if (!result.status) {
+      messageApi.open({
+        type: "success",
+        content: "เกิดข้อผิดพลาด",
+      });
+    }
+    else{
+      setTimeout(() => {
+        navigate(`/playMovie?ID=${movieID}`);
+      }, 500);
+    }
+  };
+
+  //Review
   const onFinish = async (values: ReviewInterface) => {
     values.Movie = movy;
     values.User = user;
@@ -278,18 +302,23 @@ export default function MovieDetailPage() {
             <div className='movie-detail-right'>
               <div className='detail-text'>
                 <h1>{movie.Title}</h1>
-                <p>{movie.Duration}</p>
-                <p><b>หมวดหมู่:</b> {movie.Categories?.ID}</p>
+                <p>{movie.Duration} นาที</p>
+                <p><b>หมวดหมู่:</b> {movie.Categories?.Categories}</p>
                 <p><b>เรื่องย่อ:</b> {movie.Description}</p>
                 <p><b>ผู้กำกับ:</b> {movie.Director}</p>
                 <p><b>นักแสดงนำ: </b>{movie.Cast}</p>
               
               <div className='detail-menu'>
-                <div style={{position:'absolute',left:'0px',top:'0px'}}><Tooltip title='เล่น' color='#565656'><PlayCircleFilled style={{color:'white',fontSize:55}} /></Tooltip></div>
-                <div style={{position:'absolute',left:'70px',top:'0px'}}><AddMyList/></div>
-                <div style={{position:'absolute',left:'140px',top:'0px'}}><Download/></div>
-                <div style={{position:'absolute',left:'210px',top:'0px'}} onClick={handleReviewClick}><Review/></div>
-                <div style={{position:'absolute',left:'280px',top:'0px'}}><Share/></div>
+                <Form onFinish={saveHistory}>
+                <button style={{position:'absolute',left:'0px',top:'0px',border:'none',background:'transparent'}} type='submit' ><Tooltip title='เล่น' color='#565656'><PlayCircleFilled style={{color:'white',fontSize:55}} /></Tooltip></button>
+                </Form>
+                <Form onFinish={onFinish}>
+                <button style={{position:'absolute',left:'70px',top:'0px',border:'none',background:'transparent'}}><AddMyList/></button>
+                </Form>
+                <button style={{position:'absolute',left:'140px',top:'0px',border:'none',background:'transparent'}}><Download/></button>
+                <button style={{position:'absolute',left:'210px',top:'0px',border:'none',background:'transparent'}} onClick={handleReviewClick}><Review/></button>
+                <button style={{position:'absolute',left:'280px',top:'0px',border:'none',background:'transparent'}}><Share/></button>
+                
               </div>
             </div>
               

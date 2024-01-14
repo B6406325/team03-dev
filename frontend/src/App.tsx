@@ -9,7 +9,7 @@ import Homepage from './page/note/Homepage/homepage';
 
 
 import MovieDetailPage from './page/note/MovieDetailpage/movieDetailpage';
-import TopRatingpage from './page/note/Topratingpage/topRatingpage';
+import Historypage from './page/note/Historypage/Historypage';
 import Categoriespage from './page/note/Categoriespage/categoriespage';
 import Searchpage from './page/note/searchpage/searchpage';
 //==========================pool =====================================
@@ -21,6 +21,7 @@ import UserPayment from './page/mix/UserPayment/userpayment';
 import MovieCreate from './page/fook/movie/create/movieCreate';
 import MovieEdit from './page/fook/movie/edit/movieEdit';
 import UserEdit from './page/fook/adminhome/edit/userEdit';
+import PlayMoviepage from './page/note/MovieDetailpage/playMovie';
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
         <Route path='/admin/payment' element={<AdminPayment/>}/>
         <Route path="/homepage"  element={<Homepage/>}/>
         <Route path="/moviedetailpage"  element={<MovieDetailPage/>}/>
-        <Route path="/topratingpage"  element={<TopRatingpage/>}/>
+        <Route path="/moviehistorypage"  element={<Historypage/>}/>
         <Route path="/categoriespage"  element={<Categoriespage/>}/>
         <Route path="/movie/create" element={<MovieCreate/>}/>
         <Route path="/movie/edit/:id" element={<MovieEdit/>}/>
@@ -45,6 +46,7 @@ function App() {
         <Route path='/package' element={<Package/>}/>
         <Route path='/payment' element={<UserPayment/>}/>
         <Route path='/user/edit/:id' element={<UserEdit/>}/>
+        <Route path='/playMovie' element={<PlayMoviepage/>}/>
       </Routes>
     </Router>
     </>

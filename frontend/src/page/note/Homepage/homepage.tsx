@@ -65,7 +65,7 @@ export default function Homepage(){
                                 style={{ width: 240,height: 400, margin: 16}}
                                 cover={<img alt="Movie Poster" src={movie.Image} style={{width:'100%',height:300}}/>}
                             >
-                                <Meta title={movie.Title} description={movie.Duration} />
+                                <Meta title={movie.Title} description={`${movie.Duration} นาที`} />
                             </Card>
                         </Link>
                     
