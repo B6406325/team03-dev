@@ -23,6 +23,7 @@ export default function Login() {
             }, 2000);
         }
         else {
+            localStorage.setItem('UserID', res.message.ID);
 
             Cookies.set('UserID', res.message.ID , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
             const UserID = Cookies.get('UserID');

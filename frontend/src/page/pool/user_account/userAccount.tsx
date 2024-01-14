@@ -1,59 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import "./user.css"
-import { ConfigProvider, Button, Spin, Space } from 'antd';
+import { ConfigProvider, Button, Spin, Space, Modal } from 'antd';
 import UserChangeName from './userChangeName';
 import UserChangePass from './userChangePass';
-// import UserChangeEmail from './userChangeEmail';
 import UserChangeDetial from './userChangedetail';
 import {
+    LoadingOutlined,
     LeftOutlined,
     HomeOutlined
 } from '@ant-design/icons';
 import Navbar from '../../../components/navbar';
-import { GetUserInfo } from '../../../service/pool';
-import { UserInterface } from '../../../interface/pool';
+import { GetUserInfo, GetUserPackageInfo, CancelSubscription } from '../../../service/pool';
+import { UserInterface, PackageInterface } from '../../../interface/pool';
+import Cookies from 'js-cookie';
 
 function UserAccount() {
     const [changeNameVisible, setChangeNameVisible] = useState(false);
-    // const [changeEmailVisible, setChangeEmailVisible] = useState(false);
     const [changePasswordVisible, setChangePasswordVisible] = useState(false);
     const [changeDetialVisible, setChangeDetialVisible] = useState(false);
     const [userData, setUserData] = useState<UserInterface | null>(null);
-    const [loading, setLoading] = useState(true); // Add loading state
+    const [userPackageInfo, setUserPackageInfo] = useState<PackageInterface | null>(null);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+
     useEffect(() => {
+        fetchData();
+    }, []);;
 
-
-        fetchUserData();
-    }, []);
-
-    const fetchUserData = async () => {
+    const fetchData = async () => {
         try {
-            const id = "pool@gmail.com";
-            console.log('Fetching user data...');
-            let data = await GetUserInfo(id);
+            const id = localStorage.getItem('UserID');
+            // Fetch user data
+            let userData = await GetUserInfo(id);
+            console.log('User data:', userData);
+            setUserData(userData);
 
-            console.log('User data:', data);
-            setUserData(data);
+            // Fetch user package info
+            let packageInfo = await GetUserPackageInfo(id);
+            console.log('User Package Info:', packageInfo);
+            setUserPackageInfo(packageInfo);
         } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error fetching data:', error);
         } finally {
-            setLoading(false); // Set loading to false after fetching data
+            setLoading(false);
         }
     };
 
-    // Add this console log to check userData before rendering
-    console.log('userData before rendering:', userData);
+    const handleCancelSubscription = async () => {
+        try {
+            const id = localStorage.getItem('UserID');
+
+            Modal.confirm({
+                title: (
+                    <span style={{ fontSize: '1.6em', padding: '20px', fontFamily: 'Mitr', color: 'red' }}>
+                        ต้องการยกเลิก Subscribtion ใช่ไหม
+                    </span>
+                ),
+                content: (
+                    <span style={{ fontSize: '1.2em', padding: '20px', fontFamily: 'Mitr' }}>
+                        เมื่อยกเลิกแล้วจะไม่สามารถใช้งานเว็ปต่อได้
+                    </span>
+                ),
+                onOk: async () => {
+                    await CancelSubscription(id);
+
+                    fetchData();
+
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 500);
+                },
+                onCancel: () => {
+                    
+                },
+                width: 550,
+                centered: true,
+                
+            });
+        } catch (error) {
+            console.error('Error cancelling subscription:', error);
+        }
+    };
+
+    const formatDate = (dateString: string | number | Date) => {
+        const date = new Date(dateString);
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
+        return date.toLocaleDateString('th-TH', options);
+    };
 
     const toggleChangeNamePop = () => {
         setChangeNameVisible(!changeNameVisible);
     };
-
-    // const toggleChangeEmailPop = () => {
-    //     setChangeEmailVisible(!changeEmailVisible);
-    // };
 
     const toggleChangePasswordPop = () => {
         setChangePasswordVisible(!changePasswordVisible);
@@ -71,11 +111,17 @@ function UserAccount() {
 
     if (loading) {
         return (
-            <Space size="middle">
-                <Spin size="large" />
-            </Space>
+            <div className='web-user'>
+                <div className='loading-screen'>
+                    <Space size="middle" >
+                        <Spin indicator={<LoadingOutlined style={{ fontSize: 36, color: '#F5CE00', fontFamily: 'Mitr' }} spin />} />
+                        Loading...
+                    </Space>
+                </div>
+            </div>
         );
     }
+
 
     return (
         <div>
@@ -92,20 +138,15 @@ function UserAccount() {
                 },
             }}>
                 <div className='web-user'>
-                    {/* {userData && userData.map(user => (
-                         <li key={user.id}>
-                            <p>{user.Username}</p>
-                            </li>
-                        ))} */}
-                    <div className='web-user-boxmain'>
+                    <div className='web-user-boxmain' style={{ marginTop: 40 }}>
                         <Button
                             className='back-button'
                             type='primary'
-                            style={{ fontSize: 15, fontFamily: 'Mitr' }}
+                            style={{ fontSize: 15, fontFamily: 'Mitr', marginTop: 0 }}
                             onClick={handleToHome}
                         ><HomeOutlined />กลับไป Home</Button>
-                        {userData && userData.map(user => (
-                            <div className='web-user-box' style={{ marginTop: 0 }}>
+                        {Array.isArray(userData) && userData.map((user, index) => (
+                            <div key={user.ID} className='web-user-box' style={{ marginTop: 0 }}>
                                 {/* ============================================My Account=================================================================== */}
                                 <div className='user-text-header'>My Account</div>
                                 <div className='user-line' />
@@ -120,8 +161,8 @@ function UserAccount() {
                                     <UserChangePass visible={changePasswordVisible} onCancel={toggleChangePasswordPop} />
                                 </div>
 
-                                <div className='user-text'>Username: {user.Username} 
-                                
+                                <div className='user-text'>Username: {user.Username}
+
                                     <div className='user-button'>
                                         <Button
                                             style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
@@ -134,7 +175,7 @@ function UserAccount() {
 
 
 
-                                <div className='user-text'>Full Name: {user.Firstname} {user.Lastname}
+                                <div className='user-text'>Full Name: {user.Prefix?.Prefix} {user.Firstname} {user.Lastname}
                                     <div className='user-button'>
                                         <Button
                                             style={{ fontSize: 20, width: 120, height: 40, fontFamily: 'Mitr' }}
@@ -144,46 +185,49 @@ function UserAccount() {
                                     </div>
                                     <UserChangeDetial visible={changeDetialVisible} onCancel={toggleChangeDetialPop} />
                                 </div>
-                                <div className='user-text'>Gender:
+                                <div className='user-text'>Gender: {user.Gender?.Gender}
 
                                 </div>
 
-                                <div className='user-text'>Date of Birth: {user.Dob}
+                                <div className='user-text'>Date of Birth: {formatDate(user.Dob)}
 
                                 </div>
-                                <div className='user-text'>Address: {user.Address} 
+                                <div className='user-text'>Address: {user.Address}
 
                                 </div>
-
-
-
                             </div>
                         ))}
                         {/* ===============================================Subscription================================================================ */}
-                        <div className='web-user-box'>
-                            <div className='user-text-header'>Subscription</div>
-                            <div className='user-line' />
-                            <div className='user-text'>Package:
-                                <div className='user-button'>
-                                    <Link to="/package">
-                                        <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>เปลี่ยนแพ็คเกจ</Button>
-                                    </Link>
+                        {Array.isArray(userPackageInfo) && userPackageInfo.length > 0 && (
+                            <div className='web-user-box'>
+                                <div className='user-text-header'>Subscription</div>
+                                <div className='user-line' />
+                                <div className='user-text'>Package: {userPackageInfo[userPackageInfo.length - 1].PackageName}
+                                    <div className='user-button'>
+                                        <Link to="/package">
+                                            <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>เปลี่ยนแพ็คเกจ</Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className='user-text'>Price: {userPackageInfo[userPackageInfo.length - 1].Price} บาท
+                                    <div className='user-button'>
+                                        <Link to="/subhistory">
+                                            <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติ</Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className='user-text'>Download Status: {userPackageInfo[userPackageInfo.length - 1].DownloadStatus ? 'ได้' : 'ไม่'}
+                                    <div className='user-button'>
+                                        <Button onClick={handleCancelSubscription} style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }}>ยกเลิก</Button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='user-text'>Exp:
-                                <div className='user-button'>
-                                    <Link to="/subhistory">
-                                        <Button style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }} type='primary'>ประวัติ Sub</Button>
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className='user-text'></div>
-                            <div className='user-button'>
-                                <Button htmlType="button" style={{ fontSize: 20, width: 150, height: 40, fontFamily: 'Mitr' }}>ยกเลิก Sub</Button>
-                            </div>
-                        </div>
+                        )}
+
+
+
+                        {/* =========================================Other====================================================================== */}
                         <div className='web-user-box'>
-                            {/* =========================================Other====================================================================== */}
                             <div className='user-text-header'>Other</div>
                             <div className='user-line' />
                             <div className='user-text'>ประวัติการรับชม
@@ -209,7 +253,10 @@ function UserAccount() {
             </ConfigProvider>
             {/* <Footer style={{ textAlign: 'center' }}>Movie App ©2023 Created by Team03 of System Engineering</Footer> */}
         </div>
+
     );
 };
+
+
 
 export default UserAccount;

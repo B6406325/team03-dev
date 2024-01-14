@@ -34,7 +34,7 @@ body {
 @media screen and (max-width: 968px) {
 
     .web-user-boxmain {
-        width: 80%;
+        width: 90%;
         /* Adjust width for smaller screens */
     }
 
@@ -106,6 +106,21 @@ body {
 .back-button {
 
     text-align: left;
-    margin-top: 8px;
     margin-right: 40px;
 }
+
+.loading-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: #F5CE00;
+    background-color: #000000;
+  }
+  
+
+  
