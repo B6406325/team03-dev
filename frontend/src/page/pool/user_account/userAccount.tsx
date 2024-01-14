@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import "./user.css"
-import { ConfigProvider, Button, Spin, Space } from 'antd';
+import { ConfigProvider, Button, Spin, Space, Modal } from 'antd';
 import UserChangeName from './userChangeName';
 import UserChangePass from './userChangePass';
 import UserChangeDetial from './userChangedetail';
@@ -26,13 +26,7 @@ function UserAccount() {
 
 
     useEffect(() => {
-        // Fetch user data only if it's not available in the state
-        if (!userData) {
-            fetchData();
-        }
-
-        // fetchUserPackageInfo();
-        // fetchData();
+        fetchData();
     }, []);;
 
     const fetchData = async () => {
@@ -55,28 +49,46 @@ function UserAccount() {
     };
 
     const handleCancelSubscription = async () => {
-    try {
-        const id = localStorage.getItem('UserID');
-        
-        // Call the service function to cancel subscription
-        await CancelSubscription(id);
+        try {
+            const id = localStorage.getItem('UserID');
 
-        // After cancellation, you may want to reload the user data and package info
-        fetchData();
-    } catch (error) {
-        console.error('Error cancelling subscription:', error);
-    }
+            Modal.confirm({
+                title: (
+                    <span style={{ fontSize: '1.6em', padding: '20px', fontFamily: 'Mitr', color: 'red' }}>
+                        ต้องการยกเลิก Subscribtion ใช่ไหม
+                    </span>
+                ),
+                content: (
+                    <span style={{ fontSize: '1.2em', padding: '20px', fontFamily: 'Mitr' }}>
+                        เมื่อยกเลิกแล้วจะไม่สามารถใช้งานเว็ปต่อได้
+                    </span>
+                ),
+                onOk: async () => {
+                    await CancelSubscription(id);
 
-    setTimeout(() => {
-        navigate("/");
-    }, 500);
-};
+                    fetchData();
+
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 500);
+                },
+                onCancel: () => {
+                    
+                },
+                width: 550,
+                centered: true,
+                
+            });
+        } catch (error) {
+            console.error('Error cancelling subscription:', error);
+        }
+    };
 
     const formatDate = (dateString: string | number | Date) => {
         const date = new Date(dateString);
         const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
 
-        return date.toLocaleDateString('TH', options);
+        return date.toLocaleDateString('th-TH', options);
     };
 
     const toggleChangeNamePop = () => {

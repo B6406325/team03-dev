@@ -2,22 +2,11 @@ package controller
 
 import (
 	"net/http"
-	"strings"
 	"time"
-
-	"golang.org/x/crypto/bcrypt"
 
 	"github.com/B6406325/team03/entity"
 	"github.com/gin-gonic/gin"
 )
-
-func hashPassword(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
-	return string(hashedPassword), nil
-}
 
 func GetPackageInfo(c *gin.Context) {
 	var PackageInfo []entity.Package
@@ -41,6 +30,62 @@ func GetUserInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": UserInfo})
 }
 
+func GetUserPackageInfo(c *gin.Context) {
+	var UserPackageInfo []entity.Package
+
+	userID := c.Param("id")
+
+	if err := entity.DB().Raw(`
+        SELECT p.package_name, p.price, p.download_status, s.created_at
+        FROM subscribes s
+        INNER JOIN packages p ON p.id = s.package_id 
+        WHERE s.user_id = ?`, userID).Scan(&UserPackageInfo).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": UserPackageInfo})
+}
+
+func GetUserBill(c *gin.Context) {
+	// Extract user ID from the request or wherever it's available
+	userID := c.Param("id")
+
+	var userBill []struct {
+		entity.Payment
+		Created time.Time
+		Price        float64
+		PackageName  string
+		Bill         string
+	}
+
+	if err := entity.DB().Raw(`
+		SELECT py.bill as Bill, p.price as Price, p.package_name as PackageName, py.created_at as Created
+		FROM payments py
+		INNER JOIN users u ON py.user_id = u.id
+		INNER JOIN packages p ON py.package_id = p.id
+		WHERE u.id = ?
+	`, userID).Scan(&userBill).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": userBill})
+}
+
+
+
+func CancelSubscription(c *gin.Context) {
+	userID := c.Param("id")
+
+	if err := entity.DB().Model(&entity.Subscribe{}).Where("user_id = ?", userID).Update("subscribe_status_id", 3).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Subscription cancelled successfully"})
+}
+
 type upUser struct {
 	ID        uint
 	Username  string
@@ -50,6 +95,8 @@ type upUser struct {
 	Lastname  string
 	Address   string
 	Dob       time.Time
+	GenderID  *uint
+	PrefixID  *uint
 }
 
 func PatchUserInfo(c *gin.Context) {
@@ -74,73 +121,13 @@ func PatchUserInfo(c *gin.Context) {
 		Lastname:  userInfo.Lastname,
 		Address:   userInfo.Address,
 		Dob:       userInfo.Dob,
+		GenderID:  userInfo.GenderID,
+		PrefixID:  userInfo.PrefixID,
+		Password:  userInfo.Password,
 	}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Check if the entered current password matches the stored password
-	passwords := strings.Split(userInfo.Password, ":")
-	if len(passwords) != 2 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid password format"})
-		return
-	}
-
-	currentPassword := passwords[0]
-	newPassword := passwords[1]
-
-	// Check if the entered current password matches the stored password
-	if err := bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(currentPassword)); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect current password"})
-		return
-	}
-
-	// Check if a new password is provided and update the password if necessary
-	if newPassword != "" {
-		hashedPassword, err := hashPassword(newPassword)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to hash the password", "details": err.Error()})
-			return
-		}
-
-		// Update the user's password
-		if err := entity.DB().Model(&entity.User{}).Where("id = ?", userInfo.ID).Update("password", hashedPassword).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to update password", "details": err.Error()})
-			return
-		}
-	}
-
 	c.JSON(http.StatusOK, gin.H{"message": "User information updated successfully"})
-}
-
-
-func GetGenderType(c *gin.Context) {
-	var gender entity.Gender
-	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT g.gender FROM Gender g INNER JOIN  users sd ON g.gender_id=sd.gender_id where sd.id=? ", id).Scan(&gender).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": gender})
-}
-
-
-func GetPrefixType(c *gin.Context) {
-	var prefix entity.Prefix
-	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT p.prefix FROM Prefix p INNER JOIN  users sd ON p.prefix_id=sd.prefix_id where sd.id=? ", id).Scan(&prefix).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": prefix})
-}
-
-func GetGenPre(c *gin.Context) {
-	var users []entity.User
-	userID := c.Param("id")
-	if err := entity.DB().Preload("Gender").Preload("Prefix").Raw(`SELECT * FROM users WHERE id = ?`, userID).Find(&users).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": users})
 }

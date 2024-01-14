@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { UpdateUser } from '../../../service/pool';
 import { GetUserInfo } from '../../../service/pool';
 import { UserInterface } from '../../../interface/pool';
@@ -15,25 +16,51 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
   const [messageApi, contextHolder] = message.useMessage();
   const [upUser, setUpUser] = useState<UserInterface | undefined>();
   const id = Cookies.get('UserID');
+  const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
     try {
       const currentUser = await GetUserInfo(id);
-
+  
       if (currentUser && currentUser.length > 0) {
         const user = currentUser[0];
-
+  
         if (values.CurrentPassword !== user.Password) {
           throw new Error('Incorrect current password');
         }
-
+  
         const updatedUser = { ...user, Password: values.NewPassword };
+  
+        // Display a confirmation modal before updating the user
+        Modal.confirm({
+          title: (
+            <span style={{ fontSize: '1.6em', padding: '20px', fontFamily: 'Mitr', color: 'red' }}>
+              Confirm Change Password
+            </span>
+          ),
+          content: (
+            <span style={{ fontSize: '1.2em', padding: '20px', fontFamily: 'Mitr' }}>
+              เมื่อเปลี่ยน Password แล้วต้อง login ใหม่
+            </span>
+          ),
+          onOk: async () => {
+            // Update the user data including the password
+            await UpdateUser(updatedUser);
+            messageApi.success('Password changed successfully');
+            onCancel();
+        
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
+          },
+          onCancel: () => {
+            // Do nothing if the user cancels the confirmation
+          },
 
-        // Update the user data including the password
-        await UpdateUser(updatedUser);
-
-        messageApi.success('Password changed successfully');
-        onCancel();
+          width: 550, 
+          centered: true, 
+        });
+        
       } else {
         throw new Error('User not found');
       }
@@ -43,6 +70,7 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
       messageApi.error(errorMessage);
     }
   };
+  
 
   const getUserByID = async () => {
     try {
