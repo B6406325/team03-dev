@@ -225,11 +225,11 @@ func CreateHistory(c *gin.Context) {
 }
 
 func ListHistoryByUserID(c *gin.Context) {
-    var history entity.History
+    var history []entity.History
 
     id := c.Param("UserID")
 
-    if err := entity.DB().Raw("SELECT * FROM histories WHERE user_id = ? ORDER BY created_at DESC ", id).Scan(&history).Error; err != nil {
+    if err := entity.DB().Preload("User").Preload("Movie").Raw("SELECT * FROM histories WHERE user_id = ?", id).Find(&history).Error; err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
         return
     }
