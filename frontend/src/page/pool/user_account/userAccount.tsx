@@ -13,7 +13,6 @@ import {
 import Navbar from '../../../components/navbar';
 import { GetUserInfo, GetUserPackageInfo, CancelSubscription } from '../../../service/pool';
 import { UserInterface, PackageInterface } from '../../../interface/pool';
-import Cookies from 'js-cookie';
 
 function UserAccount() {
     const [changeNameVisible, setChangeNameVisible] = useState(false);
@@ -34,12 +33,12 @@ function UserAccount() {
             const id = localStorage.getItem('UserID');
             // Fetch user data
             let userData = await GetUserInfo(id);
-            console.log('User data:', userData);
+            // console.log('User data:', userData);
             setUserData(userData);
 
             // Fetch user package info
             let packageInfo = await GetUserPackageInfo(id);
-            console.log('User Package Info:', packageInfo);
+            // console.log('User Package Info:', packageInfo);
             setUserPackageInfo(packageInfo);
         } catch (error) {
             console.error('Error fetching data:', error);

@@ -1,28 +1,26 @@
 package entity
 
-import (
+import(
 	"time"
 	"gorm.io/gorm"
 	"github.com/asaskevich/govalidator"
-
 )
-
 type Review struct {
 	gorm.Model
 	ReviewText string `valid:"maxstringlength(100)~พิมพ์ได้สูงสุด100ตัวอักษร"`
 	DateTime   time.Time `valid:"CheckDateTime~วันที่ไม่ถูกต้อง"`
 
-	UserID uint `valid:"-"`
+	UserID *uint `valid:"-"`
 	User   User `gorm:"references:id"`
 
-	MovieID uint   `valid:"-"`
-	Movie   Movie `gorm:"references:id"`
+	MovieID *uint   `valid:"-"`
+	Movie   Movie `gorm:"references:id" valid:"-"`
 
-	RatingID uint	`valid:"required~Rating is required"`
+	RatingID *uint	`valid:"required~Rating is required"`
 	Rating   Rating `gorm:"references:id"`
 
-	GenreID uint	`valid:"required~Genre is required"`
-	Genre   Genre `gorm:"references:id"`
+	GenreID *uint	`valid:"required~Genre is required"`
+	Genre   Genre `gorm:"references:id" valid:"-"`
 
 }
 

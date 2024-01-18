@@ -10,6 +10,8 @@ import (
 )
 
 func TestGenreID(t *testing.T) {
+	j := uint(0)
+	i := uint(1)
 
 	g := NewGomegaWithT(t)
 	user := entity.User{
@@ -38,12 +40,12 @@ func TestGenreID(t *testing.T) {
 		review := entity.Review{
 			ReviewText: " ",
 			DateTime:   time.Now(),
-			UserID:     1,
+			UserID:     &i,
 			User:       user,
-			MovieID:    1,
+			MovieID:    &i,
 			Movie:      movie,
-			RatingID:   1,
-			GenreID:    1, // Invalid Genre ID
+			RatingID:   &i,
+			GenreID:    &i, // valid Genre ID
 		}
 
 		ok, err := govalidator.ValidateStruct(review)
@@ -55,15 +57,16 @@ func TestGenreID(t *testing.T) {
 
 		// Fail Case: Genre not found
 		t.Run(`genre not founded`, func(t *testing.T) {
+
 			review := entity.Review{
 				ReviewText: " ",
 				DateTime:   time.Now(),
-				UserID:     1,
+				UserID:     &i,
 				User:       user,
-				MovieID:    1,
+				MovieID:    &i,
 				Movie:      movie,
-				RatingID:   1,
-				GenreID:    0, // Invalid Genre ID
+				RatingID:   &i,
+				GenreID:    &j, // Invalid Genre ID
 			}
 	
 			ok, err := govalidator.ValidateStruct(review)
@@ -78,7 +81,8 @@ func TestGenreID(t *testing.T) {
 }
 
 func TestRatingID(t *testing.T) {
-
+	j := uint(0)
+	i := uint(1)
 	g := NewGomegaWithT(t)
 	user := entity.User{
 		Username:  "1",
@@ -106,12 +110,12 @@ func TestRatingID(t *testing.T) {
 		review := entity.Review{
 			ReviewText: " ",
 			DateTime:   time.Now(),
-			UserID:     1,
+			UserID:     &i,
 			User:       user,
-			MovieID:    1,
+			MovieID:    &i,
 			Movie:      movie,
-			RatingID:   1,
-			GenreID:    1, // Invalid Genre ID
+			RatingID:   &i,
+			GenreID:    &i, //valid Genre ID
 		}
 
 		ok, err := govalidator.ValidateStruct(review)
@@ -126,12 +130,12 @@ func TestRatingID(t *testing.T) {
 			review := entity.Review{
 				ReviewText: " ",
 				DateTime:   time.Now(),
-				UserID:     1,
+				UserID:     &i,
 				User:       user,
-				MovieID:    1,
+				MovieID:    &i,
 				Movie:      movie,
-				RatingID:   0,
-				GenreID:    1, // Invalid Genre ID
+				RatingID:   &j,
+				GenreID:    &i, //valid Genre ID
 			}
 	
 			ok, err := govalidator.ValidateStruct(review)
@@ -146,7 +150,7 @@ func TestRatingID(t *testing.T) {
 }
 
 func TestReviewText(t *testing.T){
-	
+	i := uint(1)
 	g:= NewGomegaWithT(t)
 	user := entity.User{
 		Username:  "1",
@@ -173,12 +177,12 @@ func TestReviewText(t *testing.T){
 		review := entity.Review{
 			ReviewText: "this Case is Pass",
 			DateTime:   time.Now(),
-			UserID:     1,
+			UserID:     &i,
 			User:       user,
-			MovieID:    1,
+			MovieID:    &i,
 			Movie:      movie,
-			RatingID:   1,
-			GenreID:    1, // Invalid Genre ID
+			RatingID:   &i,
+			GenreID:    &i, // Invalid Genre ID
 		}
 
 		ok, err := govalidator.ValidateStruct(review)
@@ -193,12 +197,12 @@ func TestReviewText(t *testing.T){
 		review := entity.Review{
 			ReviewText: "The mesmerizing dance of sunlight on the rippling waves, casting a shimmering tapestry of reflections across the tranquil surface of the azure ocean, creates a captivating spectacle that transports you to a world where time seems to slow down, allowing you to savor each moment and appreciate the beauty that nature so generously bestows upon the vast expanse of the endless sea.",
 			DateTime:   time.Now(),
-			UserID:     1,
+			UserID:     &i,
 			User:       user,
-			MovieID:    1,
+			MovieID:    &i,
 			Movie:      movie,
-			RatingID:   1,
-			GenreID:    1, // Invalid Genre ID
+			RatingID:   &i,
+			GenreID:    &i, // valid Genre ID
 		}
 
 		ok, err := govalidator.ValidateStruct(review)
@@ -218,6 +222,7 @@ func TestReviewText(t *testing.T){
 	
 
 func TestDateTime(t *testing.T) {
+	i := uint(1)
 	g := NewGomegaWithT(t)
 	user := entity.User{
 		Username:  "1",
@@ -246,12 +251,12 @@ func TestDateTime(t *testing.T) {
 		review:= entity.Review{
 			ReviewText: " ",
 			DateTime: time.Date(2023, 1, 1, 12, 00, 00, 00, time.UTC),
-			UserID:     1,
+			UserID:     &i,
 			User:       user,
-			MovieID:    1,
+			MovieID:    &i,
 			Movie:      movie,
-			RatingID: 1,
-			GenreID: 1,
+			RatingID: &i,
+			GenreID: &i,
 
 		}
 
@@ -269,12 +274,12 @@ func TestDateTime(t *testing.T) {
 		review:= entity.Review{
 			ReviewText: " ",
 			DateTime: time.Now(),
-			UserID: 1,
+			UserID: &i,
 			User: user,
-			MovieID: 1,
+			MovieID: &i,
 			Movie: movie,
-			RatingID: 1,
-			GenreID: 1,
+			RatingID: &i,
+			GenreID: &i,
 
 		}
 

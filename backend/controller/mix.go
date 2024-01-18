@@ -1,18 +1,20 @@
 package controller
 
 import (
+	
 	"net/http"
 	"time"
 
 	"github.com/B6406325/team03/entity"
+	// "github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
 const (
-	SubscribeStatusActive uint = 1
-	PaymentStatusActive uint = 1
-	PaymentStatusNotActive uint = 2
-	SubscribeStatusAllowed uint = 2
+	SubscribeStatusActive     uint = 1
+	PaymentStatusActive       uint = 1
+	PaymentStatusNotActive    uint = 2
+	SubscribeStatusAllowed    uint = 2
 	SubscribeStatusNotAllowed uint = 3
 )
 
@@ -26,11 +28,18 @@ func UserPaymentCreate(c *gin.Context) {
 	userID := c.Param("UserID")
 	packageID := c.Param("PackageID")
 
+	// _, err := govalidator.ValidateStruct(payment)
+
+	// 	 if err != nil {
+	// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 		return
+	// 	}
+
 	if err := entity.DB().Raw("SELECT * FROM users WHERE id = ?", userID).Scan(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Raw("SELECT * FROM packages WHERE id = ?",packageID).Scan(&packageE).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM packages WHERE id = ?", packageID).Scan(&packageE).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -48,29 +57,28 @@ func UserPaymentCreate(c *gin.Context) {
 	subscribe := entity.Subscribe{
 		UserID:            &user.ID,
 		SubscribeStatusID: &statusID,
-		PackageID: &packageE.ID,
+		PackageID:         &packageE.ID,
 	}
 	if err := entity.DB().Create(&subscribe).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := entity.DB().Raw("SELECT * FROM subscribes WHERE user_id = ?",userID).Scan(&subscribe2).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM subscribes WHERE user_id = ?", userID).Scan(&subscribe2).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if err := entity.DB().Table("subscribes").Where("user_id = ?", userID).Updates(map[string]interface{}{"subscribe_status_id": 1}).Error; err != nil {
-    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-    return
-}
-
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	Payment := entity.Payment{
-		UserID:   &user.ID,
-		Bill:     payment.Bill,
+		UserID:    &user.ID,
+		Bill:      payment.Bill,
 		PackageID: &packageE.ID,
-		Datetime: time.Now(),
+		Datetime:  time.Now(),
 	}
 	if err := entity.DB().Create(&Payment).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -80,7 +88,6 @@ func UserPaymentCreate(c *gin.Context) {
 		"message": "Payment successful",
 		"status":  "success"})
 }
-
 
 // func PaymentAdmin(c *gin.Context) {
 // 	var paymentuser []struct {
@@ -105,8 +112,8 @@ func PaymentAdmin(c *gin.Context) {
 	var paymentuser []struct {
 		entity.Payment
 		Username    string
-		Email    string
-		Price float64
+		Email       string
+		Price       float64
 		PackageName string
 	}
 
@@ -122,58 +129,56 @@ func PaymentAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": paymentuser})
 }
 
-//GET /admin/payment/:id
-func AllowedPayment(c *gin.Context){
- var payment entity.Payment
+// GET /admin/payment/:id
+func AllowedPayment(c *gin.Context) {
+	var payment entity.Payment
 
- idPayment := c.Param("ID")
+	idPayment := c.Param("ID")
 
- if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", idPayment).Scan(&payment).Error; err != nil {
-	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	return	
+	if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", idPayment).Scan(&payment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if err := entity.DB().Model(&payment).Update("payment_status_id", PaymentStatusActive).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": payment})
+
 }
-
-
-	c.JSON(http.StatusOK, gin.H{"data":payment})
-
-}
-func UpdateSubscribe(c *gin.Context)  {
+func UpdateSubscribe(c *gin.Context) {
 	var subscribe []entity.Subscribe
 
 	idUser := c.Param("UserID")
 
-
-		if err := entity.DB().Table("subscribes").Where("user_id = ?", idUser).Updates(map[string]interface{}{"subscribe_status_id": 2}).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
+	if err := entity.DB().Table("subscribes").Where("user_id = ?", idUser).Updates(map[string]interface{}{"subscribe_status_id": 2}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
-		c.JSON(http.StatusOK, gin.H{"data":subscribe})	
+	c.JSON(http.StatusOK, gin.H{"data": subscribe})
 }
 
-func NotAllowedPayment(c *gin.Context){
+func NotAllowedPayment(c *gin.Context) {
 	var payment entity.Payment
- 
+
 	idPayment := c.Param("ID")
- 
+
 	if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", idPayment).Scan(&payment).Error; err != nil {
-	 c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	 return	
-	 }
- 
-	 if err := entity.DB().Model(&payment).Update("payment_status_id", PaymentStatusNotActive).Error; err != nil {
-		 c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		 return
- }
- 
-	 c.JSON(http.StatusOK, gin.H{"data":payment})
- 
- }
- func UpdateSubscribe2(c *gin.Context)  {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := entity.DB().Model(&payment).Update("payment_status_id", PaymentStatusNotActive).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": payment})
+
+}
+func UpdateSubscribe2(c *gin.Context) {
 	var subscribe []entity.Subscribe
 
 	idUser := c.Param("UserID")
@@ -181,45 +186,110 @@ func NotAllowedPayment(c *gin.Context){
 	if err := entity.DB().Table("subscribes").Where("user_id = ?", idUser).Updates(map[string]interface{}{"subscribe_status_id": 3}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
-}
-		c.JSON(http.StatusOK, gin.H{"data":subscribe})	
+	}
+	c.JSON(http.StatusOK, gin.H{"data": subscribe})
 }
 
-func  SubscribeCheck(c *gin.Context) {
+func SubscribeCheck(c *gin.Context) {
 	var subscribe []entity.Subscribe
 
 	idUser := c.Param("UserID")
 
 	if err := entity.DB().Raw("SELECT * FROM subscribes WHERE user_id = ?", idUser).Scan(&subscribe).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return	
-		}
+		return
+	}
 
-		c.JSON(http.StatusOK, gin.H{"data":subscribe})	
+	c.JSON(http.StatusOK, gin.H{"data": subscribe})
 }
 
-func GetUserbyid(c *gin.Context){
+func GetUserbyid(c *gin.Context) {
 	var user entity.User
- 
-	id := c.Param("UserID")
- 
-	if err := entity.DB().Raw("SELECT * FROM users WHERE id = ?", id).Scan(&user).Error; err != nil {
-	 c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	 return	
-	 }
 
- c.JSON(http.StatusOK, gin.H{"data":user})	
+	id := c.Param("UserID")
+
+	if err := entity.DB().Raw("SELECT * FROM users WHERE id = ?", id).Scan(&user).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": user})
 }
 
-func GetPackagebyid(c *gin.Context){
+func GetPackagebyid(c *gin.Context) {
 	var pacKage entity.Package
- 
-	id := c.Param("PackageID")
- 
-	if err := entity.DB().Raw("SELECT * FROM packages WHERE id = ?", id).Scan(&pacKage).Error; err != nil {
-	 c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	 return	
-	 }
 
- c.JSON(http.StatusOK, gin.H{"data":pacKage})	
+	id := c.Param("PackageID")
+
+	if err := entity.DB().Raw("SELECT * FROM packages WHERE id = ?", id).Scan(&pacKage).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": pacKage})
+}
+
+func UpdateNameAdmin(c *gin.Context) {
+	var payment entity.Payment
+
+	idPayment := c.Param("ID")
+	adminname := c.Param("AdminName")
+	adminkey := c.Param("AdminKey")
+
+	if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", idPayment).Scan(&payment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid payment ID"})
+		return
+	}
+
+	// Use a transaction for atomic updates
+	tx := entity.DB().Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+		}
+	}()
+
+	if err := tx.Model(&payment).Update("adminname", adminname).Error; err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update admin name"})
+		return
+	}
+
+	if err := tx.Model(&payment).Update("adminkey", adminkey).Error; err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update admin key"})
+		return
+	}
+
+	tx.Commit()
+	c.JSON(http.StatusOK, gin.H{"data": payment})
+
+}
+//Report 
+
+func GetReportTopic(c *gin.Context){
+	var topics []entity.Topic
+
+	if err := entity.DB().Raw("SELECT * FROM topics ").Scan(&topics).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data":topics})
+
+}
+
+func GetReportTopicByID(c *gin.Context){
+	var topics entity.Topic
+	idTopic := c.Param("IDTopic")
+	
+
+	if err := entity.DB().Raw("SELECT * FROM topics WHERE id = ?", idTopic).Scan(&topics).Error; err != nil {
+  
+    c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+    return
+}
+	
+	c.JSON(http.StatusOK, gin.H{"data":topics})
+
 }

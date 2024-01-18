@@ -1,11 +1,14 @@
 import React, { useState, useEffect, } from 'react';
 import './styles/adminPayment.css';
-import { Button, Divider, Flex, Radio } from 'antd'; //npm install antd --save
+import { Button, Divider, Flex, Radio,Modal,Form,Input,message } from 'antd'; //npm install antd --save
+import { PlayCircleFilled,ExclamationCircleFilled} from '@ant-design/icons';
 import { InputNumber, Image } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { UserOutlined, CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { PaymentAdmin, PaymentAdminAllowed, UpdateSubscribe ,PaymentAdminNotAllowed,UpdateSubscribe2 } from '../../../service/mix';
+import { PaymentAdmin, PaymentAdminAllowed, UpdateSubscribe ,PaymentAdminNotAllowed,UpdateSubscribe2 ,UpdateNameAdmin} from '../../../service/mix';
+import Cookies from 'js-cookie'; //npm install js-cookie
+
 
 interface Product {
   ID: number;
@@ -19,14 +22,21 @@ interface Product {
   PackageName:string;
 
 }
+interface Product1 {
+  Adminname: string;
+  Adminkey: number;
+
+}
 
 function AdminPayment() {
-
+  const [open, setOpen] = useState(false);
   const [size, setSize] = useState<SizeType>('large');
+  const [messageApi, contextHolder] = message.useMessage();
   // const [visible, setVisible] = useState(false);
   const [productVisibility, setProductVisibility] = useState<{ [key: number]: boolean }>({});
   const [scaleStep, setScaleStep] = useState(0.5);
   const [products, setProducts] = useState<Product[]>([]);
+  const { confirm } = Modal;
 
   const paymentAdmin = async () => {
     let res = await PaymentAdmin();
@@ -59,21 +69,101 @@ function AdminPayment() {
   }, []);
 
   const onClick = (ID: Number, UserID: Number) => {
+    showModalEdit(ID,UserID);
     // ID use for change payment table only and UserID change subscribe only
-    PaymentAdminAllowed(ID);
-    console.log(ID)
-    UpdateSubscribe(UserID);
-    setTimeout(() => window.location.reload(), 100);
+    // PaymentAdminAllowed(ID);
+    // console.log(ID)
+    // UpdateSubscribe(UserID);
+    // setTimeout(() => window.location.reload(), 100);
 
   }
   const onClick2 = (ID: Number, UserID: Number) => {
-    // ID use for change payment table only and UserID change subscribe only
+    
+    // // ID use for change payment table only and UserID change subscribe only
     PaymentAdminNotAllowed(ID);
     console.log(ID)
     UpdateSubscribe2(UserID);
     setTimeout(() => window.location.reload(), 100);
 
   }
+  const showModalEdit = (ID: Number, UserID: Number) => {
+    
+    Cookies.set('ID', String(ID) , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
+    Cookies.set('UserIDKey', String(UserID) , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
+    setOpen(true);
+    
+  };
+  const handleOkEdit = () => {
+    setTimeout(() => {
+      setOpen(false);
+    }, 3000);
+  };
+  const handleCancelEdit = () => {
+    Cookies.set('ID', "" , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
+    Cookies.set('UserIDKey', "" , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
+    setOpen(false);
+  };
+  const onFinish1 = async (values: Product1) => {
+    const UserID = Number(Cookies.get('UserIDKey'));
+    const ID = Number(Cookies.get('ID'));
+    const AdminName = String(values.Adminname);
+    const AdminKey = Number(values.Adminkey);
+
+    if (!AdminName || !AdminKey) {
+      messageApi.open({
+        type: 'error',
+        content: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+      });
+      return;
+    }
+  
+    try {
+      let res = await UpdateNameAdmin(ID, AdminName, AdminKey);
+  
+      // Check if the response is a valid JSON object
+      if (res && typeof res === 'object') {
+        console.log(res.data)
+        if (res.data) {
+          PaymentAdminAllowed(ID);
+          UpdateSubscribe(UserID);
+          Cookies.set('ID', "" , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
+          Cookies.set('UserIDKey', "" , { expires: 7 }); //setCookie(name, value, {วันหมดอายุ})
+          
+          messageApi.open({
+            type: "success",
+            content: "สำเร็จ",
+          });
+  
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        
+        } else {
+            // If no specific message is available, show a generic error message
+            messageApi.open({
+              type: "error",
+              content: "ขออภัย เกิดข้อผิดพลาด",
+            });
+          
+        }
+      } else {
+        // Handle non-JSON response
+        messageApi.open({
+          type: "error",
+          content: "Invalid response format",
+        });
+      }
+    } catch (error) {
+      // Handle any other errors that might occur during the API call
+      console.error("Error during API call:", error);
+      messageApi.open({
+        type: "error",
+        content: "An error occurred during the API call",
+      });
+    }
+  };
+  
+  
 
 
 
@@ -175,6 +265,7 @@ function AdminPayment() {
                     />
                   </div>
                 </div>
+                {contextHolder}
                 <Button style={{
                   marginRight: '1%',
                   fontSize: '24px',
@@ -198,9 +289,42 @@ function AdminPayment() {
               </div>
 
             )
+            
 
 
           ))}
+          <Modal
+                                open={open}
+                                title="โปรดลงชื่อผู้ให้อนุมัติ"
+                                onOk={handleOkEdit}
+                                onCancel={handleCancelEdit}
+                                footer={[
+                                  
+                                ]}
+                              >
+                                <Form 
+                                style={{display:'flex',
+                                  flexDirection:'row'
+                                    }}
+                                onFinish={onFinish1}>
+                                <div style={{ display: 'flex', flexDirection: 'column',alignItems:'center' }}>
+                                
+                                  <Form.Item name="Adminname">
+                                    <Input showCount maxLength={50}  placeholder='Name' style={{width:'150%'}}></Input>
+                                  </Form.Item >
+                                  <Form.Item name="Adminkey">
+                                    <Input showCount maxLength={10} placeholder='ID_Addmin' style={{width:'150%'}}></Input>
+                                  </Form.Item >
+                                        
+                                        <button className='edit-ok-payment' type='submit' style={{
+                                          width:'30%' ,backgroundColor:'#F5CE00',cursor:'pointer'
+                                        }}>ยืนยัน</button>
+               
+                                </div>
+                                </Form>
+                                
+                                
+                              </Modal>
 
           {products.map((p) => (
             p.PaymentStatusID != null && (

@@ -1,28 +1,3 @@
-.App {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  position: fixed;
-  background-image: url("../src/asset/background.jpg");
-  align-items: center;
-  justify-content: center;
-}
 
-.button01{
-  position: relative;
-  display: inline-block;
-}
 
-.logoweb{
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15vh;
-}
-
-.button02{
-  position: relative;
-  display: inline-block;
-  margin-left: 20vh;
-}
 

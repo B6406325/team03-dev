@@ -16,6 +16,9 @@ import Cookies from 'js-cookie'; //npm install js-cookie
 import { GetUserByID } from '../../../service/mix';
 import { UserInterface, } from '../../../interface/login';
 
+import { FacebookShareButton,FacebookIcon } from 'react-share';
+
+
 export default function MovieDetailPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -168,7 +171,7 @@ export default function MovieDetailPage() {
     let result = await CreateHistory(values);
     if (!result.status) {
       messageApi.open({
-        type: "success",
+        type: "error",
         content: "เกิดข้อผิดพลาด",
       });
     }
@@ -284,8 +287,8 @@ export default function MovieDetailPage() {
   return (
     <div className='bg'>
       {contextHolder}
-      <Navbar/>
-        <div className="box">
+      
+        <div className="box"><Navbar/>
         {movie.map((movie) => (
           <div className='movie-detail' key={movie.ID}>
             <div className='movie-detail-left'>
@@ -310,15 +313,14 @@ export default function MovieDetailPage() {
               
               <div className='detail-menu'>
                 <Form onFinish={saveHistory}>
-                <button style={{position:'absolute',left:'0px',top:'0px',border:'none',background:'transparent'}} type='submit' ><Tooltip title='เล่น' color='#565656'><PlayCircleFilled style={{color:'white',fontSize:55}} /></Tooltip></button>
+                <button style={{position:'absolute',left:'0px',top:'0px',border:'none',background:'transparent',cursor:'pointer'}} type='submit' ><Tooltip title='เล่น' color='#565656'><PlayCircleFilled style={{color:'white',fontSize:55}} /></Tooltip></button>
                 </Form>
-                <Form onFinish={onFinish}>
-                <button style={{position:'absolute',left:'70px',top:'0px',border:'none',background:'transparent'}}><AddMyList/></button>
-                </Form>
-                <button style={{position:'absolute',left:'140px',top:'0px',border:'none',background:'transparent'}}><Download/></button>
-                <button style={{position:'absolute',left:'210px',top:'0px',border:'none',background:'transparent'}} onClick={handleReviewClick}><Review/></button>
-                <button style={{position:'absolute',left:'280px',top:'0px',border:'none',background:'transparent'}}><Share/></button>
-                
+                <button style={{position:'absolute',left:'70px',top:'0px',border:'none',background:'transparent',cursor:'pointer'}}><AddMyList/></button>
+                <button style={{position:'absolute',left:'140px',top:'0px',border:'none',background:'transparent',cursor:'pointer'}}><Download/></button>
+                <button style={{position:'absolute',left:'210px',top:'0px',border:'none',background:'transparent',cursor:'pointer'}} onClick={handleReviewClick}><Review/></button>
+                <FacebookShareButton url={String(movie.Video)} hashtag={"#Team03_Movie!"}>
+                <div style={{position:'absolute',left:'280px',top:'0px',border:'none',background:'transparent',cursor:'pointer'}}><Share/></div>
+                </FacebookShareButton>
               </div>
             </div>
               
@@ -386,7 +388,7 @@ export default function MovieDetailPage() {
                         (<div className='edit-button'><button onClick={showModalEdit}>แก้ไข</button><button onClick={showModal}>ลบ</button>
                               <Modal
                                 open={open}
-                                title="Title"
+                                title="แก้ไขรีวิว"
                                 onOk={handleOkEdit}
                                 onCancel={handleCancelEdit}
                                 footer={[
@@ -419,7 +421,7 @@ export default function MovieDetailPage() {
                                   
                                   </Form.Item >
                                         </div>
-                                        <button className='edit-ok' type='submit'>ส่งรีวิว</button>
+                                        <button className='edit-ok' type='submit'><b>ส่งรีวิว</b></button>
                
 
                                 </Form>

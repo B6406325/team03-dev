@@ -26,7 +26,7 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
         const user = currentUser[0];
   
         if (values.CurrentPassword !== user.Password) {
-          throw new Error('Incorrect current password');
+          throw new Error('รหัสผ่านเก่าไม่ถูกต้อง');
         }
   
         const updatedUser = { ...user, Password: values.NewPassword };
@@ -44,9 +44,8 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
             </span>
           ),
           onOk: async () => {
-            // Update the user data including the password
             await UpdateUser(updatedUser);
-            messageApi.success('Password changed successfully');
+            messageApi.success('รหัสผ่านถูกเปลี่ยนแล้ว');
             onCancel();
         
             setTimeout(() => {
@@ -54,7 +53,7 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
             }, 500);
           },
           onCancel: () => {
-            // Do nothing if the user cancels the confirmation
+
           },
 
           width: 550, 
@@ -81,7 +80,6 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
       }
     } catch (error) {
       console.error("Error fetching user information:", error);
-      // Handle the error, e.g., show a message to the user
     }
   };
 
@@ -128,7 +126,7 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
         <Form form={form} onFinish={onFinish}>
           <Form.Item
             name="CurrentPassword"
-            rules={[{ required: true, message: 'Please enter your current password!' }]}
+            rules={[{ required: true, message: 'โปรดกรอกรหัสผ่านเก่าของคุณ!' }]}
           >
             <Input.Password
               style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }}
@@ -140,7 +138,7 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
             name="NewPassword"
             rules={[
               { required: true, 
-                message: 'Please enter your new password!' },
+                message: 'โปรดกรอกรหัสผ่านใหม่!' },
               {
                 min: 4,
                 message: "รหัสผ่านไม่ต่ำกว่า 4 ตัว"
@@ -156,19 +154,15 @@ const UserChangePass: React.FC<UserChangePassProps> = ({ visible, onCancel }) =>
             name="confirmPassword"
             dependencies={['NewPassword']}
             rules={[
-              { required: true, message: 'Please confirm your new password!' },
+              { required: true, message: 'โปรดยืนยันรหัสผ่านอีกครั้ง!' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('NewPassword') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('The two passwords do not match!'));
+                  return Promise.reject(new Error('รหัสผ่านไม่ตรงกัน!'));
                 },
-              }),
-              {
-                min: 4,
-                message: "รหัสผ่านไม่ต่ำกว่า 4 ตัว"
-              }
+              })
             ]}
           >
             <Input.Password

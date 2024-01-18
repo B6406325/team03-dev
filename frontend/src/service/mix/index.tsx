@@ -184,8 +184,76 @@ async function GetPackageByID(PackageID: Number) {
   });
   return res;
 }
+async function UpdateNameAdmin(ID: Number,AdminName: string, AdminKey:Number) {
+  const requestOptions ={
+    medthod: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/admin/payment/nameupdate/${ID}/${AdminName}/${AdminKey}`, requestOptions)
+  
+  
+  .then((response) => response.json())
+  .then((res) =>{
+    if(res.data){
+      return res;
+
+    }else{
+      return false;
+    }
+
+  });
+  return res;
+}
+async function GetReport() {
+  const requestOptions ={
+    medthod: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/report`, requestOptions)
+  
+  
+  .then((response) => response.json())
+  .then((res) =>{
+    if(res.data){
+      return res;
+
+    }else{
+      return false;
+    }
+
+  });
+  return res;
+}
+async function GetTopicByID(IDTopic: Number) {
+  const requestOptions ={
+    medthod: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/report2/${IDTopic}`, requestOptions)
+  
+  
+  .then((response) => response.json())
+  .then((res) =>{
+    if(res.data){
+      return res;
+
+    }else{
+      return false;
+    }
+
+  });
+  return res;
+}
+
 
 export{
+  UpdateNameAdmin,
   PaymentUserUpload,
   PaymentAdmin,
   PaymentAdminAllowed,
@@ -195,6 +263,8 @@ export{
   SubscribeCheck,
   GetUserByID,
   GetPackageByID,
+  GetReport,
+  GetTopicByID,
 
 
 }

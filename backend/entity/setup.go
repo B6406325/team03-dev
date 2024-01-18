@@ -302,4 +302,5 @@ func SetupDatabase() (*gorm.DB, error){
 	db.Model(&Genre{}).Create(&genre2)
 		
 	return database, nil
+	
 }

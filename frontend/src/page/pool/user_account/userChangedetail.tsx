@@ -25,15 +25,15 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
             // Fetch the user's current data
             const currentUser = await GetUserInfo(id);
 
-            console.log("Current user:", currentUser);
+            // console.log("Current user:", currentUser);
             if (currentUser && currentUser.length > 0) {
                 const user = currentUser[0];
-                console.log("Entered password:", values.password);
-                console.log("Database password:", user.Password);
+                // console.log("Entered password:", values.password);
+                // console.log("Database password:", user.Password);
 
                 // Check if the entered password matches the current password
                 if (values.password !== user.Password) {
-                    throw new Error("รหัสผ่านเดิมไม่ถูกต้อง");
+                    throw new Error("รหัสผ่านไม่ถูกต้อง");
                 }
 
                 // Update the user data including the password
@@ -182,7 +182,7 @@ const UserChangeDetial: React.FC<UserChangeDetialProps> = ({ visible, onCancel }
                         rules={[
                             {
                                 required: true,
-                                message: 'Please enter your password',
+                                message: 'กรุณาใส่รหัสผ่านของคุณ',
                             },
                         ]}
                     >

@@ -77,33 +77,37 @@ export default function Login() {
                 },
             }}>
                 <div className='login-backward'>
-                    <Button style={{ fontSize: 25, width: 200, height: 50, fontFamily: 'Mitr' }} type='primary' onClick={backward}><b>ย้อนกลับ</b></Button>
+                    <Button style={{ fontSize: 18, width: 100, height: 40, fontFamily: 'Mitr' }} type='primary' onClick={backward}><b>ย้อนกลับ</b></Button>
                 </div>
                 <div className='body-login'>
-                    <div className='body-login-text'>เข้าสู่ระบบ</div>
-                    <Form onFinish={onFinish}>
-                        <div className='input-email'>
-                            <Form.Item name="Email" rules={[{ required: true, message: "โปรดใส่อีเมล" }]}>
-                                <Input style={{ width: 670, height: 69, fontSize: 25, fontFamily: 'Mitr' }} placeholder='อีเมล'></Input>
-                            </Form.Item>
-                        </div>
-                        <div className='input-password'>
-                            <Form.Item name="Password" rules={[{ required: true, message: "โปรดใส่รหัสผ่าน" }]}>
-                                <Input style={{ width: 670, height: 69, fontSize: 25, fontFamily: 'Mitr' }} placeholder='รหัสผ่าน' type='password'></Input>
-                            </Form.Item>
-                        </div>
-                        <div className='reg-text'> ยังไม่มีบัญชีผู้ใช้งาน?
-                            <Link to='/register' style={{ textDecoration: 'none' }}>
-                                <div className='reg-link'>สร้างบัญชีผู้ใช้งาน</div>
-                            </Link>
-                            <div className='login-button'>
-                                <Form.Item>
-                                    <Button style={{ fontSize: 25, width: 200, height: 50, fontFamily: 'Mitr' ,}} type='primary' htmlType='submit'><b>เข้าสู่ระบบ</b></Button>
+                    <div className='Form-box'>
+                        <div className='body-login-text'>เข้าสู่ระบบ</div>
+
+                        <Form onFinish={onFinish}>
+                            <div className='input-email'>
+                                <Form.Item name="Email" rules={[{ required: true, message: "โปรดใส่อีเมล" }]}>
+                                    <Input style={{ width: 400, height: 50, fontSize: 20, fontFamily: 'Mitr'}} placeholder='อีเมล'></Input>
                                 </Form.Item>
                             </div>
-                        </div>
-                    </Form>
-                </div>
+                            <div className='input-password'>
+                                <Form.Item name="Password" rules={[{ required: true, message: "โปรดใส่รหัสผ่าน" }]}>
+                                    <Input style={{ width: 400, height: 50, fontSize: 20, fontFamily: 'Mitr' }} placeholder='รหัสผ่าน' type='password'></Input>
+                                </Form.Item>
+                            </div>
+                            <div className='reg-text'> ยังไม่มีบัญชีผู้ใช้งาน?
+                                <Link to='/register' style={{ textDecoration: 'none' }}>
+                                    <div className='reg-link'>สร้างบัญชีผู้ใช้งาน</div>
+                                </Link>
+                            </div>
+                            <div className='login-button'>
+                                <Form.Item>
+                                    <Button style={{ fontSize: 20, width: 120, height: 45, fontFamily: 'Mitr' ,}} type='primary' htmlType='submit'><b>เข้าสู่ระบบ</b></Button>
+                                </Form.Item>
+                            </div>
+                            
+                        </Form>
+                    </div>
+                    </div>
             </ConfigProvider>
         </div>
     );

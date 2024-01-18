@@ -40,8 +40,9 @@ export default function Homepage(){
     return(
         
         <div>
-            <header style={{backgroundColor:'black'}}><Navbar/></header>
+            {/* <header style={{backgroundColor:'black'}}><Navbar/></header> */}
             <section className='homepage-section'>
+                <div className='home-nav' style={{zIndex:'6',position:'absolute',width:'100%'}}><Navbar/></div>
                 
                 <Carousel autoplay>
                     <div>
@@ -62,8 +63,8 @@ export default function Homepage(){
                             <Card
                                 key={index}
                                 hoverable
-                                style={{ width: 240,height: 400, margin: 16}}
-                                cover={<img alt="Movie Poster" src={movie.Image} style={{width:'100%',height:300}}/>}
+                                style={{ width: 190,height: 350, margin: 16}}
+                                cover={<img alt="Movie Poster" src={movie.Image} width={190} height={260}/>}
                             >
                                 <Meta title={movie.Title} description={`${movie.Duration} นาที`} />
                             </Card>

@@ -8,22 +8,22 @@ import (
 
 type Movie struct {
 	gorm.Model
-	Title       string `gorm:"uniqueIndex" valid:"required~Title is required"`
-	Duration    int `valid:"required~Duration is required"`
-	Description string `valid:"required~Description is required, stringlength(1|500)"`
+	Title       string    `gorm:"uniqueIndex" valid:"required~Title is required"`
+	Duration    int       `valid:"required~Duration is required"`
+	Description string    `valid:"required~Description is required, stringlength(1|500)"`
 	ReleaseDate time.Time `valid:"required~ReleaseDate is required"`
-	Director    string `valid:"required~Director is required"`
-	Cast        string `valid:"required~Cast is required"`
-	Image       string `gorm:"type:longtext" valid:"required~Image is required"`
-	Video       string `valid:"required~Video is required, url~Video is invalid"`
+	Director    string    `valid:"required~Director is required"`
+	Cast        string    `valid:"required~Cast is required"`
+	Image       string    `gorm:"type:longtext" valid:"required~Image is required"`
+	Video       string    `valid:"required~Video is required, url~Video is invalid"`
 
-	CategoriesID *uint 
+	CategoriesID *uint
 	Categories   Categories `gorm:"references:id"`
 
-	SoundtrackID *uint 
+	SoundtrackID *uint
 	Soundtrack   Soundtrack `gorm:"references:id"`
 
-	TargetID *uint 
+	TargetID *uint
 	Target   Target `gorm:"references:id"`
 
 	Review         []Review         `gorm:"foreignKey:MovieID"`

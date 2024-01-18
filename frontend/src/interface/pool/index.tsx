@@ -1,10 +1,3 @@
-export interface PackageInterface {
-    ID?: number;
-    PackageName?: string;
-    Price?: number;
-    PackageDetail?: string;
-    DownloadStatus?: boolean;
-}
 export interface UserInterface {
     map(arg0: (user: any) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode;
     ID?: number
@@ -29,6 +22,14 @@ export interface GenderUserInterface {
 export interface PrefixUserInterface {
     ID?: number
     Prefix?: string
+}
+
+export interface PackageInterface {
+    ID?: number;
+    PackageName?: string;
+    Price?: number;
+    PackageDetail?: string;
+    DownloadStatus?: boolean;
 }
 
 export interface Subscription {

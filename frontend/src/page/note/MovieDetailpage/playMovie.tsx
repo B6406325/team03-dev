@@ -19,7 +19,7 @@ export default function PlayMoviepage(){
     } 
     useEffect(() => {
         getData();
-        console.log(movie)
+        console.log("UI",movie)
       }, []);  
 
 

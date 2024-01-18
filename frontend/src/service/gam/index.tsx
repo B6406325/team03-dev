@@ -1,3 +1,5 @@
-export default function Gam(){
-    
+export default function index(){
+    return(
+        <></>
+    );
 }

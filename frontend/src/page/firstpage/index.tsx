@@ -1,7 +1,7 @@
 import { ConfigProvider , Button} from 'antd';
 import {useNavigate} from 'react-router-dom';
 import logo from '../../asset/logo.jpg';
-import './index.css'
+import './firstpage.css'
 
 export default function FirstPage(){
     const navigate = useNavigate();
@@ -23,18 +23,14 @@ export default function FirstPage(){
                 },
             },
         }}>
-          <div className="App">
-            <div className='bg-logo'></div>
-            <div className='logoweb'>
-            <img src={logo} style={{width:400,}}/> 
-            </div>
-            <div style={{marginTop:450,display:'inline-block'}}>
+          <div className="Firstpage">
+            <div className='bg'>
               <div className='button01'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}><b>เข้าสู่ระบบ</b></Button>
+                <Button style={{fontSize: 20,width: 160,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickLogin}><b>เข้าสู่ระบบ</b></Button>
               </div>
               <div className='button02'>
-                <Button style={{fontSize: 25,width: 200,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickReg}><b>สมัครสมาชิก</b></Button>
-              </div>
+                <Button style={{fontSize: 20,width: 160,height:50,fontFamily:'Mitr'}} type='primary' onClick={onClickReg}><b>สมัครสมาชิก</b></Button>
+            </div>
             </div>
           </div>
           </ConfigProvider>

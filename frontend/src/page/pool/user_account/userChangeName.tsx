@@ -21,15 +21,15 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
             // Fetch the user's current data
             const currentUser = await GetUserInfo(id);
 
-            console.log("Current user:", currentUser);
+            // console.log("Current user:", currentUser);
             if (currentUser && currentUser.length > 0) {
                 const user = currentUser[0];
-                console.log("Entered password:", values.password);
-                console.log("Database password:", user.Password);
+                // console.log("Entered password:", values.password);
+                // console.log("Database password:", user.Password);
 
                 // Check if the entered password matches the current password
                 if (values.password !== user.Password) {
-                    throw new Error("รหัสผ่านเดิมไม่ถูกต้อง");
+                    throw new Error("รหัสผ่านไม่ถูกต้อง");
                 }
 
                 // Update the user data including the password
@@ -126,8 +126,12 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
                         rules={[
                             {
                                 required: true,
-                                message: 'Please enter your username',
+                                message: 'กรุณาใส่ Username ของคุณ',
                             },
+                            {
+                                min: 4,
+                                message: "Username ไม่ต่ำกว่า 4 ตัว"
+                            }
                         ]}
                     >
                         <Input style={{ fontSize: '1.4em', fontFamily: 'Mitr', width: '100%', marginTop: '10px' }} placeholder='New Username' />
@@ -138,7 +142,7 @@ const UserChangeName: React.FC<UserChangeNameProps> = ({ visible, onCancel }) =>
                         rules={[
                             {
                                 required: true,
-                                message: 'Please enter your password',
+                                message: 'กรุณาใส่รหัสผ่านของคุณ',
                             },
                         ]}
                     >

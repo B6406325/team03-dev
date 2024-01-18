@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/B6406325/team03/controller"
-	"github.com/B6406325/team03/entity"
+	"github.com/B6406325/team03/controller"	
+	"github.com/B6406325/team03/entity"	
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +12,7 @@ func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+	//User
 	r.POST("user", controller.CreateUser)
 	r.GET("/user/:email/:password", controller.GetUserToLogin)
 	r.GET("/gender", controller.ListGenders)
@@ -24,7 +25,17 @@ func main() {
 	r.PATCH("/user", controller.UpdateUser)
 	r.GET("/subscribes", controller.ListSubscribe)
 
+	//UserAccount
+	r.GET("/userinfo/:id", controller.GetUserInfo)
+	r.PATCH("/userinfo", controller.PatchUserInfo)
 
+	//Subscription Management By User
+	r.GET("/packages", controller.GetPackageInfo)
+	r.GET("/userpackage/:id", controller.GetUserPackageInfo)
+	r.GET("/userbill/:id", controller.GetUserBill)
+	r.PATCH("/cancelSub/:id", controller.CancelSubscription)
+
+	
 	//payment
 	r.POST("/payment/:UserID/:PackageID", controller.UserPaymentCreate)
 	r.GET("/admin/payment", controller.PaymentAdmin)
@@ -35,8 +46,12 @@ func main() {
 	r.GET("/login/subscribe/:UserID" ,controller.SubscribeCheck)
 	r.GET("payment/:UserID",controller.GetUserbyid)
 	r.GET("payment/package/:PackageID",controller.GetPackagebyid)
-
-
+	r.GET("/admin/payment/nameupdate/:ID/:AdminName/:AdminKey", controller.UpdateNameAdmin)
+	//report 
+	r.GET("/report", controller.GetReportTopic)
+	r.GET("/report2/:IDTopic", controller.GetReportTopicByID)
+	
+	//Movie
 	r.DELETE("/movie/:id", controller.DeleteMovieById)
 	r.PATCH("/movie", controller.UpdateMovie)
 	r.GET("/movie/:id", controller.GetMovieById)
@@ -44,14 +59,6 @@ func main() {
 	r.GET("/soundtrack", controller.ListSoundtrack)
 	r.GET("/target", controller.ListTarget)
 	r.POST("/movie", controller.CreateMovie)
-
-	//Account
-	r.GET("/packages", controller.GetPackageInfo)
-	r.GET("/userinfo/:id", controller.GetUserInfo)
-	r.GET("/userpackage/:id", controller.GetUserPackageInfo)
-	r.GET("/userbill/:id", controller.GetUserBill)
-	r.PATCH("/cancel-subscription/:id", controller.CancelSubscription)
-	r.PATCH("/userinfo", controller.PatchUserInfo)
 
 	//Review
 	r.GET("/genres", controller.ListGenre)
@@ -63,12 +70,10 @@ func main() {
 	r.PATCH("/updatereview", controller.UpdateReview)
 	r.DELETE("/reviews/:id", controller.DeleteReviewByUserID)
 
-	//History
+	//Hitstory
 	r.POST("/createHistory", controller.CreateHistory)
 	r.GET("/listHistoryByUserId/:UserID", controller.ListHistoryByUserID)
 	r.DELETE("/deleteHistory/:id", controller.DeleteHistoryByMovieID)
-
-
 
 
 	r.Run("localhost: " + PORT)

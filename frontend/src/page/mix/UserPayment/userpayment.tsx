@@ -114,11 +114,16 @@ export default function UserPayment() {
 
   const onFinish = async (values: PaymentUploadInterface) => {
     console.log(values);
+    if (!imageUrl) {
+      message.error('กรุณาอัพโหลดสลิป');
+      return;
+    }
     const updatedValues = {
       ...values,
       bill: imageUrl
       
     };
+    
     let res = await PaymentUserUpload(userID,updatedValues,packageID);
 
     if (res.status) {

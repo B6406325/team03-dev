@@ -1,20 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // If you're using React Router for navigation
+import { Link, useNavigate } from 'react-router-dom'; // If you're using React Router for navigation
 import './style.css'; // Import your styles
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Menu, Dropdown } from 'antd';
 
-const handleLogout = () => {
-    console.log('Logout logic');
-    // Add your logout logic here
-  };
+
 const menu = (
     <Menu>
       <Menu.Item key="profile">
         <Link to="/account">Profile</Link>
       </Menu.Item>
-      <Menu.Item key="logout" onClick={handleLogout}>
-        Logout
+      <Menu.Item key="logout">
+      <Link to="/">Logout</Link>
       </Menu.Item>
     </Menu>
   );

@@ -4,10 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const link = document.createElement('link');
+// const link = document.createElement('link');
 // link.href = 'https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Noto+Sans+Thai:wght@300&family=Pacifico&display=swap';
 // link.rel = 'stylesheet';
-document.head.appendChild(link);
+// document.head.appendChild(link);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

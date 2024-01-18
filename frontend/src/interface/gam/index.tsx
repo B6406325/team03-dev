@@ -1,3 +1,2 @@
-export default function Gam(){
-    
+export interface index{
 }

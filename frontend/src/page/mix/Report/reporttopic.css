@@ -1,0 +1,40 @@
+.report-mention{
+  display: flex;
+  flex-direction: column;
+  margin-top: 10%;
+  
+}
+.report-mention-box{
+  background-color: white;
+  border-radius: 5px;
+  justify-content: space-between;
+  display: flex;
+  height: auto; /* Set height to auto */
+  padding: 10px; /* Add padding for better appearance */
+}
+.report-mention-text{
+  color: #393939;
+  font-size: 1.5vh;
+  padding-left: 2%;
+  text-align: left; /* Add this line to align text to the left */
+  margin-right: 2%;
+}
+.report-mention-edit,
+.report-mention-delete {
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 3px;
+  background-color: #f0f0f0; /* Neutral background color */
+  border: 1px solid #dcdcdc; /* Border for a formal look */
+  color: #333; /* Dark text color for contrast */
+  text-align: center;
+  font-size: 1.2vh;
+  height: 3vh;
+  width: 20vh;
+}
+
+.report-mention-edit:hover,
+.report-mention-delete:hover {
+  background-color: #e0e0e0; /* Change hover background color for subtle effect */
+}
